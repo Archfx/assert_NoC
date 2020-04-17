@@ -1,0 +1,8 @@
+$files = [
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/link.ld',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/Makefile',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/mor1kx',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/simple-printf',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/define_printf.h',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0/mor1k_tile.h'
+         ];

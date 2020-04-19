@@ -1,7 +1,7 @@
 `timescale   1ns/1ps
 
 /**********************************************************************
-**	File:  flit_buffer.v
+**	File:  flit_buffer.sv
 **    
 **	Copyright (C) 2014-2017  Alireza Monemi
 **    
@@ -135,7 +135,18 @@ generate
     assign  wr_addr =   {wr_select_addr,vc_wr_addr};
     assign  rd_addr =   {rd_select_addr,vc_rd_addr};
     
-    
+    //Assertion checks
+
+
+    property b1_1;
+    @(posedge clk) disable iff (reset) 
+        wr_en |=> wr_addr == $past(wr_addr+5);
+    endproperty
+
+    property b1_2;
+    @(posedge clk) disable iff (reset)
+        rd_en |=> rd_addr == $past(rd_addr+3);
+    endproperty
     
     one_hot_mux #(
         .IN_WIDTH       (BwV),
@@ -236,6 +247,7 @@ generate
             end//else
         end//always
 
+assert property (@(posedge clk) (wr_en & rd_en));
 
 //synthesis translate_off
 //synopsys  translate_off
@@ -250,9 +262,13 @@ generate
                 if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
                 /* verilator lint_on WIDTH */
+                property_1_1_check : assert property (b1_1)
+                    else $display("@%0dns Assertion Failed", $time);
+                property_1_2_check : assert property (b1_2)
+                    else $display("@%0dns Assertion Failed", $time);
+                
           end//~reset      
-        if (wr_en) begin  
-            $display(instance_name.substr(28,29));     
+        if (wr_en) begin      
             //$display($time, " %h is written on fifo of instance %m",din);
             if (instance_name.substr(29,29)=="0")
                  $fwrite(dump_file_0,"%b\n", "%h",din);
@@ -472,9 +488,7 @@ module fifo_ram     #(
 					  queue[rd_addr];
 	end
 	
- 
-
-	 	 
+                    	 
 	 
 	
 	 

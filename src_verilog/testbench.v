@@ -123,7 +123,7 @@ initial begin
 	end	
 end
 
-
+assert property (@(posedge clk) (!processors_en & !reset));
 
 initial begin 
 	// reset mor1k_mpsoc module at the start up

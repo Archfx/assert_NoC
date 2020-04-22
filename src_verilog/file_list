@@ -14,7 +14,7 @@ $files = [
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//crossbar.v',
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//debug.v',
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//fattree.v',
-           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//flit_buffer.v',
+           '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//flit_buffer.sv',
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//header_flit.v',
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//inout_ports.v',
            '/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/src_verilog/lib//input_ports.v',

@@ -270,6 +270,9 @@ assert property (@(posedge clk) (wr_en & rd_en));
           end//~reset      
         if (wr_en) begin      
             //$display($time, " %h is written on fifo of instance %m",din);
+            // $display(instance_name.substr(29,29));
+            // $display(instance_name.substr(25,35));
+            // $display(instance_name);
             if (instance_name.substr(29,29)=="0")
                  $fwrite(dump_file_0,"%h \n",din);
             if (instance_name.substr(29,29)=="1")
@@ -280,17 +283,20 @@ assert property (@(posedge clk) (wr_en & rd_en));
                 $fwrite(dump_file_3,"%b \n",din);
         end
 
-        // if (rd_en) begin      
-        //     //$display($time, " %h is written on fifo of instance %m",dout);
-        //     if (instance_name.substr(29,29)=="0")
-        //          $fwrite(dump_file_0,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="1")
-        //         $fwrite(dump_file_1,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="2")
-        //         $fwrite(dump_file_2,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="3")
-        //         $fwrite(dump_file_3,"%b\n", "%d",dout);
-        // end
+        if (rd_en) begin      
+            //$display($time, " %h is written on fifo of instance %m",dout);
+            $display(instance_name.substr(29,29));
+            $display(instance_name.substr(25,35));
+            $display(instance_name);
+            if (instance_name.substr(29,29)=="0")
+                 $fwrite(dump_file_0,"%b\n", "%d",dout);
+            if (instance_name.substr(29,29)=="1")
+                $fwrite(dump_file_1,"%b\n", "%d",dout);
+            if (instance_name.substr(29,29)=="2")
+                $fwrite(dump_file_2,"%b\n", "%d",dout);
+            if (instance_name.substr(29,29)=="3")
+                $fwrite(dump_file_3,"%b\n", "%d",dout);
+        end
 
         end//always
 //synopsys  translate_on

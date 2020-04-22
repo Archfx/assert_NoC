@@ -162,7 +162,7 @@ endgenerate
  // Tile:0 (0)
    	mor1k_tile #(
  		.CORE_ID(0),
-		.SW_LOC("/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile0") ,
+		.SW_LOC("../sw/tile0") ,
 		.ni_B(B) ,
 		.ni_C(C) ,
 		.ni_DEBUG_EN(DEBUG_EN) ,
@@ -197,7 +197,7 @@ endgenerate
  // Tile:1 (1)
    	mor1k_tile #(
  		.CORE_ID(1),
-		.SW_LOC("/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile1") ,
+		.SW_LOC("../sw/tile1") ,
 		.ni_B(B) ,
 		.ni_C(C) ,
 		.ni_DEBUG_EN(DEBUG_EN) ,
@@ -232,7 +232,7 @@ endgenerate
  // Tile:2 (2)
    	mor1k_tile #(
  		.CORE_ID(2),
-		.SW_LOC("/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile2") ,
+		.SW_LOC("../sw/tile2") ,
 		.ni_B(B) ,
 		.ni_C(C) ,
 		.ni_DEBUG_EN(DEBUG_EN) ,
@@ -267,7 +267,7 @@ endgenerate
  // Tile:3 (3)
    	mor1k_tile #(
  		.CORE_ID(3),
-		.SW_LOC("/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile3") ,
+		.SW_LOC("../sw/tile3") ,
 		.ni_B(B) ,
 		.ni_C(C) ,
 		.ni_DEBUG_EN(DEBUG_EN) ,

@@ -36,52 +36,12 @@ module mor1k_mpsoc_top (
 //SOC parameters
  
 	 //Parameter setting for mor1k_tile  located in tile: 0 
-	 localparam mor1k_tile_0_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_0_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_0_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_0_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_0_ram_Aw=14;
-	 localparam mor1k_tile_0_ram_Dw=32;
-	 localparam mor1k_tile_0_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 1 
-	 localparam mor1k_tile_1_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_1_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_1_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_1_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_1_ram_Aw=14;
-	 localparam mor1k_tile_1_ram_Dw=32;
-	 localparam mor1k_tile_1_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 2 
-	 localparam mor1k_tile_2_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_2_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_2_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_2_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_2_ram_Aw=14;
-	 localparam mor1k_tile_2_ram_Dw=32;
-	 localparam mor1k_tile_2_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 3 
-	 localparam mor1k_tile_3_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_3_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_3_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_3_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_3_ram_Aw=14;
-	 localparam mor1k_tile_3_ram_Dw=32;
-	 localparam mor1k_tile_3_timer_PRESCALER_WIDTH=8;
  
  
 //IO

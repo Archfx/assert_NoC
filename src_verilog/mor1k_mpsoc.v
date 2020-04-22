@@ -52,52 +52,12 @@ module mor1k_mpsoc (
 //SOC parameters
  
 	 //Parameter setting for mor1k_tile  located in tile: 0 
-	 localparam mor1k_tile_0_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_0_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_0_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_0_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_0_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_0_ram_Aw=14;
-	 localparam mor1k_tile_0_ram_Dw=32;
-	 localparam mor1k_tile_0_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 1 
-	 localparam mor1k_tile_1_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_1_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_1_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_1_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_1_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_1_ram_Aw=14;
-	 localparam mor1k_tile_1_ram_Dw=32;
-	 localparam mor1k_tile_1_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 2 
-	 localparam mor1k_tile_2_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_2_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_2_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_2_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_2_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_2_ram_Aw=14;
-	 localparam mor1k_tile_2_ram_Dw=32;
-	 localparam mor1k_tile_2_timer_PRESCALER_WIDTH=8;
  
 	 //Parameter setting for mor1k_tile  located in tile: 3 
-	 localparam mor1k_tile_3_cpu_FEATURE_DATACACHE="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_DMMU="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_IMMU="ENABLED";
-	 localparam mor1k_tile_3_cpu_FEATURE_INSTRUCTIONCACHE="ENABLED";
-	 localparam mor1k_tile_3_cpu_IRQ_NUM=32;
-	 localparam mor1k_tile_3_cpu_OPTION_DCACHE_SNOOP="NONE";
-	 localparam mor1k_tile_3_cpu_OPTION_OPERAND_WIDTH=32;
-	 localparam mor1k_tile_3_ram_Aw=14;
-	 localparam mor1k_tile_3_ram_Dw=32;
-	 localparam mor1k_tile_3_timer_PRESCALER_WIDTH=8;
  
  
 //IO
@@ -214,17 +174,7 @@ endgenerate
 		.ni_T2(T2) ,
 		.ni_T3(T3) ,
 		.ni_TOPOLOGY(TOPOLOGY) ,
-		.ni_V(V) ,
-		.cpu_FEATURE_DATACACHE(mor1k_tile_0_cpu_FEATURE_DATACACHE) ,
-		.cpu_FEATURE_DMMU(mor1k_tile_0_cpu_FEATURE_DMMU) ,
-		.cpu_FEATURE_IMMU(mor1k_tile_0_cpu_FEATURE_IMMU) ,
-		.cpu_FEATURE_INSTRUCTIONCACHE(mor1k_tile_0_cpu_FEATURE_INSTRUCTIONCACHE) ,
-		.cpu_IRQ_NUM(mor1k_tile_0_cpu_IRQ_NUM) ,
-		.cpu_OPTION_DCACHE_SNOOP(mor1k_tile_0_cpu_OPTION_DCACHE_SNOOP) ,
-		.cpu_OPTION_OPERAND_WIDTH(mor1k_tile_0_cpu_OPTION_OPERAND_WIDTH) ,
-		.ram_Aw(mor1k_tile_0_ram_Aw) ,
-		.ram_Dw(mor1k_tile_0_ram_Dw) ,
-		.timer_PRESCALER_WIDTH(mor1k_tile_0_timer_PRESCALER_WIDTH) 
+		.ni_V(V) 
 	)the_mor1k_tile_0(
  
 		.source_clk_in(clk) , 
@@ -259,17 +209,7 @@ endgenerate
 		.ni_T2(T2) ,
 		.ni_T3(T3) ,
 		.ni_TOPOLOGY(TOPOLOGY) ,
-		.ni_V(V) ,
-		.cpu_FEATURE_DATACACHE(mor1k_tile_1_cpu_FEATURE_DATACACHE) ,
-		.cpu_FEATURE_DMMU(mor1k_tile_1_cpu_FEATURE_DMMU) ,
-		.cpu_FEATURE_IMMU(mor1k_tile_1_cpu_FEATURE_IMMU) ,
-		.cpu_FEATURE_INSTRUCTIONCACHE(mor1k_tile_1_cpu_FEATURE_INSTRUCTIONCACHE) ,
-		.cpu_IRQ_NUM(mor1k_tile_1_cpu_IRQ_NUM) ,
-		.cpu_OPTION_DCACHE_SNOOP(mor1k_tile_1_cpu_OPTION_DCACHE_SNOOP) ,
-		.cpu_OPTION_OPERAND_WIDTH(mor1k_tile_1_cpu_OPTION_OPERAND_WIDTH) ,
-		.ram_Aw(mor1k_tile_1_ram_Aw) ,
-		.ram_Dw(mor1k_tile_1_ram_Dw) ,
-		.timer_PRESCALER_WIDTH(mor1k_tile_1_timer_PRESCALER_WIDTH) 
+		.ni_V(V) 
 	)the_mor1k_tile_1(
  
 		.source_clk_in(clk) , 
@@ -304,17 +244,7 @@ endgenerate
 		.ni_T2(T2) ,
 		.ni_T3(T3) ,
 		.ni_TOPOLOGY(TOPOLOGY) ,
-		.ni_V(V) ,
-		.cpu_FEATURE_DATACACHE(mor1k_tile_2_cpu_FEATURE_DATACACHE) ,
-		.cpu_FEATURE_DMMU(mor1k_tile_2_cpu_FEATURE_DMMU) ,
-		.cpu_FEATURE_IMMU(mor1k_tile_2_cpu_FEATURE_IMMU) ,
-		.cpu_FEATURE_INSTRUCTIONCACHE(mor1k_tile_2_cpu_FEATURE_INSTRUCTIONCACHE) ,
-		.cpu_IRQ_NUM(mor1k_tile_2_cpu_IRQ_NUM) ,
-		.cpu_OPTION_DCACHE_SNOOP(mor1k_tile_2_cpu_OPTION_DCACHE_SNOOP) ,
-		.cpu_OPTION_OPERAND_WIDTH(mor1k_tile_2_cpu_OPTION_OPERAND_WIDTH) ,
-		.ram_Aw(mor1k_tile_2_ram_Aw) ,
-		.ram_Dw(mor1k_tile_2_ram_Dw) ,
-		.timer_PRESCALER_WIDTH(mor1k_tile_2_timer_PRESCALER_WIDTH) 
+		.ni_V(V) 
 	)the_mor1k_tile_2(
  
 		.source_clk_in(clk) , 
@@ -349,17 +279,7 @@ endgenerate
 		.ni_T2(T2) ,
 		.ni_T3(T3) ,
 		.ni_TOPOLOGY(TOPOLOGY) ,
-		.ni_V(V) ,
-		.cpu_FEATURE_DATACACHE(mor1k_tile_3_cpu_FEATURE_DATACACHE) ,
-		.cpu_FEATURE_DMMU(mor1k_tile_3_cpu_FEATURE_DMMU) ,
-		.cpu_FEATURE_IMMU(mor1k_tile_3_cpu_FEATURE_IMMU) ,
-		.cpu_FEATURE_INSTRUCTIONCACHE(mor1k_tile_3_cpu_FEATURE_INSTRUCTIONCACHE) ,
-		.cpu_IRQ_NUM(mor1k_tile_3_cpu_IRQ_NUM) ,
-		.cpu_OPTION_DCACHE_SNOOP(mor1k_tile_3_cpu_OPTION_DCACHE_SNOOP) ,
-		.cpu_OPTION_OPERAND_WIDTH(mor1k_tile_3_cpu_OPTION_OPERAND_WIDTH) ,
-		.ram_Aw(mor1k_tile_3_ram_Aw) ,
-		.ram_Dw(mor1k_tile_3_ram_Dw) ,
-		.timer_PRESCALER_WIDTH(mor1k_tile_3_timer_PRESCALER_WIDTH) 
+		.ni_V(V) 
 	)the_mor1k_tile_3(
  
 		.source_clk_in(clk) , 

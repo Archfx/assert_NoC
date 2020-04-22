@@ -104,7 +104,7 @@ initial begin
     dump_file_0 = $fopen("router_0_dump.txt","w");
     dump_file_1 = $fopen("router_1_dump.txt","w");
     dump_file_2 = $fopen("router_2_dump.txt","w");
-    dump_file_3 = $fopen("router_3_dump.txt","w");
+    dump_file_3 = $fopen("router_3_dump.txt","a");
     
 end
 
@@ -271,14 +271,26 @@ assert property (@(posedge clk) (wr_en & rd_en));
         if (wr_en) begin      
             //$display($time, " %h is written on fifo of instance %m",din);
             if (instance_name.substr(29,29)=="0")
-                 $fwrite(dump_file_0,"%b\n", "%h",din);
+                 $fwrite(dump_file_0,"%h \n",din);
             if (instance_name.substr(29,29)=="1")
-                $fwrite(dump_file_1,"%b\n", "%h",din);
+                $fwrite(dump_file_1,"%h \n",din);
             if (instance_name.substr(29,29)=="2")
-                $fwrite(dump_file_2,"%b\n", "%h",din);
+                $fwrite(dump_file_2,"%h \n",din);
             if (instance_name.substr(29,29)=="3")
-                $fwrite(dump_file_3,"%b\n", "%h",din);
+                $fwrite(dump_file_3,"%b \n",din);
         end
+
+        // if (rd_en) begin      
+        //     //$display($time, " %h is written on fifo of instance %m",dout);
+        //     if (instance_name.substr(29,29)=="0")
+        //          $fwrite(dump_file_0,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="1")
+        //         $fwrite(dump_file_1,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="2")
+        //         $fwrite(dump_file_2,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="3")
+        //         $fwrite(dump_file_3,"%b\n", "%d",dout);
+        // end
 
         end//always
 //synopsys  translate_on

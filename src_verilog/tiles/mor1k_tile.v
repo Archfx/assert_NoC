@@ -32,7 +32,7 @@ module mor1k_tile #(
 	parameter	SW_LOC="/home/archfx/Documents/NoCem-MPSoC/trunk/mpsoc_work/MPSOC/mor1k_mpsoc/sw/tile3" ,
 	parameter	cpu_OPTION_OPERAND_WIDTH=32 ,
 	parameter	cpu_IRQ_NUM=32 ,
-	parameter	cpu_OPTION_DCACHE_SNOOP="NONE" ,
+	parameter	cpu_OPTION_DCACHE_SNOOP="ENABLED" ,
 	parameter	cpu_FEATURE_INSTRUCTIONCACHE="ENABLED" ,
 	parameter	cpu_FEATURE_DATACACHE="ENABLED" ,
 	parameter	cpu_FEATURE_IMMU="ENABLED" ,

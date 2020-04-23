@@ -1991,3 +1991,5 @@
 # A message of 3 words is recived from core (1) in vc0:first data
 # A message of 2 words is recived from core (1) in vc0:123456
 # total received packets by core3 is 9
+# End time: 21:53:23 on Apr 22,2020, Elapsed time: 0:38:27
+# Errors: 0, Warnings: 3

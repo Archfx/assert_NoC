@@ -136,8 +136,6 @@ generate
     assign  rd_addr =   {rd_select_addr,vc_rd_addr};
     
     //Assertion checks
-
-
     property b1_1;
     @(posedge clk) disable iff (reset) 
         wr_en |=> wr_addr == $past(wr_addr+5);
@@ -147,6 +145,21 @@ generate
     @(posedge clk) disable iff (reset)
         rd_en |=> rd_addr == $past(rd_addr+3);
     endproperty
+    
+    reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
+    reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
+// Assertions -> Verilog
+
+    always@ (posedge clk) begin
+        rd_ptr_check <= rd_ptr;
+        if (rd_en) begin
+            if (rd_ptr == rd_ptr_check) 
+                $display("p1.1 success");
+                
+            else $display ("p1.1 failed");
+            $display("%p",rd_ptr);
+        end
+    end
     
     one_hot_mux #(
         .IN_WIDTH       (BwV),

@@ -148,18 +148,19 @@ generate
     
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
+
 // Assertions -> Verilog
 
-    always@ (posedge clk) begin
-        rd_ptr_check <= rd_ptr;
-        if (rd_en) begin
-            if (rd_ptr == rd_ptr_check) 
-                $display("p1.1 success");
+    // always@ (posedge clk) begin
+    //     rd_ptr_check <= rd_ptr;
+    //     if (rd_en) begin
+    //         if (rd_ptr == rd_ptr_check) 
+    //             $display("p1.1 success");
                 
-            else $display ("p1.1 failed");
-            $display("%p",rd_ptr);
-        end
-    end
+    //         else $display ("p1.1 failed");
+    //         $display("%p",rd_ptr);
+    //     end
+    // end
     
     one_hot_mux #(
         .IN_WIDTH       (BwV),
@@ -314,6 +315,25 @@ assert property (@(posedge clk) (wr_en & rd_en));
         end//always
 //synopsys  translate_on
 //synthesis translate_on
+
+        always@(posedge clk) begin
+            if (wr[i] ) begin
+                //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
+                wr_ptr_check[i] <= wr_ptr[i];
+                #1
+                $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
+                if ( wr_ptr[i]== wr_ptr_check[i] +1'b1 ) $display("Assert check : Property b1.1 suceeded");
+                else $display("Assert check : $ Warning - Property b1.1 failed");
+            end
+            if (rd[i] ) begin
+                rd_ptr_check[i] <= rd_ptr[i];
+                #1
+                if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display("Assert check : Property b1.2 suceeded");
+                else $display("Assert check : $ Warning - Property b1.2 failed");
+            end
+            //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
+
+        end
     end//for
     
     
@@ -383,6 +403,19 @@ assert property (@(posedge clk) (wr_en & rd_en));
 //synthesis translate_off
 //synopsys  translate_off
     
+    // Assert property 1
+
+        always@(posedge clk) begin
+            if (wr[i] ) begin
+                $display("Entered assertion mode");
+                //if (wr_ptr[i]== #1 wr_ptr [i]+ 1'h1) $display("Property b1.1 suceeded");
+                if ( wr_ptr[i]== $past(wr_ptr [i],2) ) $display("Property b1.1 suceeded");
+                else $display("Property b1.1 failed");
+            end
+            //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
+
+        end
+
         always @(posedge clk) begin
             if(~reset)begin
                 if (wr[i] && (depth[i] == B) && !rd[i])

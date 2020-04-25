@@ -11,7 +11,7 @@ vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_m
 vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/testbench.v}
 vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/mor1k_mpsoc_top.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/crossbar.v}
-vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/arbiter.v}
+vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/arbiter.sv}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_reset_synchronizer.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1k.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/congestion_analyzer.v}

@@ -9,47 +9,47 @@
 # Modifying modelsim.ini
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/mor1k_mpsoc.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/mor1k_mpsoc.v 
 # -- Compiling module mor1k_mpsoc
 # 
 # Top level modules:
 # 	mor1k_mpsoc
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/testbench.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -sv -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/testbench.v 
 # -- Compiling module testbench
 # 
 # Top level modules:
 # 	testbench
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/mor1k_mpsoc_top.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -sv -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/mor1k_mpsoc_top.v 
 # -- Compiling module mor1k_mpsoc_top
 # 
 # Top level modules:
 # 	mor1k_mpsoc_top
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/crossbar.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/crossbar.v 
 # -- Compiling module crossbar
 # 
 # Top level modules:
 # 	crossbar
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/arbiter.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/arbiter.v 
 # -- Compiling module arbiter
 # -- Compiling module arbiter_priority_en
@@ -65,39 +65,37 @@
 # -- Compiling module tree_arbiter
 # -- Compiling module my_one_hot_arbiter_ext_priority
 # -- Compiling module arbiter_ext_priority
-# -- Compiling module fixed_priority_arbiter
 # 
 # Top level modules:
 # 	arbiter_priority_en
 # 	tree_arbiter
 # 	my_one_hot_arbiter_ext_priority
 # 	arbiter_ext_priority
-# 	fixed_priority_arbiter
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_reset_synchronizer.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_reset_synchronizer.v 
 # -- Compiling module altera_reset_synchronizer
 # 
 # Top level modules:
 # 	altera_reset_synchronizer
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1k.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1k.v 
 # -- Compiling module mor1k
 # 
 # Top level modules:
 # 	mor1k
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/congestion_analyzer.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/congestion_analyzer.v 
 # -- Compiling module port_presel_based_dst_ports_vc
 # -- Compiling module port_presel_based_dst_ports_credit
@@ -114,27 +112,25 @@
 # -- Compiling module parallel_count_normalize
 # -- Compiling module normalizer
 # -- Compiling module congestion_out_gen
-# -- Compiling module deadlock_detector
 # 
 # Top level modules:
 # 	port_pre_sel_gen
 # 	congestion_out_gen
-# 	deadlock_detector
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_cappuccino.v 
 # -- Compiling module mor1kx_cpu_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_cpu_cappuccino
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/credit_count.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/credit_count.v 
 # -- Compiling module credit_counter
 # -- Compiling module inport_module
@@ -143,11 +139,11 @@
 # 
 # Top level modules:
 # 	credit_counter
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/input_ports.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/input_ports.v 
 # -- Compiling module input_ports
 # -- Compiling module input_queue_per_port
@@ -155,31 +151,31 @@
 # 
 # Top level modules:
 # 	input_ports
-# End time: 12:27:53 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:53 on Apr 25,2020
+# Start time: 17:41:14 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_cappuccino.v 
 # -- Compiling module mor1kx_fetch_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_fetch_cappuccino
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:01
+# End time: 17:41:14 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_decode_execute_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_decode_execute_cappuccino.v 
 # -- Compiling module mor1kx_decode_execute_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_decode_execute_cappuccino
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/flit_buffer.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/flit_buffer.sv 
 # -- Compiling module flit_buffer
 # ** Warning: /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/flit_buffer.sv(139): (vlog-2186) SystemVerilog testbench feature
@@ -192,32 +188,26 @@
 # (randomization, coverage or assertion) detected in the design.
 # These features are only supported in Questasim.
 # -- Compiling module fifo_ram
-# -- Compiling module fifo_ram_mem_size
 # -- Compiling module fwft_fifo
 # -- Compiling module fwft_fifo_with_output_clear
-# -- Compiling module fifo
 # 
 # Top level modules:
 # 	flit_buffer
-# 	fifo_ram_mem_size
 # 	fwft_fifo
 # 	fwft_fifo_with_output_clear
-# 	fifo
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 3
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/main_comp.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/main_comp.v 
 # -- Compiling module one_hot_mux
 # -- Compiling module one_hot_demux
 # -- Compiling module custom_or
-# -- Compiling module outport_sum
 # -- Compiling module bin_to_one_hot
 # -- Compiling module one_hot_to_bin
 # -- Compiling module binary_mux
 # -- Compiling module accumulator
-# -- Compiling module set_bits_counter
 # -- Compiling module check_single_bit_assertation
 # -- Compiling module fast_minimum_number
 # -- Compiling module parallel_counter
@@ -231,60 +221,58 @@
 # Top level modules:
 # 	one_hot_demux
 # 	custom_or
-# 	outport_sum
 # 	bin_to_one_hot
 # 	one_hot_to_bin
 # 	binary_mux
 # 	accumulator
-# 	set_bits_counter
 # 	check_single_bit_assertation
 # 	fast_minimum_number
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_crc32.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_crc32.v 
 # -- Compiling module crc_32_multi_channel
 # -- Compiling module crc_32_combinational
 # 
 # Top level modules:
 # 	crc_32_multi_channel
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_vc_dma.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_vc_dma.v 
 # -- Compiling module ni_vc_dma
 # 
 # Top level modules:
 # 	ni_vc_dma
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_uart_wb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_uart_wb.v 
 # -- Compiling module jtag_uart_wb
 # 
 # Top level modules:
 # 	jtag_uart_wb
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx.v 
 # -- Compiling module mor1kx
 # 
 # Top level modules:
 # 	mor1kx
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_jtag_uart_wb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_jtag_uart_wb.v 
 # -- Compiling module qsys_jtag_uart_0_sim_scfifo_w
 # -- Compiling module qsys_jtag_uart_0_scfifo_w
@@ -295,21 +283,21 @@
 # 
 # Top level modules:
 # 	altera_jtag_uart_wb
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_execute_alu.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_execute_alu.v 
 # -- Compiling module mor1kx_execute_alu
 # 
 # Top level modules:
 # 	mor1kx_execute_alu
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/routing.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/routing.v 
 # -- Compiling module ni_conventional_routing
 # -- Compiling module look_ahead_routing
@@ -321,11 +309,11 @@
 # 	look_ahead_routing
 # 	next_router_addr_selector_onehot
 # 	next_router_addr_selector_bin
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus_routting.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus_routting.v 
 # -- Compiling module mesh_torus_look_ahead_routing
 # -- Compiling module mesh_torus_deterministic_look_ahead_routing
@@ -343,61 +331,61 @@
 # Top level modules:
 # 	mesh_torus_look_ahead_routing
 # 	remove_sw_loc_one_hot
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_rf_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_rf_espresso.v 
 # -- Compiling module mor1kx_rf_espresso
 # 
 # Top level modules:
 # 	mor1kx_rf_espresso
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cache_lru.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cache_lru.v 
 # -- Compiling module mor1kx_cache_lru
 # 
 # Top level modules:
 # 	mor1kx_cache_lru
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_prontoespresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_prontoespresso.v 
 # -- Compiling module mor1kx_fetch_prontoespresso
 # 
 # Top level modules:
 # 	mor1kx_fetch_prontoespresso
-# End time: 12:27:54 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/clk_source.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:54 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/clk_source.v 
 # -- Compiling module clk_source
 # 
 # Top level modules:
 # 	clk_source
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:01
+# End time: 17:41:15 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/timer.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:15 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/timer.v 
 # -- Compiling module timer
 # 
 # Top level modules:
 # 	timer
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb_nonspec.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb_nonspec.v 
 # -- Compiling module comb_nonspec_allocator
 # -- Compiling module comb_nonspec_v2_allocator
@@ -408,72 +396,72 @@
 # Top level modules:
 # 	comb_nonspec_allocator
 # 	comb_nonspec_v2_allocator
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_execute_ctrl_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_execute_ctrl_cappuccino.v 
 # -- Compiling module mor1kx_execute_ctrl_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_execute_ctrl_cappuccino
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_lsu_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_lsu_cappuccino.v 
 # -- Compiling module mor1kx_lsu_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_lsu_cappuccino
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wishbone_bus.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wishbone_bus.v 
 # -- Compiling module wishbone_bus
 # -- Compiling module bus_arbiter
 # 
 # Top level modules:
 # 	wishbone_bus
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_wb_mux_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_wb_mux_espresso.v 
 # -- Compiling module mor1kx_wb_mux_espresso
 # 
 # Top level modules:
 # 	mor1kx_wb_mux_espresso
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_prontoespresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_prontoespresso.v 
 # -- Compiling module mor1kx_ctrl_prontoespresso
 # 
 # Top level modules:
 # 	mor1kx_ctrl_prontoespresso
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_pic.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_pic.v 
 # -- Compiling module mor1kx_pic
 # 
 # Top level modules:
 # 	mor1kx_pic
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/byte_enabled_generic_ram.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -sv -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/byte_enabled_generic_ram.sv 
 # -- Compiling module byte_enabled_true_dual_port_ram
 # -- Compiling module byte_enabled_true_dual_port_ram_1
@@ -511,21 +499,21 @@
 # Top level modules:
 # 	byte_enabled_true_dual_port_ram
 # 	byte_enabled_single_port_ram
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_dcache.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_dcache.v 
 # -- Compiling module mor1kx_dcache
 # 
 # Top level modules:
 # 	mor1kx_dcache
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wrra.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wrra.v 
 # -- Compiling module wrra
 # -- Compiling module rra_priority_lock
@@ -544,47 +532,42 @@
 # 	weight_control
 # 	wrra_contention_gen
 # 	weights_update
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_vc_wb_slave_regs.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_vc_wb_slave_regs.v 
 # -- Compiling module ni_vc_wb_slave_regs
 # 
 # Top level modules:
 # 	ni_vc_wb_slave_regs
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:16 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/generic_ram.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:16 on Apr 25,2020
 # vlog -reportprogress 300 -sv -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/generic_ram.sv 
-# -- Compiling module generic_dual_port_ram
 # -- Compiling module generic_single_port_ram
-# -- Compiling module dual_port_ram
-# -- Compiling module simple_dual_port_ram
 # -- Compiling module single_port_ram
 # 
 # Top level modules:
-# 	generic_dual_port_ram
 # 	generic_single_port_ram
-# 	simple_dual_port_ram
-# End time: 12:27:55 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:55 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_cappuccino.v 
 # -- Compiling module mor1kx_ctrl_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_ctrl_cappuccino
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:01
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb-spec1.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb-spec1.v 
 # -- Compiling module comb_spec1_allocator
 # -- Compiling module spec_sw_alloc
@@ -592,32 +575,32 @@
 # 
 # Top level modules:
 # 	comb_spec1_allocator
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/noc.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/noc.v 
 # -- Compiling module noc
 # 
 # Top level modules:
 # 	noc
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wb_bram_ctrl.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wb_bram_ctrl.v 
 # -- Compiling module wb_bram_ctrl
 # -- Compiling module wb_burst_bram_ctrl
 # 
 # Top level modules:
 # 	wb_bram_ctrl
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/fattree.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/fattree.v 
 # -- Compiling module fattree_noc
 # -- Compiling module fattree_nca_random_up_routing
@@ -630,8 +613,6 @@
 # -- Compiling module fattree_destport_decoder
 # -- Compiling module fattree_mask_non_assignable_destport
 # -- Compiling module fattree_distance_gen
-# -- Compiling module fattree_addr_encoder
-# -- Compiling module fattree_addr_decoder
 # -- Compiling module fattree_ssa_check_destport
 # -- Compiling module fattree_add_ss_port
 # -- Compiling module fattree_router_addr_decode
@@ -642,17 +623,15 @@
 # 	fattree_destport_up_select
 # 	fattree_look_ahead_routing
 # 	fattree_distance_gen
-# 	fattree_addr_encoder
-# 	fattree_addr_decoder
 # 	fattree_ssa_check_destport
 # 	fattree_add_ss_port
 # 	fattree_router_addr_decode
 # 	fattree_destp_generator
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/canonical_credit_count.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/canonical_credit_count.v 
 # -- Compiling module canonical_credit_counter
 # -- Compiling module inport_module_can
@@ -660,21 +639,21 @@
 # 
 # Top level modules:
 # 	canonical_credit_counter
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_store_buffer.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_store_buffer.v 
 # -- Compiling module mor1kx_store_buffer
 # 
 # Top level modules:
 # 	mor1kx_store_buffer
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/route_mesh.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/route_mesh.v 
 # -- Compiling module xy_mesh_routing
 # -- Compiling module west_first_routing
@@ -691,122 +670,122 @@
 # 	negetive_first_routing
 # 	odd_even_routing
 # 	duato_mesh_routing
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_bus_if_wb32.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_bus_if_wb32.v 
 # -- Compiling module mor1kx_bus_if_wb32
 # 
 # Top level modules:
 # 	mor1kx_bus_if_wb32
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu.v 
 # -- Compiling module mor1kx_cpu
 # 
 # Top level modules:
 # 	mor1kx_cpu
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/router.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/router.v 
 # -- Compiling module router
 # 
 # Top level modules:
 # 	router
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_espresso.v 
 # -- Compiling module mor1kx_fetch_espresso
 # 
 # Top level modules:
 # 	mor1kx_fetch_espresso
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_simple_dpram_sclk.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:17 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_simple_dpram_sclk.v 
 # -- Compiling module mor1kx_simple_dpram_sclk
 # 
 # Top level modules:
 # 	mor1kx_simple_dpram_sclk
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:17 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_decode.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:56 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_decode.v 
 # -- Compiling module mor1kx_decode
 # 
 # Top level modules:
 # 	mor1kx_decode
-# End time: 12:27:56 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_simulator_UART.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/altera_simulator_UART.v 
 # -- Compiling module altera_simulator_UART
 # -- Compiling module RxD_fifo
 # 
 # Top level modules:
 # 	altera_simulator_UART
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_bus_if_avalon.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_bus_if_avalon.v 
 # -- Compiling module mor1kx_bus_if_avalon
 # 
 # Top level modules:
 # 	mor1kx_bus_if_avalon
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_immu.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_immu.v 
 # -- Compiling module mor1kx_immu
 # 
 # Top level modules:
 # 	mor1kx_immu
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_tcm_prontoespresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_tcm_prontoespresso.v 
 # -- Compiling module mor1kx_fetch_tcm_prontoespresso
 # 
 # Top level modules:
 # 	mor1kx_fetch_tcm_prontoespresso
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_prontoespresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_prontoespresso.v 
 # -- Compiling module mor1kx_cpu_prontoespresso
 # 
 # Top level modules:
 # 	mor1kx_cpu_prontoespresso
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/debug.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/debug.v 
 # -- Compiling module debug_IVC_flit_type_order_check
 # -- Compiling module debug_mesh_tori_route_ckeck
@@ -818,11 +797,11 @@
 # 	debug_mesh_tori_route_ckeck
 # 	debug_mesh_edges
 # 	check_destination_addr
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus.v 
 # -- Compiling module mesh_torus_vc_alloc_request_gen_adaptive
 # -- Compiling module mesh_tori_dspt_clear_gen
@@ -836,7 +815,6 @@
 # -- Compiling module mesh_torus_add_ss_port
 # -- Compiling module mesh_tori_router_addr_decode
 # -- Compiling module mesh_tori_endp_addr_decode
-# -- Compiling module mesh_tori_addr_encoder
 # -- Compiling module mesh_torus_destp_generator
 # -- Compiling module mesh_torus_destp_decoder
 # -- Compiling module mesh_torus_dynamic_portsel_control
@@ -848,44 +826,43 @@
 # 	mesh_torus_ssa_check_destport
 # 	mesh_torus_add_ss_port
 # 	mesh_tori_router_addr_decode
-# 	mesh_tori_addr_encoder
 # 	mesh_torus_destp_generator
 # 	mesh_torus_dynamic_portsel_control
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_branch_prediction.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_branch_prediction.v 
 # -- Compiling module mor1kx_branch_prediction
 # 
 # Top level modules:
 # 	mor1kx_branch_prediction
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_icache.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_icache.v 
 # -- Compiling module mor1kx_icache
 # 
 # Top level modules:
 # 	mor1kx_icache
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ticktimer.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ticktimer.v 
 # -- Compiling module mor1kx_ticktimer
 # 
 # Top level modules:
 # 	mor1kx_ticktimer
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/header_flit.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/header_flit.v 
 # -- Compiling module header_flit_generator
 # -- Compiling module extract_header_flit_info
@@ -897,11 +874,11 @@
 # 	extract_header_flit_info
 # 	header_flit_update_lk_route_ovc
 # 	hdr_flit_weight_update
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/tree.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:18 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/tree.v 
 # -- Compiling module tree_noc
 # -- Compiling module tree_nca_routing
@@ -915,54 +892,52 @@
 # 	tree_noc
 # 	tree_look_ahead_routing
 # 	tree_destp_generator
-# End time: 12:27:57 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:18 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/class_table.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:57 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/class_table.v 
 # -- Compiling module class_ovc_table
-# -- Compiling module vc_priority_based_dest_port
 # 
 # Top level modules:
 # 	class_ovc_table
-# 	vc_priority_based_dest_port
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:01
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_wb_mux_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_wb_mux_cappuccino.v 
 # -- Compiling module mor1kx_wb_mux_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_wb_mux_cappuccino
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wb_single_port_ram.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -sv -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/wb_single_port_ram.sv 
 # -- Compiling module wb_single_port_ram
 # -- Compiling module single_port_ram_top
 # 
 # Top level modules:
 # 	wb_single_port_ram
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_ctrl_espresso.v 
 # -- Compiling module mor1kx_ctrl_espresso
 # 
 # Top level modules:
 # 	mor1kx_ctrl_espresso
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb_spec2.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/comb_spec2.v 
 # -- Compiling module comb_spec2_allocator
 # -- Compiling module spec_sw_alloc2
@@ -971,31 +946,31 @@
 # 
 # Top level modules:
 # 	comb_spec2_allocator
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/combined_vc_sw_alloc.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/combined_vc_sw_alloc.v 
 # -- Compiling module combined_vc_sw_alloc
 # 
 # Top level modules:
 # 	combined_vc_sw_alloc
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cpu_espresso.v 
 # -- Compiling module mor1kx_cpu_espresso
 # 
 # Top level modules:
 # 	mor1kx_cpu_espresso
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/inout_ports.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/inout_ports.v 
 # -- Compiling module inout_ports
 # -- Compiling module output_vc_status
@@ -1005,11 +980,11 @@
 # Top level modules:
 # 	inout_ports
 # 	output_vc_status
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ss_allocator.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ss_allocator.v 
 # -- Compiling module ss_allocator
 # -- Compiling module ssa_per_vc
@@ -1019,32 +994,32 @@
 # Top level modules:
 # 	ss_allocator
 # 	add_ss_port
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus_noc.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus_noc.v 
 # -- Compiling module mesh_torus_noc
 # 
 # Top level modules:
 # 	mesh_torus_noc
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_master.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_master.v 
 # -- Compiling module ni_master
 # -- Compiling module ovc_status
 # 
 # Top level modules:
 # 	ni_master
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/traffic_gen.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/traffic_gen.v 
 # -- Compiling module traffic_gen
 # -- Compiling module injection_ratio_ctrl
@@ -1053,21 +1028,21 @@
 # 
 # Top level modules:
 # 	traffic_gen
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:19 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_dmmu.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:19 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_dmmu.v 
 # -- Compiling module mor1kx_dmmu
 # 
 # Top level modules:
 # 	mor1kx_dmmu
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/baseline.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/baseline.v 
 # -- Compiling module baseline_allocator
 # -- Compiling module canonical_vc_alloc
@@ -1075,51 +1050,51 @@
 # 
 # Top level modules:
 # 	baseline_allocator
-# End time: 12:27:58 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cfgrs.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:58 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_cfgrs.v 
 # -- Compiling module mor1kx_cfgrs
 # 
 # Top level modules:
 # 	mor1kx_cfgrs
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:01
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_rf_cappuccino.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_rf_cappuccino.v 
 # -- Compiling module mor1kx_rf_cappuccino
 # 
 # Top level modules:
 # 	mor1kx_rf_cappuccino
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_true_dpram_sclk.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_true_dpram_sclk.v 
 # -- Compiling module mor1kx_true_dpram_sclk
 # 
 # Top level modules:
 # 	mor1kx_true_dpram_sclk
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_lsu_espresso.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_lsu_espresso.v 
 # -- Compiling module mor1kx_lsu_espresso
 # 
 # Top level modules:
 # 	mor1kx_lsu_espresso
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/route_torus.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/route_torus.v 
 # -- Compiling module tranc_xy_routing
 # -- Compiling module tranc_west_first_routing
@@ -1134,64 +1109,64 @@
 # 	tranc_north_last_routing
 # 	tranc_negetive_first_routing
 # 	tranc_duato_routing
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/jtag_source_probe.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/jtag_source_probe.v 
 # -- Compiling module jtag_source_probe
 # 
 # Top level modules:
 # 	jtag_source_probe
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/vjtag.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/vjtag.v 
 # -- Compiling module vjtag
 # 
 # Top level modules:
 # 	vjtag
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/jtag_system_en.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/jtag_system_en.v 
 # -- Compiling module jtag_system_en
 # -- Compiling module jtag_control_port
 # 
 # Top level modules:
 # 	jtag_system_en
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/vjtag_wb.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_wb/vjtag_wb.v 
 # -- Compiling module vjtag_wb
 # -- Compiling module vjtag_ctrl
 # 
 # Top level modules:
 # 	vjtag_wb
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/tiles/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/tiles/mor1k_tile.v}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # vlog -reportprogress 300 -vlog01compat -work work "+incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/tiles/" /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/tiles/mor1k_tile.v 
 # -- Compiling module mor1k_tile
 # 
 # Top level modules:
 # 	mor1k_tile
-# End time: 12:27:59 on Apr 25,2020, Elapsed time: 0:00:00
+# End time: 17:41:20 on Apr 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 	
 # vsim -t 1ps  -L rtl_work -L work -voptargs="+acc"  testbench
 # vsim -t 1ps -L rtl_work -L work -voptargs=""+acc"" testbench 
-# Start time: 12:27:59 on Apr 25,2020
+# Start time: 17:41:20 on Apr 25,2020
 # Loading sv_std.std
 # Loading work.testbench
 # Loading work.mor1k_mpsoc
@@ -1511,44 +1486,5 @@
 # Assert check : Property b1.2 suceeded
 # Assert check : Property b1.2 suceeded
 # Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : $ Warning - Property b1.2 failed in testbench.uut.the_mor1k_tile_3.ni.the_ififo.pow2.loop0[0] at            448682000
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : $ Warning - Property b1.2 failed in testbench.uut.the_mor1k_tile_3.ni.the_ififo.pow2.loop0[0] at            502392000
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.1 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# Assert check : Property b1.2 suceeded
-# A message of 3 words is recived from core (0) in vc0:first data
-# A message of 3 words is recived from core (0) in vc1:second data
-# A message of 3 words is recived from core (2) in vc0:first data
-# A message of 3 words is recived from core (1) in vc1:second data
-# A message of 2 words is recived from core (2) in vc0:123456
-# A message of 3 words is recived from core (2) in vc1:second data
-# A message of 2 words is recived from core (0) in vc0:123456
-# A message of 3 words is recived from core (1) in vc0:first data
-# A message of 2 words is recived from core (1) in vc0:123456
-# total received packets by core3 is 9
-# End time: 12:53:15 on Apr 25,2020, Elapsed time: 0:25:16
+# End time: 17:55:52 on Apr 25,2020, Elapsed time: 0:14:32
 # Errors: 0, Warnings: 3

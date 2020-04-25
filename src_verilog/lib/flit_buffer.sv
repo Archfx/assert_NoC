@@ -353,8 +353,8 @@ assert property (@(posedge clk) (wr_en & rd_en));
                 else $display("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
             end
             //b4 buffer cannot be empty and full at the same time : obvious fact
-            if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
-            else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
+            // if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
+            // else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
             
 
         end
@@ -604,99 +604,99 @@ endmodule
 
 
 
-/*********************
-*
-*   fifo_ram_mem_size
-*
-**********************/
+// /*********************
+// *
+// *   fifo_ram_mem_size
+// *
+// **********************/
 
 
-module fifo_ram_mem_size     #(
-    parameter DATA_WIDTH  = 32,
-    parameter MEM_SIZE    = 200,
-    parameter SSA_EN  = "YES" // "YES" , "NO"       
-    )
-    (
-       wr_data,        
-       wr_addr,
-       rd_addr,
-       wr_en,
-       rd_en,
-       clk,
-       rd_data
-    ); 
+// module fifo_ram_mem_size     #(
+//     parameter DATA_WIDTH  = 32,
+//     parameter MEM_SIZE    = 200,
+//     parameter SSA_EN  = "YES" // "YES" , "NO"       
+//     )
+//     (
+//        wr_data,        
+//        wr_addr,
+//        rd_addr,
+//        wr_en,
+//        rd_en,
+//        clk,
+//        rd_data
+//     ); 
      
     
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+//     function integer log2;
+//       input integer number; begin   
+//          log2=(number <=1) ? 1: 0;    
+//          while(2**log2<number) begin    
+//             log2=log2+1;    
+//          end 	   
+//       end   
+//     endfunction // log2 
 
-    localparam ADDR_WIDTH=log2(MEM_SIZE);
+//     localparam ADDR_WIDTH=log2(MEM_SIZE);
     
-    input [DATA_WIDTH-1         :       0]  wr_data;       
-    input [ADDR_WIDTH-1         :       0]  wr_addr;
-    input [ADDR_WIDTH-1         :       0]  rd_addr;
-    input                                   wr_en;
-    input                                   rd_en;
-    input                                   clk;
-    output reg  [DATA_WIDTH-1   :       0]  rd_data;
+//     input [DATA_WIDTH-1         :       0]  wr_data;       
+//     input [ADDR_WIDTH-1         :       0]  wr_addr;
+//     input [ADDR_WIDTH-1         :       0]  rd_addr;
+//     input                                   wr_en;
+//     input                                   rd_en;
+//     input                                   clk;
+//     output reg  [DATA_WIDTH-1   :       0]  rd_data;
     
     
      
-    generate 
-    /* verilator lint_off WIDTH */
-    if(SSA_EN =="YES") begin :predict
-    /* verilator lint_on WIDTH */
-        reg [DATA_WIDTH-1:0] queue [MEM_SIZE-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
+//     generate 
+//     /* verilator lint_off WIDTH */
+//     if(SSA_EN =="YES") begin :predict
+//     /* verilator lint_on WIDTH */
+//         reg [DATA_WIDTH-1:0] queue [MEM_SIZE-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
                 
-        always @(posedge clk ) begin
-            if (wr_en)
-                queue[wr_addr] <= wr_data;
-            if (rd_en) begin 
-                rd_data <=
-//synthesis translate_off
-//synopsys  translate_off
-                    #1
-//synopsys  translate_on
-//synthesis translate_on  
-                    queue[rd_addr];
-            end else begin // id rd is not asserted by pass the input to the output in next clock cycle
-                rd_data <=
-//synthesis translate_off
-//synopsys  translate_off
-                    #1
-//synopsys  translate_on
-//synthesis translate_on  
-                    wr_data;            
-            end           
-        end
+//         always @(posedge clk ) begin
+//             if (wr_en)
+//                 queue[wr_addr] <= wr_data;
+//             if (rd_en) begin 
+//                 rd_data <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                     #1
+// //synopsys  translate_on
+// //synthesis translate_on  
+//                     queue[rd_addr];
+//             end else begin // id rd is not asserted by pass the input to the output in next clock cycle
+//                 rd_data <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                     #1
+// //synopsys  translate_on
+// //synthesis translate_on  
+//                     wr_data;            
+//             end           
+//         end
     
-    end else begin : no_predict
+//     end else begin : no_predict
     
-        reg [DATA_WIDTH-1:0] queue [MEM_SIZE-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
+//         reg [DATA_WIDTH-1:0] queue [MEM_SIZE-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
         
-        always @(posedge clk ) begin
-            if (wr_en)
-                queue[wr_addr] <= wr_data;
-            if (rd_en) 
-                rd_data <=
-//synthesis translate_off
-//synopsys  translate_off
-                    #1
-//synopsys  translate_on
-//synthesis translate_on   
-                    queue[rd_addr];
+//         always @(posedge clk ) begin
+//             if (wr_en)
+//                 queue[wr_addr] <= wr_data;
+//             if (rd_en) 
+//                 rd_data <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                     #1
+// //synopsys  translate_on
+// //synthesis translate_on   
+//                     queue[rd_addr];
               
-        end
-    end
-    endgenerate
+//         end
+//     end
+//     endgenerate
     
-endmodule
+// endmodule
 
 
 /**********************************
@@ -1100,123 +1100,123 @@ endgenerate
 endmodule   
 
 
-/**********************************
+// /**********************************
 
-            fifo
+//             fifo
 
-*********************************/
+// *********************************/
 
 
-module fifo  #(
-    parameter Dw = 72,//data_width
-    parameter B  = 10// buffer num
-)(
-    din,   
-    wr_en, 
-    rd_en, 
-    dout,  
-    full,
-    nearly_full,
-    empty,
-    reset,
-    clk
-);
+// module fifo  #(
+//     parameter Dw = 72,//data_width
+//     parameter B  = 10// buffer num
+// )(
+//     din,   
+//     wr_en, 
+//     rd_en, 
+//     dout,  
+//     full,
+//     nearly_full,
+//     empty,
+//     reset,
+//     clk
+// );
 
  
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+//     function integer log2;
+//       input integer number; begin   
+//          log2=(number <=1) ? 1: 0;    
+//          while(2**log2<number) begin    
+//             log2=log2+1;    
+//          end 	   
+//       end   
+//     endfunction // log2 
 
-    localparam  B_1 = B-1,
-                Bw = log2(B),
-                DEPTHw=log2(B+1);
-    localparam  [Bw-1   :   0] Bint =   B_1[Bw-1    :   0];
+//     localparam  B_1 = B-1,
+//                 Bw = log2(B),
+//                 DEPTHw=log2(B+1);
+//     localparam  [Bw-1   :   0] Bint =   B_1[Bw-1    :   0];
 
-    input [Dw-1:0] din;     // Data in
-    input          wr_en;   // Write enable
-    input          rd_en;   // Read the next word
+//     input [Dw-1:0] din;     // Data in
+//     input          wr_en;   // Write enable
+//     input          rd_en;   // Read the next word
 
-    output reg [Dw-1:0]  dout;    // Data out
-    output         full;
-    output         nearly_full;
-    output         empty;
+//     output reg [Dw-1:0]  dout;    // Data out
+//     output         full;
+//     output         nearly_full;
+//     output         empty;
 
-    input          reset;
-    input          clk;
+//     input          reset;
+//     input          clk;
 
 
 
-reg [Dw-1       :   0] queue [B-1 : 0] /* synthesis ramstyle = "no_rw_check" */;
-reg [Bw- 1      :   0] rd_ptr;
-reg [Bw- 1      :   0] wr_ptr;
-reg [DEPTHw-1   :   0] depth;
+// reg [Dw-1       :   0] queue [B-1 : 0] /* synthesis ramstyle = "no_rw_check" */;
+// reg [Bw- 1      :   0] rd_ptr;
+// reg [Bw- 1      :   0] wr_ptr;
+// reg [DEPTHw-1   :   0] depth;
 
-// Sample the data
-always @(posedge clk)
-begin
-   if (wr_en)
-      queue[wr_ptr] <= din;
-   if (rd_en)
-      dout <=
-//synthesis translate_off
-//synopsys  translate_off
-          #1
-//synopsys  translate_on
-//synthesis translate_on  
-          queue[rd_ptr];
-end
+// // Sample the data
+// always @(posedge clk)
+// begin
+//    if (wr_en)
+//       queue[wr_ptr] <= din;
+//    if (rd_en)
+//       dout <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//           #1
+// //synopsys  translate_on
+// //synthesis translate_on  
+//           queue[rd_ptr];
+// end
 
-always @(posedge clk)
-begin
-   if (reset) begin
-      rd_ptr <= {Bw{1'b0}};
-      wr_ptr <= {Bw{1'b0}};
-      depth  <= {DEPTHw{1'b0}};
-   end
-   else begin
-      if (wr_en) wr_ptr <= (wr_ptr==Bint)? {Bw{1'b0}} : wr_ptr + 1'b1;
-      if (rd_en) rd_ptr <= (rd_ptr==Bint)? {Bw{1'b0}} : rd_ptr + 1'b1;
-      if (wr_en & ~rd_en) depth <=
-//synthesis translate_off
-//synopsys  translate_off
-                   #1
-//synopsys  translate_on
-//synthesis translate_on  
-                   depth + 1'b1;
-      else if (~wr_en & rd_en) depth <=
-//synthesis translate_off
-//synopsys  translate_off
-                   #1
-//synopsys  translate_on
-//synthesis translate_on  
-                   depth - 1'b1;
-   end
-end
+// always @(posedge clk)
+// begin
+//    if (reset) begin
+//       rd_ptr <= {Bw{1'b0}};
+//       wr_ptr <= {Bw{1'b0}};
+//       depth  <= {DEPTHw{1'b0}};
+//    end
+//    else begin
+//       if (wr_en) wr_ptr <= (wr_ptr==Bint)? {Bw{1'b0}} : wr_ptr + 1'b1;
+//       if (rd_en) rd_ptr <= (rd_ptr==Bint)? {Bw{1'b0}} : rd_ptr + 1'b1;
+//       if (wr_en & ~rd_en) depth <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                    #1
+// //synopsys  translate_on
+// //synthesis translate_on  
+//                    depth + 1'b1;
+//       else if (~wr_en & rd_en) depth <=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                    #1
+// //synopsys  translate_on
+// //synthesis translate_on  
+//                    depth - 1'b1;
+//    end
+// end
 
-//assign dout = queue[rd_ptr];
-assign full = depth == B;
-assign nearly_full = depth >= B-1;
-assign empty = depth == {DEPTHw{1'b0}};
+// //assign dout = queue[rd_ptr];
+// assign full = depth == B;
+// assign nearly_full = depth >= B-1;
+// assign empty = depth == {DEPTHw{1'b0}};
 
-//synthesis translate_off
-//synopsys  translate_off
-always @(posedge clk)
-begin
-    if(~reset)begin
-       if (wr_en && depth == B && !rd_en)
-          $display(" %t: ERROR: Attempt to write to full FIFO: %m",$time);
-       if (rd_en && depth == {DEPTHw{1'b0}})
-          $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-    end//~reset
-end
-//synopsys  translate_on
-//synthesis translate_on
+// //synthesis translate_off
+// //synopsys  translate_off
+// always @(posedge clk)
+// begin
+//     if(~reset)begin
+//        if (wr_en && depth == B && !rd_en)
+//           $display(" %t: ERROR: Attempt to write to full FIFO: %m",$time);
+//        if (rd_en && depth == {DEPTHw{1'b0}})
+//           $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+//     end//~reset
+// end
+// //synopsys  translate_on
+// //synthesis translate_on
 
-endmodule // fifo
+// endmodule // fifo
 
 

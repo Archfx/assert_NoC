@@ -79,47 +79,47 @@
 endmodule
 
 
-module vc_priority_based_dest_port #(
-    parameter P=5,
-    parameter V=4
+// module vc_priority_based_dest_port #(
+//     parameter P=5,
+//     parameter V=4
 
-)(
-    dest_port,
-    vc_pririty
-);
+// )(
+//     dest_port,
+//     vc_pririty
+// );
 
-    localparam      P_1       =  (P-1),
-                    OFFSET      =  V/(P_1);
+//     localparam      P_1       =  (P-1),
+//                     OFFSET      =  V/(P_1);
     
-    input   [P_1-1        :   0] dest_port;
-    reg     [V-1          :   0] vc_pririty_init;
-    output  [V-1          :   0] vc_pririty;
+//     input   [P_1-1        :   0] dest_port;
+//     reg     [V-1          :   0] vc_pririty_init;
+//     output  [V-1          :   0] vc_pririty;
     
-    genvar i;
-    integer j;  
-    generate 
-        if(P_1 == V  )begin :b1
-            always @(*) begin vc_pririty_init =  dest_port; end
+//     genvar i;
+//     integer j;  
+//     generate 
+//         if(P_1 == V  )begin :b1
+//             always @(*) begin vc_pririty_init =  dest_port; end
         
-        end else if (P_1 > V  )begin :b2
-          for (i=0;i<V; i=i+1)begin:yy
-            always @(*) begin 
-                  vc_pririty_init[i] = | dest_port[((i+1)*(P_1))/V-1:    (i*(P_1))/V ];          
-            end
-          end
-        end else begin :b3
-            always @(*) begin //P_1 < V
-                vc_pririty_init={V{1'b0}};
-                for (j=0;j<P_1; j=j+1)  vc_pririty_init[j+OFFSET] =  dest_port[j];            
+//         end else if (P_1 > V  )begin :b2
+//           for (i=0;i<V; i=i+1)begin:yy
+//             always @(*) begin 
+//                   vc_pririty_init[i] = | dest_port[((i+1)*(P_1))/V-1:    (i*(P_1))/V ];          
+//             end
+//           end
+//         end else begin :b3
+//             always @(*) begin //P_1 < V
+//                 vc_pririty_init={V{1'b0}};
+//                 for (j=0;j<P_1; j=j+1)  vc_pririty_init[j+OFFSET] =  dest_port[j];            
            
-            end
+//             end
        
-        end
-    endgenerate
+//         end
+//     endgenerate
 
-    assign vc_pririty=(vc_pririty_init==0)? {{(V-1){1'b0}},1'b1}: vc_pririty_init;
+//     assign vc_pririty=(vc_pririty_init==0)? {{(V-1){1'b0}},1'b1}: vc_pririty_init;
 
-endmodule
+// endmodule
 
 
 

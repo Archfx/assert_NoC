@@ -1567,96 +1567,96 @@ endgenerate
 endmodule
 
 
-/*************************
+// /*************************
 
-    deadlock_detector
+//     deadlock_detector
 
-**************************/
+// **************************/
 
-module  deadlock_detector #(
-    parameter P=5,
-    parameter V=4,
-    parameter MAX_CLK = 16
+// module  deadlock_detector #(
+//     parameter P=5,
+//     parameter V=4,
+//     parameter MAX_CLK = 16
 
-)(
-    ivc_num_getting_sw_grant,
-    ivc_request_all,
-    reset,
-    clk,
-    detect
+// )(
+//     ivc_num_getting_sw_grant,
+//     ivc_request_all,
+//     reset,
+//     clk,
+//     detect
 
-);
+// );
     
  
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+//     function integer log2;
+//       input integer number; begin   
+//          log2=(number <=1) ? 1: 0;    
+//          while(2**log2<number) begin    
+//             log2=log2+1;    
+//          end 	   
+//       end   
+//     endfunction // log2 
     
     
     
     
-    localparam  PV      =  P*V,
-                CNTw    = log2(MAX_CLK);
+//     localparam  PV      =  P*V,
+//                 CNTw    = log2(MAX_CLK);
 
     
-  input [PV-1   :   0]  ivc_num_getting_sw_grant, ivc_request_all;
-  input             reset,clk;
-  output            detect;
+//   input [PV-1   :   0]  ivc_num_getting_sw_grant, ivc_request_all;
+//   input             reset,clk;
+//   output            detect;
 
-  reg   [CNTw-1 :   0]  counter         [V-1   :   0];
-  wire  [P-1    :   0]  counter_rst_gen [V-1   :   0];
-  wire  [P-1    :   0]  counter_en_gen  [V-1   :   0];
-  wire  [V-1    :   0]  counter_rst,counter_en,detect_gen;
-  reg   [PV-1   :   0]  ivc_num_getting_sw_grant_reg;
+//   reg   [CNTw-1 :   0]  counter         [V-1   :   0];
+//   wire  [P-1    :   0]  counter_rst_gen [V-1   :   0];
+//   wire  [P-1    :   0]  counter_en_gen  [V-1   :   0];
+//   wire  [V-1    :   0]  counter_rst,counter_en,detect_gen;
+//   reg   [PV-1   :   0]  ivc_num_getting_sw_grant_reg;
  
-  always @(posedge clk or posedge reset)begin 
-    if(reset) begin 
-          ivc_num_getting_sw_grant_reg  <= {PV{1'b0}};
-    end else begin 
-          ivc_num_getting_sw_grant_reg  <= ivc_num_getting_sw_grant;
-    end  
-  end
+//   always @(posedge clk or posedge reset)begin 
+//     if(reset) begin 
+//           ivc_num_getting_sw_grant_reg  <= {PV{1'b0}};
+//     end else begin 
+//           ivc_num_getting_sw_grant_reg  <= ivc_num_getting_sw_grant;
+//     end  
+//   end
  
- //seperate all same virtual channels requests
- genvar i,j;
- generate 
- for (i=0;i<V;i=i+1)begin:v_loop
-     for (j=0;j<P;j=j+1)begin :p_loop
-        assign counter_rst_gen[i][j]=ivc_num_getting_sw_grant_reg[j*V+i];
-        assign counter_en_gen [i][j]=ivc_request_all[j*V+i];
-    end//j
-    //sum all signals belong to the same VC
-    assign counter_rst[i]   =|counter_rst_gen[i];
-    assign counter_en[i]    =|counter_en_gen [i]; 
-    // generate the counter
-    always @(posedge clk or posedge reset)begin 
-        if(reset) begin 
-            counter[i]<={CNTw{1'b0}};
-        end else begin 
-            if(counter_rst[i])      counter[i]<={CNTw{1'b0}};
-            else if(counter_en[i])  counter[i]<=counter[i]+1'b1;
-        end//reset
-    end//always
-    // check counters value to detect deadlock
-    assign detect_gen[i]=     (counter[i]== MAX_CLK-1);
+//  //seperate all same virtual channels requests
+//  genvar i,j;
+//  generate 
+//  for (i=0;i<V;i=i+1)begin:v_loop
+//      for (j=0;j<P;j=j+1)begin :p_loop
+//         assign counter_rst_gen[i][j]=ivc_num_getting_sw_grant_reg[j*V+i];
+//         assign counter_en_gen [i][j]=ivc_request_all[j*V+i];
+//     end//j
+//     //sum all signals belong to the same VC
+//     assign counter_rst[i]   =|counter_rst_gen[i];
+//     assign counter_en[i]    =|counter_en_gen [i]; 
+//     // generate the counter
+//     always @(posedge clk or posedge reset)begin 
+//         if(reset) begin 
+//             counter[i]<={CNTw{1'b0}};
+//         end else begin 
+//             if(counter_rst[i])      counter[i]<={CNTw{1'b0}};
+//             else if(counter_en[i])  counter[i]<=counter[i]+1'b1;
+//         end//reset
+//     end//always
+//     // check counters value to detect deadlock
+//     assign detect_gen[i]=     (counter[i]== MAX_CLK-1);
     
- end//i
+//  end//i
  
- assign detect=|detect_gen;
+//  assign detect=|detect_gen;
  
  
  
- endgenerate
+//  endgenerate
 
 
 
 
-endmodule
+// endmodule
 
 
 

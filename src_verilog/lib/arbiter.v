@@ -839,36 +839,36 @@ endmodule
     
 
  
- module fixed_priority_arbiter #(
-     parameter   ARBITER_WIDTH   =8,
-     parameter   HIGH_PRORITY_BIT = "HSB"
- )
- (   
+//  module fixed_priority_arbiter #(
+//      parameter   ARBITER_WIDTH   =8,
+//      parameter   HIGH_PRORITY_BIT = "HSB"
+//  )
+//  (   
   
-   request, 
-   grant,
-   any_grant
-);
+//    request, 
+//    grant,
+//    any_grant
+// );
 
     
-    input   [ARBITER_WIDTH-1            :   0]  request;
-    output  [ARBITER_WIDTH-1            :   0]  grant;
-    output                                      any_grant;
+//     input   [ARBITER_WIDTH-1            :   0]  request;
+//     output  [ARBITER_WIDTH-1            :   0]  grant;
+//     output                                      any_grant;
    
-    wire    [ARBITER_WIDTH-1            :   0]  cout;
-    reg     [ARBITER_WIDTH-1            :   0]  cin;
+//     wire    [ARBITER_WIDTH-1            :   0]  cout;
+//     reg     [ARBITER_WIDTH-1            :   0]  cin;
     
     
-    assign  any_grant= | request;
+//     assign  any_grant= | request;
     
-    assign grant    = cin & request;
-    assign cout     = cin & ~request; 
+//     assign grant    = cin & request;
+//     assign cout     = cin & ~request; 
     
-     always @(*) begin 
-        if( HIGH_PRORITY_BIT == "HSB")  cin      = {1'b1, cout[ARBITER_WIDTH-1 :1]}; // hsb has highest priority
-        else                            cin      = {cout[ARBITER_WIDTH-2 :0] ,1'b1}; // lsb has highest priority
-    end//always
-endmodule
+//      always @(*) begin 
+//         if( HIGH_PRORITY_BIT == "HSB")  cin      = {1'b1, cout[ARBITER_WIDTH-1 :1]}; // hsb has highest priority
+//         else                            cin      = {cout[ARBITER_WIDTH-2 :0] ,1'b1}; // lsb has highest priority
+//     end//always
+// endmodule
     
 
 

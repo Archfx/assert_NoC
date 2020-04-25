@@ -1180,62 +1180,62 @@ endmodule
     most probably it is only needed for simulation purposes
 ***************/  
 
-module  mesh_tori_addr_encoder #(
-    parameter   NX=2,
-    parameter   NY=2,
-    parameter   NL=2,
-    parameter   NE=16,
-    parameter   EAw=4,
-    parameter   TOPOLOGY="MESH"
-)(
-    id,
-    code
-);
+// module  mesh_tori_addr_encoder #(
+//     parameter   NX=2,
+//     parameter   NY=2,
+//     parameter   NL=2,
+//     parameter   NE=16,
+//     parameter   EAw=4,
+//     parameter   TOPOLOGY="MESH"
+// )(
+//     id,
+//     code
+// );
     
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end        
-      end   
-    endfunction // log2 
+//     function integer log2;
+//       input integer number; begin   
+//          log2=(number <=1) ? 1: 0;    
+//          while(2**log2<number) begin    
+//             log2=log2+1;    
+//          end        
+//       end   
+//     endfunction // log2 
     
   
         
-    function integer addrencode;
-        input integer in,nx,nxw,nl,nyw;
-        integer  y, x, l;begin
-            addrencode=0;
-            y = ((in/nl) / nx ); 
-            x = ((in/nl) % nx ); 
-            l = (in % nl);  
-            addrencode =(nl==1)?   (y<<nxw | x) : (l<<(nxw+nyw)|  (y<<nxw) | x);      
-        end   
-    endfunction // addrencode
+//     function integer addrencode;
+//         input integer in,nx,nxw,nl,nyw;
+//         integer  y, x, l;begin
+//             addrencode=0;
+//             y = ((in/nl) / nx ); 
+//             x = ((in/nl) % nx ); 
+//             l = (in % nl);  
+//             addrencode =(nl==1)?   (y<<nxw | x) : (l<<(nxw+nyw)|  (y<<nxw) | x);      
+//         end   
+//     endfunction // addrencode
         
       
-    localparam 
-        NXw= log2(NX),
-        NYw= log2(NY),
-        NEw = log2(NE);    
+//     localparam 
+//         NXw= log2(NX),
+//         NYw= log2(NY),
+//         NEw = log2(NE);    
 
 
-     input [NEw-1 :0] id;
-     output [EAw-1 : 0] code;
+//      input [NEw-1 :0] id;
+//      output [EAw-1 : 0] code;
 
-    wire [EAw-1 : 0 ] codes [NE-1 : 0];
-    genvar i;
-    generate 
-    for(i=0; i< NE; i=i+1) begin : endpoints
-        //Endpoint decoded address
-        localparam [EAw-1 : 0] ENDP= addrencode(i,NX,NXw,NL,NYw);
-        assign codes[i] = ENDP;            
-    end
-    endgenerate
+//     wire [EAw-1 : 0 ] codes [NE-1 : 0];
+//     genvar i;
+//     generate 
+//     for(i=0; i< NE; i=i+1) begin : endpoints
+//         //Endpoint decoded address
+//         localparam [EAw-1 : 0] ENDP= addrencode(i,NX,NXw,NL,NYw);
+//         assign codes[i] = ENDP;            
+//     end
+//     endgenerate
 
-    assign code = codes[id];
-endmodule
+//     assign code = codes[id];
+// endmodule
 
 
 

@@ -162,44 +162,44 @@ sum the output of all ports except the output of  port itself
 ****************************************/
 
 
-module outport_sum #(
-    parameter IN_ARRAY_WIDTH =10,
-    parameter IN_NUM     =5,
-    parameter IN_WIDTH  =   IN_ARRAY_WIDTH/IN_NUM,
-    parameter CMP_VAL   =   IN_WIDTH/(IN_NUM-1),
-    parameter OUT_WIDTH = (IN_ARRAY_WIDTH/IN_NUM)+CMP_VAL
+// module outport_sum #(
+//     parameter IN_ARRAY_WIDTH =10,
+//     parameter IN_NUM     =5,
+//     parameter IN_WIDTH  =   IN_ARRAY_WIDTH/IN_NUM,
+//     parameter CMP_VAL   =   IN_WIDTH/(IN_NUM-1),
+//     parameter OUT_WIDTH = (IN_ARRAY_WIDTH/IN_NUM)+CMP_VAL
     
-    )
-    (
-    input   [IN_ARRAY_WIDTH-1       :   0]  in,
-    output  [OUT_WIDTH-1                :   0]  out
-);
+//     )
+//     (
+//     input   [IN_ARRAY_WIDTH-1       :   0]  in,
+//     output  [OUT_WIDTH-1                :   0]  out
+// );
     
-    genvar i,j;
-    wire [IN_WIDTH-1        :   0]      in_sep  [IN_NUM-1       :   0];
-    wire [IN_NUM-2          :   0]      gen         [OUT_WIDTH-1    :   0];
-    generate 
-        for(i=0;i<IN_NUM; i=i+1      ) begin : lp
-            assign in_sep[i]  = in[(IN_WIDTH*(i+1))-1   : IN_WIDTH*i];
-        end
-        for (j=0;j<IN_NUM-1;j=j+1)begin : loop1
-                for(i=0;i<OUT_WIDTH; i=i+1  )begin : loop2
-                    if(i>=CMP_VAL*(j+1))begin : if1
-                        assign gen[i][j] = in_sep[j][i-CMP_VAL];
-                    end 
-                    else if( i< CMP_VAL*(j+1) && i>= (CMP_VAL*j)) begin :if2
-                        assign gen[i][j] = in_sep[IN_NUM-1][i];
-                    end
-                    else    begin :els
-                        assign gen[i][j] = in_sep[j][i];
-                    end
-                end// for i
-            end// for j
-        for(i=0;i<OUT_WIDTH; i=i+1       ) begin : lp2
-            assign out[i]               = |  gen[i];
-        end
-    endgenerate
-endmodule
+//     genvar i,j;
+//     wire [IN_WIDTH-1        :   0]      in_sep  [IN_NUM-1       :   0];
+//     wire [IN_NUM-2          :   0]      gen         [OUT_WIDTH-1    :   0];
+//     generate 
+//         for(i=0;i<IN_NUM; i=i+1      ) begin : lp
+//             assign in_sep[i]  = in[(IN_WIDTH*(i+1))-1   : IN_WIDTH*i];
+//         end
+//         for (j=0;j<IN_NUM-1;j=j+1)begin : loop1
+//                 for(i=0;i<OUT_WIDTH; i=i+1  )begin : loop2
+//                     if(i>=CMP_VAL*(j+1))begin : if1
+//                         assign gen[i][j] = in_sep[j][i-CMP_VAL];
+//                     end 
+//                     else if( i< CMP_VAL*(j+1) && i>= (CMP_VAL*j)) begin :if2
+//                         assign gen[i][j] = in_sep[IN_NUM-1][i];
+//                     end
+//                     else    begin :els
+//                         assign gen[i][j] = in_sep[j][i];
+//                     end
+//                 end// for i
+//             end// for j
+//         for(i=0;i<OUT_WIDTH; i=i+1       ) begin : lp2
+//             assign out[i]               = |  gen[i];
+//         end
+//     endgenerate
+// endmodule
 
 /***********************************
 
@@ -428,45 +428,45 @@ endmodule
 *******************************/
 
 
-module set_bits_counter #(
-    parameter IN_WIDTH =120,
-    parameter OUT_WIDTH = log2(IN_WIDTH+1)
-    )
-    (
-    input   [IN_WIDTH-1         :   0]  in,
-    output  [OUT_WIDTH-1        :   0]  out
+// module set_bits_counter #(
+//     parameter IN_WIDTH =120,
+//     parameter OUT_WIDTH = log2(IN_WIDTH+1)
+//     )
+//     (
+//     input   [IN_WIDTH-1         :   0]  in,
+//     output  [OUT_WIDTH-1        :   0]  out
     
-);
+// );
   
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+//     function integer log2;
+//       input integer number; begin   
+//          log2=(number <=1) ? 1: 0;    
+//          while(2**log2<number) begin    
+//             log2=log2+1;    
+//          end 	   
+//       end   
+//     endfunction // log2 
 
     
-    wire    [IN_WIDTH-2     :   0]  addrin2;
-    wire    [OUT_WIDTH-1    :   0]  addrout [IN_WIDTH-2         :   0];
-    wire    [OUT_WIDTH-1    :   0]  addrin1 [IN_WIDTH-1         :   0];
+//     wire    [IN_WIDTH-2     :   0]  addrin2;
+//     wire    [OUT_WIDTH-1    :   0]  addrout [IN_WIDTH-2         :   0];
+//     wire    [OUT_WIDTH-1    :   0]  addrin1 [IN_WIDTH-1         :   0];
     
     
-    assign out          = addrin1 [IN_WIDTH-1];
+//     assign out          = addrin1 [IN_WIDTH-1];
     
-    genvar i;
-    //always @(*)begin
-    assign  addrin1[0] = {{(OUT_WIDTH-1){1'b0}},in[0]};
-    generate        
-        for (i=0; i<IN_WIDTH-1; i=i+1) begin : loop
-                assign  addrin1[i+1]  = addrout[i];
-                assign  addrin2[i]    = in[i+1];
-                assign  addrout[i]    = addrin1[i] + addrin2 [i];
-        end
-    endgenerate
+//     genvar i;
+//     //always @(*)begin
+//     assign  addrin1[0] = {{(OUT_WIDTH-1){1'b0}},in[0]};
+//     generate        
+//         for (i=0; i<IN_WIDTH-1; i=i+1) begin : loop
+//                 assign  addrin1[i+1]  = addrout[i];
+//                 assign  addrin2[i]    = in[i+1];
+//                 assign  addrout[i]    = addrin1[i] + addrin2 [i];
+//         end
+//     endgenerate
 
-endmodule
+// endmodule
 
 
 

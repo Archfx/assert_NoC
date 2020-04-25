@@ -83,7 +83,7 @@ vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_m
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/inout_ports.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ss_allocator.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mesh_torus_noc.v}
-vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_master.v}
+vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_master.sv}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/traffic_gen.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_dmmu.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/baseline.v}

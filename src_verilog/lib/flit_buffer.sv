@@ -276,10 +276,12 @@ assert property (@(posedge clk) (wr_en & rd_en));
                 if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
                 /* verilator lint_on WIDTH */
-                property_1_1_check : assert property (b1_1)
-                    else $display("@%0dns Assertion Failed", $time);
-                property_1_2_check : assert property (b1_2)
-                    else $display("@%0dns Assertion Failed", $time);
+
+                // property_1_1_check : assert property (b1_1)
+                //     else $display("@%0dns Assertion Failed", $time);
+                // property_1_2_check : assert property (b1_2)
+                //     else $display("@%0dns Assertion Failed", $time);
+            
                 
           end//~reset      
         if (wr_en) begin      
@@ -316,22 +318,44 @@ assert property (@(posedge clk) (wr_en & rd_en));
 //synopsys  translate_on
 //synthesis translate_on
 
+// Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+// Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+// Asseting the property b4 : Buffer can not be both full and empty at the same time
         always@(posedge clk) begin
+            //b1.1
             if (wr[i] ) begin
                 //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
                 wr_ptr_check[i] <= wr_ptr[i];
                 #1
-                $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
+                // $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
                 if ( wr_ptr[i]== wr_ptr_check[i] +1'b1 ) $display("Assert check : Property b1.1 suceeded");
-                else $display("Assert check : $ Warning - Property b1.1 failed");
+                else $display("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
             end
+            //b1.2
             if (rd[i] ) begin
                 rd_ptr_check[i] <= rd_ptr[i];
                 #1
                 if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display("Assert check : Property b1.2 suceeded");
-                else $display("Assert check : $ Warning - Property b1.2 failed");
+                else $display("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
             end
-            //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
+            //b3.1 trying to write to full buffer
+            if (wr[i] && (depth[i] == B) ) begin
+                wr_ptr_check[i] <= wr_ptr[i];
+                #1
+                if ( wr_ptr[i]== wr_ptr_check[i] ) $display("Assert check : Property b3.1 suceeded");
+                else $display("Assert check : $ Warning - Property b3.1 failed in %m at %t", $time);
+            end
+            //b3.2 trying to read from empty buffer
+            if (rd[i] && (depth[i] == {DEPTHw{1'b0}})) begin
+                rd_ptr_check[i] <= rd_ptr[i];
+                #1
+                if ( rd_ptr[i]== rd_ptr_check[i] ) $display("Assert check : Property b3.2 suceeded");
+                else $display("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
+            end
+            //b4 buffer cannot be empty and full at the same time : obvious fact
+            if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
+            else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
+            
 
         end
     end//for
@@ -344,140 +368,140 @@ assert property (@(posedge clk) (wr_en & rd_en));
 
 
 
-    /*****************      
-        Buffer width is not power of 2
-     ******************/
+//     /*****************      
+//         Buffer width is not power of 2
+//      ******************/
 
 
 
 
     
-    //pointers
-    reg [BVw- 1     :   0] rd_ptr [V-1          :0];
-    reg [BVw- 1     :   0] wr_ptr [V-1          :0];
+//     //pointers
+//     reg [BVw- 1     :   0] rd_ptr [V-1          :0];
+//     reg [BVw- 1     :   0] wr_ptr [V-1          :0];
     
-    // memory address
-    wire [BVw- 1    :   0]  wr_addr;
-    wire [BVw- 1    :   0]  rd_addr;
+//     // memory address
+//     wire [BVw- 1    :   0]  wr_addr;
+//     wire [BVw- 1    :   0]  rd_addr;
     
-    //pointer array      
-    wire [BVwV- 1   :   0]  wr_addr_all;
-    wire [BVwV- 1   :   0]  rd_addr_all;
+//     //pointer array      
+//     wire [BVwV- 1   :   0]  wr_addr_all;
+//     wire [BVwV- 1   :   0]  rd_addr_all;
     
-    for(i=0;i<V;i=i+1) begin :loop0
+//     for(i=0;i<V;i=i+1) begin :loop0
         
-        assign  wr_addr_all[(i+1)*BVw- 1        :   i*BVw]   =       wr_ptr[i];
-        assign  rd_addr_all[(i+1)*BVw- 1        :   i*BVw]   =       rd_ptr[i];       
-        assign  vc_not_empty    [i] =   (depth[i] > 0);
+//         assign  wr_addr_all[(i+1)*BVw- 1        :   i*BVw]   =       wr_ptr[i];
+//         assign  rd_addr_all[(i+1)*BVw- 1        :   i*BVw]   =       rd_ptr[i];       
+//         assign  vc_not_empty    [i] =   (depth[i] > 0);
     
-     /* verilator lint_off WIDTH */ 
-        always @(posedge clk or posedge reset)
-        begin
-            if (reset) begin
+//      /* verilator lint_off WIDTH */ 
+//         always @(posedge clk or posedge reset)
+//         begin
+//             if (reset) begin
                
-                rd_ptr  [i] <= (B*i);
-                wr_ptr  [i] <= (B*i);
-                depth   [i] <= {DEPTHw{1'b0}};
-            end
-            else begin
-                if (wr[i] ) wr_ptr[i] <=(wr_ptr[i]==(B*(i+1))-1)? (B*i) : wr_ptr [i]+ 1'h1;
-                if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
-                if (wr[i] & ~rd[i]) depth [i]<=
-//synthesis translate_off
-//synopsys  translate_off
-                   #1
-//synopsys  translate_on
-//synthesis translate_on
-                   depth[i] + 1'h1;
-                else if (~wr[i] & rd[i]) depth [i]<=
-//synthesis translate_off
-//synopsys  translate_off
-                   #1          
-//synopsys  translate_on
-//synthesis translate_on
-                   depth[i] - 1'h1;
-            end//else
-        end//always  
-         /* verilator lint_on WIDTH */ 
+//                 rd_ptr  [i] <= (B*i);
+//                 wr_ptr  [i] <= (B*i);
+//                 depth   [i] <= {DEPTHw{1'b0}};
+//             end
+//             else begin
+//                 if (wr[i] ) wr_ptr[i] <=(wr_ptr[i]==(B*(i+1))-1)? (B*i) : wr_ptr [i]+ 1'h1;
+//                 if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
+//                 if (wr[i] & ~rd[i]) depth [i]<=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                    #1
+// //synopsys  translate_on
+// //synthesis translate_on
+//                    depth[i] + 1'h1;
+//                 else if (~wr[i] & rd[i]) depth [i]<=
+// //synthesis translate_off
+// //synopsys  translate_off
+//                    #1          
+// //synopsys  translate_on
+// //synthesis translate_on
+//                    depth[i] - 1'h1;
+//             end//else
+//         end//always  
+//          /* verilator lint_on WIDTH */ 
         
-//synthesis translate_off
-//synopsys  translate_off
+// //synthesis translate_off
+// //synopsys  translate_off
     
-    // Assert property 1
+//     // Assert property 1
 
-        always@(posedge clk) begin
-            if (wr[i] ) begin
-                $display("Entered assertion mode");
-                //if (wr_ptr[i]== #1 wr_ptr [i]+ 1'h1) $display("Property b1.1 suceeded");
-                if ( wr_ptr[i]== $past(wr_ptr [i],2) ) $display("Property b1.1 suceeded");
-                else $display("Property b1.1 failed");
-            end
-            //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
+//         always@(posedge clk) begin
+//             if (wr[i] ) begin
+//                 $display("Entered assertion mode");
+//                 //if (wr_ptr[i]== #1 wr_ptr [i]+ 1'h1) $display("Property b1.1 suceeded");
+//                 if ( wr_ptr[i]== $past(wr_ptr [i],2) ) $display("Property b1.1 suceeded");
+//                 else $display("Property b1.1 failed");
+//             end
+//             //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
 
-        end
+//         end
 
-        always @(posedge clk) begin
-            if(~reset)begin
-                if (wr[i] && (depth[i] == B) && !rd[i])
-                   $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
-                /* verilator lint_off WIDTH */
-                if (rd[i] && (depth[i] == {DEPTHw{1'b0}}  &&  SSA_EN !="YES"  ))
-                    $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
-                    $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-                /* verilator lint_on WIDTH */
+//         always @(posedge clk) begin
+//             if(~reset)begin
+//                 if (wr[i] && (depth[i] == B) && !rd[i])
+//                    $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
+//                 /* verilator lint_off WIDTH */
+//                 if (rd[i] && (depth[i] == {DEPTHw{1'b0}}  &&  SSA_EN !="YES"  ))
+//                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+//                 if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+//                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+//                 /* verilator lint_on WIDTH */
                 
-        //if (wr_en)       $display($time, " %h is written on fifo ",din);
-            end//~reset
-        end//always
+//         //if (wr_en)       $display($time, " %h is written on fifo ",din);
+//             end//~reset
+//         end//always
     
-//synopsys  translate_on
-//synthesis translate_on
+// //synopsys  translate_on
+// //synthesis translate_on
         
               
     
-    end//FOR
+//     end//FOR
     
     
-    one_hot_mux #(
-        .IN_WIDTH(BVwV),
-        .SEL_WIDTH(V),
-        .OUT_WIDTH(BVw)
-    )
-    wr_mux
-    (
-        .mux_in(wr_addr_all),
-        .mux_out(wr_addr),
-        .sel(vc_num_wr)
-    );
+//     one_hot_mux #(
+//         .IN_WIDTH(BVwV),
+//         .SEL_WIDTH(V),
+//         .OUT_WIDTH(BVw)
+//     )
+//     wr_mux
+//     (
+//         .mux_in(wr_addr_all),
+//         .mux_out(wr_addr),
+//         .sel(vc_num_wr)
+//     );
     
-    one_hot_mux #(
-        .IN_WIDTH(BVwV),
-        .SEL_WIDTH(V),
-        .OUT_WIDTH(BVw)
-    )
-    rd_mux
-    (
-        .mux_in(rd_addr_all),
-        .mux_out(rd_addr),
-        .sel(vc_num_rd)
-    );
+//     one_hot_mux #(
+//         .IN_WIDTH(BVwV),
+//         .SEL_WIDTH(V),
+//         .OUT_WIDTH(BVw)
+//     )
+//     rd_mux
+//     (
+//         .mux_in(rd_addr_all),
+//         .mux_out(rd_addr),
+//         .sel(vc_num_rd)
+//     );
     
-    fifo_ram_mem_size #(
-       .DATA_WIDTH (RAM_DATA_WIDTH),
-       .MEM_SIZE (BV ),
-       .SSA_EN(SSA_EN)       
-    )
-    the_queue
-    (
-        .wr_data        (fifo_ram_din), 
-        .wr_addr        (wr_addr),
-        .rd_addr        (rd_addr),
-        .wr_en          (wr_en),
-        .rd_en          (rd_en),
-        .clk            (clk),
-        .rd_data        (fifo_ram_dout)
-    );  
+//     fifo_ram_mem_size #(
+//        .DATA_WIDTH (RAM_DATA_WIDTH),
+//        .MEM_SIZE (BV ),
+//        .SSA_EN(SSA_EN)       
+//     )
+//     the_queue
+//     (
+//         .wr_data        (fifo_ram_din), 
+//         .wr_addr        (wr_addr),
+//         .rd_addr        (rd_addr),
+//         .wr_en          (wr_en),
+//         .rd_en          (rd_en),
+//         .clk            (clk),
+//         .rd_data        (fifo_ram_dout)
+//     );  
     
     
     

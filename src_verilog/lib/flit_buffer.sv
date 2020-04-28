@@ -94,8 +94,12 @@ module flit_buffer #(
     assign dout = {fifo_ram_dout[Fpay+1:Fpay],{V{1'bX}},fifo_ram_dout[Fpay-1        :   0]};    
     assign  wr  =   (wr_en)?  vc_num_wr : {V{1'b0}};
     assign  rd  =   (rd_en)?  vc_num_rd : ssa_rd;
-    
+
+    // Assertion variables
     string instance_name = $sformatf("%m");
+    reg [10      :   0] b5_check_buffer [Fw          :0];
+    reg [10      :   0] b5_check_ptr ;
+    integer x,y,z;
 
 genvar i;
 
@@ -105,7 +109,9 @@ initial begin
     dump_file_1 = $fopen("router_1_dump.txt","w");
     dump_file_2 = $fopen("router_2_dump.txt","w");
     dump_file_3 = $fopen("router_3_dump.txt","a");
-    
+    for(x=0;x<10;x=x+1) begin :assertion_loop0
+        b5_check_ptr[x] = 1'b0;
+    end
 end
 
 
@@ -297,9 +303,20 @@ assert property (@(posedge clk) (wr_en & rd_en));
                 $fwrite(dump_file_2,"%h \n",din);
             if (instance_name.substr(29,29)=="3")
                 $fwrite(dump_file_3,"%b \n",din);
+            #1
+            if (din[0]==1'b1) begin
+                $display ("%b",din);
+                for(y=0;y<10;y=y+1) begin :asserion_check_loop1
+                    if (!b5_check_ptr[y]) begin
+                        b5_check_buffer[y]<=din;
+                        break;
+                    end
+                end
+                
+            end
         end
 
-        // if (rd_en) begin      
+        if (rd_en) begin      
         //     //$display($time, " %h is written on fifo of instance %m",dout);
         //     $display(instance_name.substr(29,29));
         //     $display(instance_name.substr(25,35));
@@ -312,7 +329,20 @@ assert property (@(posedge clk) (wr_en & rd_en));
         //         $fwrite(dump_file_2,"%b\n", "%d",dout);
         //     if (instance_name.substr(29,29)=="3")
         //         $fwrite(dump_file_3,"%b\n", "%d",dout);
-        // end
+            // #1
+            if (dout[0]==1'b1) begin
+                $display ("%b",dout);
+                for(z=0;z<10;z=z+1) begin :asserion_check_loop2
+                    if (b5_check_buffer[z]==dout) begin
+                        b5_check_ptr[z]=1'b0;
+                        $display("Assert check : Property b5 suceeded");
+                        break;
+                    end
+                    if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
+                end
+                
+            end
+        end
 
         end//always
 //synopsys  translate_on

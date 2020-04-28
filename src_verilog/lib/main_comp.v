@@ -78,6 +78,7 @@ module one_hot_mux #(
             assign mux_out[i] = | mux_out_gen [i];
         end
     endgenerate
+
     
 endmodule
 

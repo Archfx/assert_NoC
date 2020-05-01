@@ -97,8 +97,11 @@ module flit_buffer #(
 
     // Assertion variables
     string instance_name = $sformatf("%m");
-    reg [8     :   0] b5_check_buffer [10          :0];
+    reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
     reg [1      :   0] b5_check_ptr [10      :   0] ;
+    reg [4     :   0] b6_buffer_counter [10          :0]; // Packet counter
+    reg packet_count_flag_in;
+    reg packet_count_flag_out;
     integer x,y,z;
 
 genvar i;
@@ -111,7 +114,10 @@ initial begin
     dump_file_3 = $fopen("router_3_dump.txt","a");
     for(x=0;x<10;x=x+1) begin :assertion_loop0
         b5_check_ptr[x] = 1'b0;
+        b6_buffer_counter[x] = 1'b0; 
     end
+    packet_count_flag_in<=1'b0;
+    packet_count_flag_out<=1'b0;
 end
 
 
@@ -345,6 +351,8 @@ generate
             
 
             // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
+            // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
+
             // b5 : adding the header to monitoring list
             if (din[35]==1'b1) begin
                  //$display ("Buffer in %b",din);
@@ -352,10 +360,20 @@ generate
                     if (!b5_check_ptr[y]) begin
                         b5_check_buffer[y]<=din[8:0];
                         b5_check_ptr[y]<=1'b1;
+                        b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
+                        packet_count_flag_in<=1'b1;
                         break;
                     end
                 end
                 
+            end
+
+            if (packet_count_flag_in) begin
+                b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
+            end
+
+            if (din[34]==1'b1) begin
+                packet_count_flag_in<=1'b0;
             end
         end
 
@@ -379,12 +397,23 @@ generate
                     // $display ("buffer_values %b",b5_check_buffer[z]);
                     if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin
                         b5_check_ptr[z]<=1'b0;
+                        b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
+                        packet_count_flag_out<=1'b1;
                         $display("Assert check : Property b5 suceeded");
                         break;
                     end
                     if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
                 end
                 
+            end
+            if (packet_count_flag_out) begin
+                b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
+            end
+            if (dout[34]==1'b1) begin
+                packet_count_flag_out<=1'b0;
+                $display("ghjghjglgkjkhkjkhjkghjjjjjjjhjkg");
+                if (b6_buffer_counter[z]==1'b0) $display("Assert check : Property b6 suceeded");
+                else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
             end
         end
     end

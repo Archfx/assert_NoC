@@ -97,8 +97,8 @@ module flit_buffer #(
 
     // Assertion variables
     string instance_name = $sformatf("%m");
-    reg [10      :   0] b5_check_buffer [Fw          :0];
-    reg [10      :   0] b5_check_ptr ;
+    reg [8     :   0] b5_check_buffer [10          :0];
+    reg [1      :   0] b5_check_ptr [10      :   0] ;
     integer x,y,z;
 
 genvar i;
@@ -141,32 +141,21 @@ generate
     assign  wr_addr =   {wr_select_addr,vc_wr_addr};
     assign  rd_addr =   {rd_select_addr,vc_rd_addr};
     
-    //Assertion checks
-    property b1_1;
-    @(posedge clk) disable iff (reset) 
-        wr_en |=> wr_addr == $past(wr_addr+5);
-    endproperty
+    // //Assertion checks
+    // property b1_1;
+    // @(posedge clk) disable iff (reset) 
+    //     wr_en |=> wr_addr == $past(wr_addr+1);
+    // endproperty
 
-    property b1_2;
-    @(posedge clk) disable iff (reset)
-        rd_en |=> rd_addr == $past(rd_addr+3);
-    endproperty
+    // property b1_2;
+    // @(posedge clk) disable iff (reset)
+    //     rd_en |=> rd_addr == $past(rd_addr+1);
+    // endproperty
     
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
 
-// Assertions -> Verilog
 
-    // always@ (posedge clk) begin
-    //     rd_ptr_check <= rd_ptr;
-    //     if (rd_en) begin
-    //         if (rd_ptr == rd_ptr_check) 
-    //             $display("p1.1 success");
-                
-    //         else $display ("p1.1 failed");
-    //         $display("%p",rd_ptr);
-    //     end
-    // end
     
     one_hot_mux #(
         .IN_WIDTH       (BwV),
@@ -267,7 +256,7 @@ generate
             end//else
         end//always
 
-assert property (@(posedge clk) (wr_en & rd_en));
+// assert property (@(posedge clk) (wr_en & rd_en));
 
 //synthesis translate_off
 //synopsys  translate_off
@@ -289,60 +278,9 @@ assert property (@(posedge clk) (wr_en & rd_en));
                 //     else $display("@%0dns Assertion Failed", $time);
             
                 
-          end//~reset      
-        if (wr_en) begin      
-            //$display($time, " %h is written on fifo of instance %m",din);
-            // $display(instance_name.substr(29,29));
-            // $display(instance_name.substr(25,35));
-            // $display(instance_name);
-            if (instance_name.substr(29,29)=="0")
-                 $fwrite(dump_file_0,"%h \n",din);
-            if (instance_name.substr(29,29)=="1")
-                $fwrite(dump_file_1,"%h \n",din);
-            if (instance_name.substr(29,29)=="2")
-                $fwrite(dump_file_2,"%h \n",din);
-            if (instance_name.substr(29,29)=="3")
-                $fwrite(dump_file_3,"%b \n",din);
-            #1
-            if (din[0]==1'b1) begin
-                $display ("%b",din);
-                for(y=0;y<10;y=y+1) begin :asserion_check_loop1
-                    if (!b5_check_ptr[y]) begin
-                        b5_check_buffer[y]<=din;
-                        break;
-                    end
-                end
-                
-            end
-        end
+            end//~reset      
 
-        if (rd_en) begin      
-        //     //$display($time, " %h is written on fifo of instance %m",dout);
-        //     $display(instance_name.substr(29,29));
-        //     $display(instance_name.substr(25,35));
-        //     $display(instance_name);
-        //     if (instance_name.substr(29,29)=="0")
-        //          $fwrite(dump_file_0,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="1")
-        //         $fwrite(dump_file_1,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="2")
-        //         $fwrite(dump_file_2,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="3")
-        //         $fwrite(dump_file_3,"%b\n", "%d",dout);
-            // #1
-            if (dout[0]==1'b1) begin
-                $display ("%b",dout);
-                for(z=0;z<10;z=z+1) begin :asserion_check_loop2
-                    if (b5_check_buffer[z]==dout) begin
-                        b5_check_ptr[z]=1'b0;
-                        $display("Assert check : Property b5 suceeded");
-                        break;
-                    end
-                    if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
-                end
-                
-            end
-        end
+            
 
         end//always
 //synopsys  translate_on
@@ -390,6 +328,66 @@ assert property (@(posedge clk) (wr_en & rd_en));
         end
     end//for
     
+    always @(posedge clk) begin
+        if (wr_en) begin      
+            //$display($time, " %h is written on fifo of instance %m",din);
+            // $display(instance_name.substr(29,29));
+            // $display(instance_name.substr(25,35));
+            // $display(instance_name);
+            if (instance_name.substr(29,29)=="0")
+                $fwrite(dump_file_0,"%h \n",din);
+            if (instance_name.substr(29,29)=="1")
+                $fwrite(dump_file_1,"%h \n",din);
+            if (instance_name.substr(29,29)=="2")
+                $fwrite(dump_file_2,"%h \n",din);
+            if (instance_name.substr(29,29)=="3")
+                $fwrite(dump_file_3,"%b \n",din);
+            
+
+            // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
+            // b5 : adding the header to monitoring list
+            if (din[35]==1'b1) begin
+                 //$display ("Buffer in %b",din);
+                for(y=0;y<10;y=y+1) begin :asserion_check_loop1
+                    if (!b5_check_ptr[y]) begin
+                        b5_check_buffer[y]<=din[8:0];
+                        b5_check_ptr[y]<=1'b1;
+                        break;
+                    end
+                end
+                
+            end
+        end
+
+        if (rd_en) begin      
+        //     $display(instance_name.substr(29,29));
+        //     $display(instance_name.substr(25,35));
+        //     $display(instance_name);
+        //     if (instance_name.substr(29,29)=="0")
+        //          $fwrite(dump_file_0,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="1")
+        //         $fwrite(dump_file_1,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="2")
+        //         $fwrite(dump_file_2,"%b\n", "%d",dout);
+        //     if (instance_name.substr(29,29)=="3")
+        //         $fwrite(dump_file_3,"%b\n", "%d",dout);
+        
+            // b5 : removing the header from the monitoring list
+            if (dout[35]==1'b1) begin
+                // $display (" buffer out %b",dout[31:0]);
+                for(z=0;z<10;z=z+1) begin :asserion_check_loop2
+                    // $display ("buffer_values %b",b5_check_buffer[z]);
+                    if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin
+                        b5_check_ptr[z]<=1'b0;
+                        $display("Assert check : Property b5 suceeded");
+                        break;
+                    end
+                    if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
+                end
+                
+            end
+        end
+    end
     
     
     end  else begin :no_pow2    //pow2

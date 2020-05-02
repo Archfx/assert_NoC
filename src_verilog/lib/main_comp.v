@@ -62,7 +62,7 @@ module one_hot_mux #(
     wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
     
     genvar i,j;
-    
+    integer x;
     //first selector masking
     generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
         for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
@@ -79,7 +79,20 @@ module one_hot_mux #(
         end
     endgenerate
 
-    
+    // Asserting the Property m1 : During multiplexing output data shlould be equal to input data
+
+    always @ * begin
+        // $display("in %b sel %b out %b", mux_in,sel, mux_out);
+        if (sel!=1'b0) begin
+            for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
+                if (sel[x]==1) begin
+                    if (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out) $display("Assert check : Property m1 suceeded");  
+                    else $display("Assert check : $ Warning - Property m1 failed in %m at %t", $time);          
+                end
+            end
+        end
+    end
+
 endmodule
 
 

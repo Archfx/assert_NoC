@@ -411,7 +411,6 @@ generate
             end
             if (dout[34]==1'b1) begin
                 packet_count_flag_out<=1'b0;
-                $display("ghjghjglgkjkhkjkhjkghjjjjjjjhjkg");
                 if (b6_buffer_counter[z]==1'b0) $display("Assert check : Property b6 suceeded");
                 else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
             end

@@ -100,6 +100,7 @@ vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_m
 	
 vsim -t 1ps  -L rtl_work -L work -voptargs="+acc"  testbench
 
+
 #add wave *
 view structure
 view signals

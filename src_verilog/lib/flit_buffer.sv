@@ -81,7 +81,7 @@ module flit_buffer #(
                BVwV             =   BVw * V,
                RAM_DATA_WIDTH   =   Fw - V;
                
-    integer dump_file_0,dump_file_1,dump_file_2,dump_file_3;          
+         
                
     wire  [RAM_DATA_WIDTH-1     :   0] fifo_ram_din;
     wire  [RAM_DATA_WIDTH-1     :   0] fifo_ram_dout;
@@ -95,6 +95,8 @@ module flit_buffer #(
     assign  wr  =   (wr_en)?  vc_num_wr : {V{1'b0}};
     assign  rd  =   (rd_en)?  vc_num_rd : ssa_rd;
 
+
+    integer dump_file_0,dump_file_1,dump_file_2,dump_file_3, dump_all;     
     // Assertion variables
     string instance_name = $sformatf("%m");
     reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
@@ -112,6 +114,7 @@ initial begin
     dump_file_1 = $fopen("router_1_dump.txt","w");
     dump_file_2 = $fopen("router_2_dump.txt","w");
     dump_file_3 = $fopen("router_3_dump.txt","a");
+    dump_all = $fopen("router_all_dump.txt","a");
     for(x=0;x<10;x=x+1) begin :assertion_loop0
         b5_check_ptr[x] = 1'b0;
         b6_buffer_counter[x] = 1'b0; 
@@ -349,7 +352,7 @@ generate
             if (instance_name.substr(29,29)=="3")
                 $fwrite(dump_file_3,"%b \n",din);
             
-
+            $fwrite(dump_all, "%b | %m \n", din);
             // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
             // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
 
@@ -381,14 +384,14 @@ generate
         //     $display(instance_name.substr(29,29));
         //     $display(instance_name.substr(25,35));
         //     $display(instance_name);
-        //     if (instance_name.substr(29,29)=="0")
-        //          $fwrite(dump_file_0,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="1")
-        //         $fwrite(dump_file_1,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="2")
-        //         $fwrite(dump_file_2,"%b\n", "%d",dout);
-        //     if (instance_name.substr(29,29)=="3")
-        //         $fwrite(dump_file_3,"%b\n", "%d",dout);
+            // if (instance_name.substr(29,29)=="0")
+            //      $fwrite(dump_file_0,"%b\n", "%d",dout);
+            // if (instance_name.substr(29,29)=="1")
+            //     $fwrite(dump_file_1,"%b\n", "%d",dout);
+            // if (instance_name.substr(29,29)=="2")
+            //     $fwrite(dump_file_2,"%b\n", "%d",dout);
+            // if (instance_name.substr(29,29)=="3")
+            //    $fwrite(dump_file_3,"%b\n", "%d",dout);
         
             // b5 : removing the header from the monitoring list
             if (dout[35]==1'b1) begin

@@ -1,5 +1,5 @@
 `timescale   1ns/1ps
-
+`define ASSERTION_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -238,8 +238,7 @@ generate
         assign  vc_not_empty    [i] =   (depth[i] > 0);
     
     
-        always @(posedge clk or posedge reset)
-        begin
+        always @(posedge clk or posedge reset) begin
             if (reset) begin
                 rd_ptr  [i] <= {Bw{1'b0}};
                 wr_ptr  [i] <= {Bw{1'b0}};
@@ -249,26 +248,24 @@ generate
                 if (wr[i] ) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
                 if (rd[i] ) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
                 if (wr[i] & ~rd[i]) depth [i]<=
-//synthesis translate_off
-//synopsys  translate_off
+                //synthesis translate_off
+                //synopsys  translate_off
                    #1
-//synopsys  translate_on
-//synthesis translate_on
+                //synopsys  translate_on
+                //synthesis translate_on
                    depth[i] + 1'h1;
                 else if (~wr[i] & rd[i]) depth [i]<=
-//synthesis translate_off
-//synopsys  translate_off
+                //synthesis translate_off
+                //synopsys  translate_off
                    #1
-//synopsys  translate_on
-//synthesis translate_on
+                //synopsys  translate_on
+                //synthesis translate_on
                    depth[i] - 1'h1;
             end//else
         end//always
 
-// assert property (@(posedge clk) (wr_en & rd_en));
-
-//synthesis translate_off
-//synopsys  translate_off
+        //synthesis translate_off
+        //synopsys  translate_off
     
         always @(posedge clk) begin
             if(~reset)begin
@@ -284,20 +281,16 @@ generate
                 // property_1_1_check : assert property (b1_1)
                 //     else $display("@%0dns Assertion Failed", $time);
                 // property_1_2_check : assert property (b1_2)
-                //     else $display("@%0dns Assertion Failed", $time);
-            
-                
+                //     else $display("@%0dns Assertion Failed", $time);              
             end//~reset      
-
-            
-
         end//always
-//synopsys  translate_on
-//synthesis translate_on
-
-// Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
-// Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
-// Asseting the property b4 : Buffer can not be both full and empty at the same time
+        //synopsys  translate_on
+        //synthesis translate_on
+        `ifdef ASSERTION_ENABLE
+     
+        // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+        // Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+        // Asseting the property b4 : Buffer can not be both full and empty at the same time
         always@(posedge clk) begin
             //b1.1
             if (wr[i] ) begin
@@ -335,8 +328,10 @@ generate
             
 
         end
+         `endif 
     end//for
     
+    `ifdef ASSERTION_ENABLE
     always @(posedge clk) begin
         if (wr_en) begin      
             //$display($time, " %h is written on fifo of instance %m",din);
@@ -353,6 +348,7 @@ generate
                 $fwrite(dump_file_3,"%b \n",din);
             
             $fwrite(dump_all, "%b | %m \n", din);
+            
             // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
             // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
 
@@ -418,8 +414,9 @@ generate
                 else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
             end
         end
-    end
-    
+    end //Always
+    `endif   
+
     
     end  else begin :no_pow2    //pow2
 
@@ -486,18 +483,6 @@ generate
 // //synthesis translate_off
 // //synopsys  translate_off
     
-//     // Assert property 1
-
-//         always@(posedge clk) begin
-//             if (wr[i] ) begin
-//                 $display("Entered assertion mode");
-//                 //if (wr_ptr[i]== #1 wr_ptr [i]+ 1'h1) $display("Property b1.1 suceeded");
-//                 if ( wr_ptr[i]== $past(wr_ptr [i],2) ) $display("Property b1.1 suceeded");
-//                 else $display("Property b1.1 failed");
-//             end
-//             //if (rd[i] ) rd_ptr[i] <=(rd_ptr[i]==(B*(i+1))-1)? (B*i) : rd_ptr [i]+ 1'h1;
-
-//         end
 
 //         always @(posedge clk) begin
 //             if(~reset)begin
@@ -591,6 +576,8 @@ end
 endgenerate 
 //synopsys  translate_on
 //synthesis translate_on    
+
+
 
 endmodule 
 

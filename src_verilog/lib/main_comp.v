@@ -1,5 +1,5 @@
  `timescale  1ns/1ps
-
+// `define ASSERTION_ENABLE
 
 /**********************************************************************
 **	File:  main_comp.v
@@ -79,19 +79,22 @@ module one_hot_mux #(
         end
     endgenerate
 
+    `ifdef ASSERTION_ENABLE
     // Asserting the Property m1 : During multiplexing output data shlould be equal to input data
 
-    // always @ * begin
-    //     // $display("in %b sel %b out %b", mux_in,sel, mux_out);
-    //     if (sel!=1'b0) begin
-    //         for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
-    //             if (sel[x]==1) begin
-    //                 if (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out) $display("Assert check : Property m1 suceeded");  
-    //                 else $display("Assert check : $ Warning - Property m1 failed in %m at %t", $time);          
-    //             end
-    //         end
-    //     end
-    // end
+    always @ * begin
+        // $display("in %b sel %b out %b", mux_in,sel, mux_out);
+        if (sel!=1'b0) begin
+            for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
+                if (sel[x]==1) begin
+                    if (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out) $display("Assert check : Property m1 suceeded");  
+                    else $display("Assert check : $ Warning - Property m1 failed in %m at %t", $time);          
+                end
+            end
+        end
+    end
+
+    `endif
 
 endmodule
 

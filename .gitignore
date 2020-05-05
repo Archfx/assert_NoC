@@ -27,6 +27,7 @@ basys3_ov7670_v1.cache/
 !*.jpg
 !*.png
 !*.txt
+!*.md
 #########
 #IP files
 #########
@@ -82,7 +83,7 @@ basys3_ov7670_v1.cache/
 #Reports
 #########
 *.rpt
-*.txt
+
 *.vdi
 #########
 #C-files

@@ -61,7 +61,7 @@ module router # (
     parameter [CVw-1:  0] CLASS_SETTING = {CVw{1'b1}}, // shows how each class can use VCs   
     parameter [V-1 :  0] ESCAP_VC_MASK = 4'b1000,  // mask scape vc, valid only for full adaptive
     parameter SSA_EN="YES", // "YES" , "NO"
-    parameter SWA_ARBITER_TYPE = "RRA",//"RRA","WRRA". RRA: Round Robin Arbiter WRRA weighted Round Robin Arbiter 
+    parameter SWA_ARBITER_TYPE = "WRRA",//"RRA","WRRA". RRA: Round Robin Arbiter WRRA weighted Round Robin Arbiter 
     parameter WEIGHTw = 4, // WRRA width
     parameter MIN_PCK_SIZE=2 //minimum packet size in flits. The minimum value is 1. 
 )(

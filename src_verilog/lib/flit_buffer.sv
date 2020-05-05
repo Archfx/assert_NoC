@@ -1,5 +1,6 @@
 `timescale   1ns/1ps
-//`define ASSERTION_ENABLE
+// `define ASSERTION_ENABLE
+`define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -286,6 +287,7 @@ generate
         end//always
         //synopsys  translate_on
         //synthesis translate_on
+        
         `ifdef ASSERTION_ENABLE
      
         // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
@@ -330,8 +332,9 @@ generate
         end
          `endif 
     end//for
-    
-    `ifdef ASSERTION_ENABLE
+
+    `ifdef DUMP_ENABLE
+    // Dumping buffer input values to files
     always @(posedge clk) begin
         if (wr_en) begin      
             //$display($time, " %h is written on fifo of instance %m",din);
@@ -348,7 +351,27 @@ generate
                 $fwrite(dump_file_3,"%b \n",din);
             
             $fwrite(dump_all, "%b | %m \n", din);
-            
+        end
+        // if (rd_en) begin      
+        // //     $display(instance_name.substr(29,29));
+        // //     $display(instance_name.substr(25,35));
+        // //     $display(instance_name);
+        //     // if (instance_name.substr(29,29)=="0")
+        //     //      $fwrite(dump_file_0,"%b\n", "%d",dout);
+        //     // if (instance_name.substr(29,29)=="1")
+        //     //     $fwrite(dump_file_1,"%b\n", "%d",dout);
+        //     // if (instance_name.substr(29,29)=="2")
+        //     //     $fwrite(dump_file_2,"%b\n", "%d",dout);
+        //     // if (instance_name.substr(29,29)=="3")
+        //     //    $fwrite(dump_file_3,"%b\n", "%d",dout);
+        // end
+    end
+    `endif 
+    
+    `ifdef ASSERTION_ENABLE
+    always @(posedge clk) begin
+        if (wr_en) begin      
+
             // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
             // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
 
@@ -377,17 +400,6 @@ generate
         end
 
         if (rd_en) begin      
-        //     $display(instance_name.substr(29,29));
-        //     $display(instance_name.substr(25,35));
-        //     $display(instance_name);
-            // if (instance_name.substr(29,29)=="0")
-            //      $fwrite(dump_file_0,"%b\n", "%d",dout);
-            // if (instance_name.substr(29,29)=="1")
-            //     $fwrite(dump_file_1,"%b\n", "%d",dout);
-            // if (instance_name.substr(29,29)=="2")
-            //     $fwrite(dump_file_2,"%b\n", "%d",dout);
-            // if (instance_name.substr(29,29)=="3")
-            //    $fwrite(dump_file_3,"%b\n", "%d",dout);
         
             // b5 : removing the header from the monitoring list
             if (dout[35]==1'b1) begin

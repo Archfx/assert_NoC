@@ -5,12 +5,12 @@
 | prop. | Formalization  | (v/x) | Module |
 |---|---|---|---|
 | b1  | Read and write pointers are incremented when r_en/w_en are set | v | flit_buffer.sv |
-| b2  | Age of packet is incremented in each cycle | v |   |
+| b2  | Age of packet is incremented in each cycle | x |   |
 | b3 | Read and Write pointers are not incremented when the buffer is empty and full | v | flit_buffer.sv |
 |  b4  | Buffer can not be both full and empty at the same time | v | flit_buffer.sv |
 |  b5  | Data that was read from the buffer was at some point in time written into the buffer | v | flit_buffer.sv |
 |  b6  | The same number of packets that were written in to the buffer can be read from the buffer | v | flit_buffer.sv |
-|  r1  |  Route can issue at most one request | v | arbiter.sv |
+|  r1  |  Route can issue at most one request | v | route_mesh.sv |
 |  r2  | Route should issue a request whenever a data is valid | x |   |
 |  r3  | Desired routing algorithm should be correctly implemented | x |   |
 |  a1  | Always at most one grant issued by the arbiter | v | arbiter.sv |

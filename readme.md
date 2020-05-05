@@ -1,4 +1,9 @@
-prop.  Formalization
+| prop. | Formalization  | () | Module |
+|---|---|---|---|
+| b1  | Read and write pointers are incremented when r_en/w_en are set | v | flit_buffer.sv |
+| b2  | Age of packet is incremented in each cycle | v |   |
+| b3 |   |   |   |
+
 b1      Read and write pointers are incremented when r_en/w_en are set (v) - implemented in flit_buffer.sv
 b2      Age of packet is incremented in each cycle (.) - This is important in weighted arbiteration modes
 b3      Read and Write pointers are not incremented when the buffer is empty and full (v) - implemented in flit_buffer.sv

@@ -5,7 +5,7 @@
 #########
 #Exclude all
 #########
-basys3_ov7670_v1.cache/
+#basys3_ov7670_v1.cache/
 
 *
 !*/

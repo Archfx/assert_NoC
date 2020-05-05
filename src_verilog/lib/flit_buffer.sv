@@ -1,6 +1,6 @@
 `timescale   1ns/1ps
-// `define ASSERTION_ENABLE
-`define DUMP_ENABLE
+`define ASSERTION_ENABLE
+// `define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -100,12 +100,14 @@ module flit_buffer #(
     integer dump_file_0,dump_file_1,dump_file_2,dump_file_3, dump_all;     
     // Assertion variables
     string instance_name = $sformatf("%m");
+    reg [7     :   0] packet_age [10          :0]; // Counting packet age
+    reg [1      :   0] age_ptr [10      :   0] ;
     reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
     reg [1      :   0] b5_check_ptr [10      :   0] ;
     reg [4     :   0] b6_buffer_counter [10          :0]; // Packet counter
     reg packet_count_flag_in;
     reg packet_count_flag_out;
-    integer x,y,z;
+    integer x,y,z,p;
 
 genvar i;
 
@@ -118,7 +120,9 @@ initial begin
     dump_all = $fopen("router_all_dump.txt","a");
     for(x=0;x<10;x=x+1) begin :assertion_loop0
         b5_check_ptr[x] = 1'b0;
-        b6_buffer_counter[x] = 1'b0; 
+        b6_buffer_counter[x] = 1'b0;
+        packet_age[x]=1'b0; 
+        age_ptr[x]=1'b0;
     end
     packet_count_flag_in<=1'b0;
     packet_count_flag_out<=1'b0;
@@ -278,11 +282,7 @@ generate
                 if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
                 /* verilator lint_on WIDTH */
-
-                // property_1_1_check : assert property (b1_1)
-                //     else $display("@%0dns Assertion Failed", $time);
-                // property_1_2_check : assert property (b1_2)
-                //     else $display("@%0dns Assertion Failed", $time);              
+          
             end//~reset      
         end//always
         //synopsys  translate_on
@@ -384,6 +384,7 @@ generate
                         b5_check_ptr[y]<=1'b1;
                         b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
                         packet_count_flag_in<=1'b1;
+                        age_ptr[y]<=1'b1;
                         break;
                     end
                 end
@@ -410,6 +411,8 @@ generate
                         b5_check_ptr[z]<=1'b0;
                         b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
                         packet_count_flag_out<=1'b1;
+                        age_ptr[z]<=1'b0;
+                        packet_age[z]<=1'b0;
                         $display("Assert check : Property b5 suceeded");
                         break;
                     end
@@ -426,6 +429,15 @@ generate
                 else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
             end
         end
+        // b2
+        for(p=0;p<10;p=p+1) begin :asserion_check_loop3
+            while(age_ptr[p]==1'b1) begin 
+                @(posedge clk); // when clock signal gets high
+                packet_age[p]++; // calculating age of that packet
+                $display("packet age is counting %d for %d", packet_age[p],b5_check_buffer[p]);
+            end
+        end
+
     end //Always
     `endif   
 

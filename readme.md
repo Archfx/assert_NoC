@@ -11,7 +11,7 @@
 |  b5  | Data that was read from the buffer was at some point in time written into the buffer | v | flit_buffer.sv |
 |  b6  | The same number of packets that were written in to the buffer can be read from the buffer | v | flit_buffer.sv |
 |  r1  |  Route can issue at most one request | v | route_mesh.sv |
-|  r2  | Route should issue a request whenever a data is valid | x |   |
+|  r2  | Route should issue a request whenever a data is valid | v | route_mesh.sv |
 |  r3  | Desired routing algorithm should be correctly implemented | x |   |
 |  a1  | Always at most one grant issued by the arbiter | v | arbiter.sv |
 |  a2  | As long as the request is available, it will eeventually be granted by the arbiter within T cycles | v | arbiter.sv |

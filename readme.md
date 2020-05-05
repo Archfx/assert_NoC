@@ -1,4 +1,6 @@
-## Properties table (Implementation progress)
+# Assertion Implementation Progress
+
+## Properties table
 
 | prop. | Formalization  | (v/x) | Module |
 |---|---|---|---|

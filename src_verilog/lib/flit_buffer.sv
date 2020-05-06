@@ -1,6 +1,6 @@
 `timescale   1ns/1ps
-`define ASSERTION_ENABLE
-`define DUMP_ENABLE
+// `define ASSERTION_ENABLE
+// `define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -100,8 +100,8 @@ module flit_buffer #(
     integer dump_file_0,dump_file_1,dump_file_2,dump_file_3, dump_all;     
     // Assertion variables
     string instance_name = $sformatf("%m");
-    integer packet_age [10          :0]; // Counting packet age
-    // reg [15     :   0] packet_age [10          :0]; // Counting packet age
+    // integer packet_age [10          :0]; // Counting packet age
+    reg [15     :   0] packet_age [10          :0]; // Counting packet age
     reg [1      :   0] age_ptr [10      :   0] ;
     reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
     reg [1      :   0] b5_check_ptr [10      :   0] ;
@@ -122,9 +122,9 @@ initial begin
     for(x=0;x<10;x=x+1) begin :assertion_loop0
         b5_check_ptr[x] <= 1'b0;
         b6_buffer_counter[x] <= 1'b0;
-        // packet_age[x]=1'b0; 
+        packet_age[x]=1'b0; 
         // packet_age[x] <= 0; 
-        // age_ptr[x] <= 1'b0;
+        age_ptr[x] = 1'b0;
     end
     packet_count_flag_in<=1'b0;
     packet_count_flag_out<=1'b0;
@@ -157,16 +157,6 @@ generate
     assign  wr_addr =   {wr_select_addr,vc_wr_addr};
     assign  rd_addr =   {rd_select_addr,vc_rd_addr};
     
-    // //Assertion checks
-    // property b1_1;
-    // @(posedge clk) disable iff (reset) 
-    //     wr_en |=> wr_addr == $past(wr_addr+1);
-    // endproperty
-
-    // property b1_2;
-    // @(posedge clk) disable iff (reset)
-    //     rd_en |=> rd_addr == $past(rd_addr+1);
-    // endproperty
     
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
@@ -386,9 +376,8 @@ generate
                             b5_check_ptr[y]<=1'b1;
                             b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
                             packet_count_flag_in<=1'b1;
-                            // age_ptr[y]<=1'b1;
-                            // packet_age[y]<=1'b0;
-                            // packet_age[y]=0;
+                            age_ptr[y]=1'b1;
+                            packet_age[y]=1'b0;
                             break;
                         end
                     end
@@ -408,17 +397,16 @@ generate
             
                 // b5 : removing the header from the monitoring list
                 if (dout[35]==1'b1) begin
-                    $display (" buffer out %b",dout[31:0]);
+                    // $display (" buffer out %b",dout[31:0]);
                     for(z=0;z<10;z=z+1) begin :asserion_check_loop2
                         // $display ("buffer_values %b",b5_check_buffer[z]);
-                        // $display("packet age is counting %d for %d", packet_age[z],b5_check_buffer[z]);
+                        $display("Assert check : (Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                         if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin
                             b5_check_ptr[z]<=1'b0;
                             b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
                             packet_count_flag_out<=1'b1;
-                            // age_ptr[z]<=1'b0;
-                            // packet_age[z]<=1'b0;
-                            // packet_age[z]=0;
+                            age_ptr[z]=1'b0;
+                            packet_age[z]=1'b0;
                             $display("Assert check : Property b5 suceeded");
                             break;
                         end
@@ -436,13 +424,11 @@ generate
                 end
             end
             // b2
-            // for(p=0;p<10;p=p+1) begin :asserion_check_loop3
-            //     while(age_ptr[p]==1'b1) begin 
-            //         @(posedge clk); // when clock signal gets high
-            //         packet_age[p]++; // calculating age of that packet
-            //         // $display("packet age is counting %d for %d", packet_age[p],b5_check_buffer[p]);
-            //     end
-            // end
+            for(p=0;p<10;p=p+1) begin :asserion_check_loop3
+                if (age_ptr[p]==1'b1) begin
+                    packet_age[p]=packet_age[p]+1'b1;
+                end
+            end
 
         end //Always
     `endif   

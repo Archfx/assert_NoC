@@ -1,6 +1,6 @@
 `timescale   1ns/1ps
 `define ASSERTION_ENABLE
-// `define DUMP_ENABLE
+`define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -100,7 +100,8 @@ module flit_buffer #(
     integer dump_file_0,dump_file_1,dump_file_2,dump_file_3, dump_all;     
     // Assertion variables
     string instance_name = $sformatf("%m");
-    reg [7     :   0] packet_age [10          :0]; // Counting packet age
+    integer packet_age [10          :0]; // Counting packet age
+    // reg [15     :   0] packet_age [10          :0]; // Counting packet age
     reg [1      :   0] age_ptr [10      :   0] ;
     reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
     reg [1      :   0] b5_check_ptr [10      :   0] ;
@@ -119,10 +120,11 @@ initial begin
     dump_file_3 = $fopen("router_3_dump.txt","a");
     dump_all = $fopen("router_all_dump.txt","a");
     for(x=0;x<10;x=x+1) begin :assertion_loop0
-        b5_check_ptr[x] = 1'b0;
-        b6_buffer_counter[x] = 1'b0;
-        packet_age[x]=1'b0; 
-        age_ptr[x]=1'b0;
+        b5_check_ptr[x] <= 1'b0;
+        b6_buffer_counter[x] <= 1'b0;
+        // packet_age[x]=1'b0; 
+        // packet_age[x] <= 0; 
+        // age_ptr[x] <= 1'b0;
     end
     packet_count_flag_in<=1'b0;
     packet_count_flag_out<=1'b0;
@@ -290,159 +292,164 @@ generate
         
         `ifdef ASSERTION_ENABLE
      
-        // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
-        // Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
-        // Asseting the property b4 : Buffer can not be both full and empty at the same time
-        always@(posedge clk) begin
-            //b1.1
-            if (wr[i] ) begin
-                //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
-                wr_ptr_check[i] <= wr_ptr[i];
-                #1
-                // $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
-                if ( wr_ptr[i]== wr_ptr_check[i] +1'b1 ) $display("Assert check : Property b1.1 suceeded");
-                else $display("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
-            end
-            //b1.2
-            if (rd[i] ) begin
-                rd_ptr_check[i] <= rd_ptr[i];
-                #1
-                if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display("Assert check : Property b1.2 suceeded");
-                else $display("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
-            end
-            //b3.1 trying to write to full buffer
-            if (wr[i] && (depth[i] == B) ) begin
-                wr_ptr_check[i] <= wr_ptr[i];
-                #1
-                if ( wr_ptr[i]== wr_ptr_check[i] ) $display("Assert check : Property b3.1 suceeded");
-                else $display("Assert check : $ Warning - Property b3.1 failed in %m at %t", $time);
-            end
-            //b3.2 trying to read from empty buffer
-            if (rd[i] && (depth[i] == {DEPTHw{1'b0}})) begin
-                rd_ptr_check[i] <= rd_ptr[i];
-                #1
-                if ( rd_ptr[i]== rd_ptr_check[i] ) $display("Assert check : Property b3.2 suceeded");
-                else $display("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
-            end
-            //b4 buffer cannot be empty and full at the same time : obvious fact
-            // if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
-            // else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
-            
+            // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+            // Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+            // Asseting the property b4 : Buffer can not be both full and empty at the same time
+            always@(posedge clk) begin
+                //b1.1
+                if (wr[i] ) begin
+                    //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
+                    wr_ptr_check[i] <= wr_ptr[i];
+                    #1
+                    // $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
+                    if ( wr_ptr[i]== wr_ptr_check[i] +1'b1 ) $display("Assert check : Property b1.1 suceeded");
+                    else $display("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
+                end
+                //b1.2
+                if (rd[i] ) begin
+                    rd_ptr_check[i] <= rd_ptr[i];
+                    #1
+                    if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display("Assert check : Property b1.2 suceeded");
+                    else $display("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
+                end
+                //b3.1 trying to write to full buffer
+                if (wr[i] && (depth[i] == B) ) begin
+                    wr_ptr_check[i] <= wr_ptr[i];
+                    #1
+                    if ( wr_ptr[i]== wr_ptr_check[i] ) $display("Assert check : Property b3.1 suceeded");
+                    else $display("Assert check : $ Warning - Property b3.1 failed in %m at %t", $time);
+                end
+                //b3.2 trying to read from empty buffer
+                if (rd[i] && (depth[i] == {DEPTHw{1'b0}})) begin
+                    rd_ptr_check[i] <= rd_ptr[i];
+                    #1
+                    if ( rd_ptr[i]== rd_ptr_check[i] ) $display("Assert check : Property b3.2 suceeded");
+                    else $display("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
+                end
+                //b4 buffer cannot be empty and full at the same time : obvious fact
+                // if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
+                // else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
+                
 
-        end
+            end
          `endif 
     end//for
 
     `ifdef DUMP_ENABLE
-    // Dumping buffer input values to files
-    always @(posedge clk) begin
-        if (wr_en) begin      
-            //$display($time, " %h is written on fifo of instance %m",din);
-            // $display(instance_name.substr(29,29));
-            // $display(instance_name.substr(25,35));
-            // $display(instance_name);
-            if (instance_name.substr(29,29)=="0")
-                $fwrite(dump_file_0,"%h \n",din);
-            if (instance_name.substr(29,29)=="1")
-                $fwrite(dump_file_1,"%h \n",din);
-            if (instance_name.substr(29,29)=="2")
-                $fwrite(dump_file_2,"%h \n",din);
-            if (instance_name.substr(29,29)=="3")
-                $fwrite(dump_file_3,"%b \n",din);
-            
-            $fwrite(dump_all, "%b | %m \n", din);
+        // Dumping buffer input values to files
+        always @(posedge clk) begin
+            if (wr_en) begin      
+                //$display($time, " %h is written on fifo of instance %m",din);
+                // $display(instance_name.substr(29,29));
+                // $display(instance_name.substr(25,35));
+                // $display(instance_name);
+                if (instance_name.substr(29,29)=="0")
+                    $fwrite(dump_file_0,"%h \n",din);
+                if (instance_name.substr(29,29)=="1")
+                    $fwrite(dump_file_1,"%h \n",din);
+                if (instance_name.substr(29,29)=="2")
+                    $fwrite(dump_file_2,"%h \n",din);
+                if (instance_name.substr(29,29)=="3")
+                    $fwrite(dump_file_3,"%b \n",din);
+                
+                $fwrite(dump_all, "%b | %m \n", din);
+            end
+            // if (rd_en) begin      
+            // //     $display(instance_name.substr(29,29));
+            // //     $display(instance_name.substr(25,35));
+            // //     $display(instance_name);
+            //     // if (instance_name.substr(29,29)=="0")
+            //     //      $fwrite(dump_file_0,"%b\n", "%d",dout);
+            //     // if (instance_name.substr(29,29)=="1")
+            //     //     $fwrite(dump_file_1,"%b\n", "%d",dout);
+            //     // if (instance_name.substr(29,29)=="2")
+            //     //     $fwrite(dump_file_2,"%b\n", "%d",dout);
+            //     // if (instance_name.substr(29,29)=="3")
+            //     //    $fwrite(dump_file_3,"%b\n", "%d",dout);
+            // end
         end
-        // if (rd_en) begin      
-        // //     $display(instance_name.substr(29,29));
-        // //     $display(instance_name.substr(25,35));
-        // //     $display(instance_name);
-        //     // if (instance_name.substr(29,29)=="0")
-        //     //      $fwrite(dump_file_0,"%b\n", "%d",dout);
-        //     // if (instance_name.substr(29,29)=="1")
-        //     //     $fwrite(dump_file_1,"%b\n", "%d",dout);
-        //     // if (instance_name.substr(29,29)=="2")
-        //     //     $fwrite(dump_file_2,"%b\n", "%d",dout);
-        //     // if (instance_name.substr(29,29)=="3")
-        //     //    $fwrite(dump_file_3,"%b\n", "%d",dout);
-        // end
-    end
     `endif 
     
     `ifdef ASSERTION_ENABLE
-    always @(posedge clk) begin
-        if (wr_en) begin      
+        always @(posedge clk) begin
+            if (wr_en) begin      
 
-            // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
-            // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
+                // Asseting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
+                // Asseting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
 
-            // b5 : adding the header to monitoring list
-            if (din[35]==1'b1) begin
-                 //$display ("Buffer in %b",din);
-                for(y=0;y<10;y=y+1) begin :asserion_check_loop1
-                    if (!b5_check_ptr[y]) begin
-                        b5_check_buffer[y]<=din[8:0];
-                        b5_check_ptr[y]<=1'b1;
-                        b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
-                        packet_count_flag_in<=1'b1;
-                        age_ptr[y]<=1'b1;
-                        break;
+                // b5 : adding the header to monitoring list
+                if (din[35]==1'b1) begin
+                    //  $display ("Buffer in %b",din);
+                    for(y=0;y<10;y=y+1) begin :asserion_check_loop1
+                        if (!b5_check_ptr[y]) begin
+                            b5_check_buffer[y]<=din[8:0];
+                            b5_check_ptr[y]<=1'b1;
+                            b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
+                            packet_count_flag_in<=1'b1;
+                            // age_ptr[y]<=1'b1;
+                            // packet_age[y]<=1'b0;
+                            // packet_age[y]=0;
+                            break;
+                        end
                     end
+                    
                 end
-                
+
+                if (packet_count_flag_in) begin
+                    b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
+                end
+
+                if (din[34]==1'b1) begin
+                    packet_count_flag_in<=1'b0;
+                end
             end
 
-            if (packet_count_flag_in) begin
-                b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1;
-            end
-
-            if (din[34]==1'b1) begin
-                packet_count_flag_in<=1'b0;
-            end
-        end
-
-        if (rd_en) begin      
-        
-            // b5 : removing the header from the monitoring list
-            if (dout[35]==1'b1) begin
-                // $display (" buffer out %b",dout[31:0]);
-                for(z=0;z<10;z=z+1) begin :asserion_check_loop2
-                    // $display ("buffer_values %b",b5_check_buffer[z]);
-                    if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin
-                        b5_check_ptr[z]<=1'b0;
-                        b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
-                        packet_count_flag_out<=1'b1;
-                        age_ptr[z]<=1'b0;
-                        packet_age[z]<=1'b0;
-                        $display("Assert check : Property b5 suceeded");
-                        break;
+            if (rd_en) begin      
+            
+                // b5 : removing the header from the monitoring list
+                if (dout[35]==1'b1) begin
+                    $display (" buffer out %b",dout[31:0]);
+                    for(z=0;z<10;z=z+1) begin :asserion_check_loop2
+                        // $display ("buffer_values %b",b5_check_buffer[z]);
+                        // $display("packet age is counting %d for %d", packet_age[z],b5_check_buffer[z]);
+                        if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin
+                            b5_check_ptr[z]<=1'b0;
+                            b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
+                            packet_count_flag_out<=1'b1;
+                            // age_ptr[z]<=1'b0;
+                            // packet_age[z]<=1'b0;
+                            // packet_age[z]=0;
+                            $display("Assert check : Property b5 suceeded");
+                            break;
+                        end
+                        if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
                     end
-                    if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time);
+                    
                 end
-                
+                if (packet_count_flag_out) begin
+                    b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
+                end
+                if (dout[34]==1'b1) begin
+                    packet_count_flag_out<=1'b0;
+                    if (b6_buffer_counter[z]==1'b0) $display("Assert check : Property b6 suceeded");
+                    else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
+                end
             end
-            if (packet_count_flag_out) begin
-                b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1;
-            end
-            if (dout[34]==1'b1) begin
-                packet_count_flag_out<=1'b0;
-                if (b6_buffer_counter[z]==1'b0) $display("Assert check : Property b6 suceeded");
-                else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
-            end
-        end
-        // b2
-        for(p=0;p<10;p=p+1) begin :asserion_check_loop3
-            while(age_ptr[p]==1'b1) begin 
-                @(posedge clk); // when clock signal gets high
-                packet_age[p]++; // calculating age of that packet
-                $display("packet age is counting %d for %d", packet_age[p],b5_check_buffer[p]);
-            end
-        end
+            // b2
+            // for(p=0;p<10;p=p+1) begin :asserion_check_loop3
+            //     while(age_ptr[p]==1'b1) begin 
+            //         @(posedge clk); // when clock signal gets high
+            //         packet_age[p]++; // calculating age of that packet
+            //         // $display("packet age is counting %d for %d", packet_age[p],b5_check_buffer[p]);
+            //     end
+            // end
 
-    end //Always
+        end //Always
     `endif   
 
     
-    end  else begin :no_pow2    //pow2
+    end 
+    //  else begin :no_pow2    //pow2
 
 
 
@@ -576,7 +583,7 @@ generate
     
     
     
-    end
+    // end
     endgenerate
     
     

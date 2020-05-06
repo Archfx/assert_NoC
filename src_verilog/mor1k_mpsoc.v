@@ -26,7 +26,7 @@ module mor1k_mpsoc (
  	localparam DEBUG_EN=0;
  	localparam ADD_PIPREG_AFTER_CROSSBAR=1'b0;
  	localparam FIRST_ARBITER_EXT_P_EN=1;
- 	localparam SWA_ARBITER_TYPE="WRRA";
+ 	localparam SWA_ARBITER_TYPE="RRA";
  	localparam WEIGHTw=4;
  	localparam AVC_ATOMIC_EN=0;
  	localparam Cn_0=2'b01;

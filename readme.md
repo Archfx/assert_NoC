@@ -33,6 +33,3 @@
 
 
  
-### Suggestions for the properties
-
-p1 Noninteference (Injection of packet from one domain can never have any effect on the delivery of packet from other domain)[1*]

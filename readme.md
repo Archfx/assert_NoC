@@ -4,7 +4,7 @@
 
 | prop. | Formalization  | Assert | Branch | Module |
 |---|---|---|---|---|
-| b1  | Read and write pointers are incremented when r_en/w_en are set |    | ✓ | flit_buffer.sv |
+| b1  | Read and write pointers are incremented when r_en/w_en are set | ✓  | ✓ | flit_buffer.sv |
 | b2  | Age of packet is incremented in each cycle |    | ✓ | flit_buffer.sv |
 | b3 | Read and Write pointers are not incremented when the buffer is empty and full |  | ✓ | flit_buffer.sv |
 |  b4  | Buffer can not be both full and empty at the same time |   | ✓ | flit_buffer.sv |

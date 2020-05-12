@@ -1,5 +1,5 @@
 `timescale   1ns/1ps
-// `define ASSERTION_ENABLE
+`define ASSERTION_ENABLE
 // `define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
@@ -285,9 +285,11 @@ generate
             // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
             // Asseting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
             // Asseting the property b4 : Buffer can not be both full and empty at the same time
+                            
+            // Branch statements
             always@(posedge clk) begin
                 //b1.1
-                if (wr[i] ) begin
+                if (wr[i] && (!rd[i] && !(depth[i] == B) || rd[i])) begin
                     //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
                     wr_ptr_check[i] <= wr_ptr[i];
                     #1
@@ -296,7 +298,7 @@ generate
                     else $display("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
                 end
                 //b1.2
-                if (rd[i] ) begin
+                if (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) begin
                     rd_ptr_check[i] <= rd_ptr[i];
                     #1
                     if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display("Assert check : Property b1.2 suceeded");
@@ -322,6 +324,12 @@ generate
                 
 
             end
+            
+            // Assert statements
+            //b1.1
+            assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i]+1) ));
+            //b1.2
+            assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i]+1) ));
          `endif 
     end//for
 

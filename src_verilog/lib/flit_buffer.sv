@@ -305,14 +305,14 @@ generate
                     else $display("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
                 end
                 //b3.1 trying to write to full buffer
-                if (wr[i] && (depth[i] == B) ) begin
+                if (wr[i] && !rd[i] && (depth[i] == B) ) begin
                     wr_ptr_check[i] <= wr_ptr[i];
                     #1
                     if ( wr_ptr[i]== wr_ptr_check[i] ) $display("Assert check : Property b3.1 suceeded");
                     else $display("Assert check : $ Warning - Property b3.1 failed in %m at %t", $time);
                 end
                 //b3.2 trying to read from empty buffer
-                if (rd[i] && (depth[i] == {DEPTHw{1'b0}})) begin
+                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) begin
                     rd_ptr_check[i] <= rd_ptr[i];
                     #1
                     if ( rd_ptr[i]== rd_ptr_check[i] ) $display("Assert check : Property b3.2 suceeded");
@@ -330,6 +330,10 @@ generate
             assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i]+1) ));
             //b1.2
             assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i]+1) ));
+            //b3.1
+            assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
+            //b3.2
+            assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
          `endif 
     end//for
 

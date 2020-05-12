@@ -13,9 +13,9 @@
 |  r1  |  Route can issue at most one request | | ✓ | route_mesh.sv |
 |  r2  | Route should issue a request whenever a data is valid |    | ✓ | route_mesh.sv |
 |  r3  | Desired routing algorithm should be correctly implemented |    | ✓ | route_mesh.sv |
-|  a1  | Always at most one grant issued by the arbiter |   | ✓ | arbiter.sv |
+|  a1  | Always at most one grant issued by the arbiter | ✓ | ✓ | arbiter.sv |
 |  a2  | As long as the request is available, it will eventually be granted by the arbiter within T cycles |   | ✓ | arbiter.sv |
-|  a3  | No grant can be issued without a request | | ✓ | arbiter.sv |
+|  a3  | No grant can be issued without a request | ✓ | ✓ | arbiter.sv |
 |  a4  | Time between two issued grants is always the same for all requests |   | ✓ | arbiter.sv |
 |  m1  | During multiplexing output data shlould be equal to input data | ✓  | ✓ | main_comp.sv |
 ## Combined Properties

@@ -327,15 +327,20 @@ generate
             
             // Assert statements
             //b1.1
-            assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i]+1) ));
+            assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i]+1) )) $display ("Assert check : Property b1.1 suceeded");
+            else $error("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
             //b1.2
-            assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i]+1) ));
+            assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i]+1) )) $display ("Assert check : Property b1.2 suceeded"); 
+            else $error("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
             //b3.1
-            assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
+            assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) )) $display ("Assert check : Property b3.1 suceeded"); 
+            else $error("Assert check : $ Warning - Property b3.1 failed in %m at %t", $time);
             //b3.2
-            assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
+            assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) )) $display ("Assert check : Property b3.2 suceeded"); 
+            else $error("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
             //b4
-            assert (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded"); else $error("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
+            assert property ( @(posedge clk) (!(depth[i] == {DEPTHw{1'b0}} && depth[i] == B))) $display ("Assert check : Property b4 suceeded"); 
+            else $error("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
          `endif 
     end//for
 

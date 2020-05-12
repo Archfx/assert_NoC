@@ -7,7 +7,7 @@
 | b1  | Read and write pointers are incremented when r_en/w_en are set | ✓  | ✓ | flit_buffer.sv |
 | b2  | Age of packet is incremented in each cycle |    | ✓ | flit_buffer.sv |
 | b3 | Read and Write pointers are not incremented when the buffer is empty and full | ✓ | ✓ | flit_buffer.sv |
-|  b4  | Buffer can not be both full and empty at the same time |   | ✓ | flit_buffer.sv |
+|  b4  | Buffer can not be both full and empty at the same time |  ✓ | ✓ | flit_buffer.sv |
 |  b5  | Data that was read from the buffer was at some point in time written into the buffer | | ✓ | flit_buffer.sv |
 |  b6  | The same number of packets that were written in to the buffer can be read from the buffer |    | ✓ | flit_buffer.sv |
 |  r1  |  Route can issue at most one request | | ✓ | route_mesh.sv |

@@ -319,8 +319,8 @@ generate
                     else $display("Assert check : $ Warning - Property b3.2 failed in %m at %t", $time);
                 end
                 //b4 buffer cannot be empty and full at the same time : obvious fact
-                // if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
-                // else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
+                if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded");
+                else $display("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
                 
 
             end
@@ -334,6 +334,8 @@ generate
             assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
             //b3.2
             assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) ));
+            //b4
+            assert (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display ("Assert check : Property b4 suceeded"); else $error("Assert check : $ Warning - Property b4 failed in %m at %t", $time);
          `endif 
     end//for
 

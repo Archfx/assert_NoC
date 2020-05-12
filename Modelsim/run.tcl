@@ -21,7 +21,7 @@ vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_m
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_fetch_cappuccino.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/mor1kx_decode_execute_cappuccino.v}
 vlog -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/flit_buffer.sv}
-vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/main_comp.v}
+vlog -sv -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/main_comp.sv}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_crc32.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ni_vc_dma.v}
 vlog -vlog01compat -work work +incdir+/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/ {/home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/src_verilog/lib/jtag_uart_wb.v}

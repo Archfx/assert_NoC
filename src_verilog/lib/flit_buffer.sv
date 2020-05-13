@@ -441,11 +441,11 @@ generate
 
                             // assertion statements
                             //R6
-                            assert (packet_age[z] > Tmin) $display ("Assert check : Property m1 succeeded");
-                            else $error("Assert check : $ Warning - Property m1 failed in %m at %t", $time);
+                            assert (packet_age[z] > Tmin) $display ("Assert check : Property R6 succeeded");
+                            else $error("Assert check : $ Warning - Property R6 failed in %m at %t", $time);
                             //R7
-                            assert (packet_age[z] < Tmax) $display ("Assert check : Property m1 succeeded");
-                            else $error("Assert check : $ Warning - Property m1 failed in %m at %t", $time);
+                            assert (packet_age[z] < Tmax) $display ("Assert check : Property R7 succeeded");
+                            else $error("Assert check : $ Warning - Property R7 failed in %m at %t", $time);
                             break;
                         end
                         if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time); // Packet not found in the check buffer

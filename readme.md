@@ -27,7 +27,7 @@
 | R3 | No packet modification inside the router  | b1^b3^b4^b5^m1  |
 | R4 | Packet that enteres the router will eventually leave the router at some point of time  | a1^a2^a3^b1^b2^b4^m1^r1^r2^r3 |
 | R5 | Packet is correctly routed to the correct port according to the destination | r3^R2 |
-| R6 | Age of the packet leaving the router will be at least Tmin |   |
-| R7 | Age of the packet leaving the router should not exceed Tmax  |   |
+| R6 | Age of the packet leaving the router will be at least Tmin | ✓  |
+| R7 | Age of the packet leaving the router should not exceed Tmax  |  ✓  |
 
 

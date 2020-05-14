@@ -105,13 +105,14 @@ module flit_buffer #(
     string instance_name = $sformatf("%m");
     // integer packet_age [10          :0]; // Counting packet age
     reg [15     :   0] packet_age [10          :0]; // Counting packet age
+    reg [15     :   0] packet_age_check [10          :0]; // Counting packet age
     reg [1      :   0] age_ptr [10      :   0] ;
     reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
     reg [1      :   0] b5_check_ptr [10      :   0] ;
     reg [4     :   0] b6_buffer_counter [10          :0]; // Packet counter
     reg packet_count_flag_in;
     reg packet_count_flag_out;
-    integer x,y,z,p;
+    integer x,y,z,p,q;
 
 genvar i;
 
@@ -330,10 +331,10 @@ generate
             
             // Assert statements
             //b1.1
-            assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i]+1) )) $display ("Assert check : Property b1.1 succeeded");
+            assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i])+1 )) $display ("Assert check : Property b1.1 succeeded");
             else $error("Assert check : $ Warning - Property b1.1 failed in %m at %t", $time);
             //b1.2
-            assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i]+1) )) $display ("Assert check : Property b1.2 succeeded"); 
+            assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i])+1 )) $display ("Assert check : Property b1.2 succeeded"); 
             else $error("Assert check : $ Warning - Property b1.2 failed in %m at %t", $time);
             //b3.1
             assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) )) $display ("Assert check : Property b3.1 succeeded"); 
@@ -467,7 +468,7 @@ generate
                     else $error("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
                 end
             end
-            // b2
+            // b2 implementation
             for(p=0;p<10;p=p+1) begin :asserion_check_loop3
                 if (age_ptr[p]==1'b1) begin
                     packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
@@ -484,7 +485,25 @@ generate
                 end
             end
 
+            //b2 checks
+            for(q=0;q<10;q=q+1) begin :asserion_check_loop4
+                // branch statement
+                //b2
+                if (age_ptr[q]==1'b1) begin
+                    packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
+                    #1
+                    if ( packet_age[q] == packet_age_check[q] +1'b1 ) $display("Assert check : Property b2 succeeded");
+                    else $display("Assert check : $ Warning - Property b2 failed in %m at %t", $time);
+                end
+                // assertion statements
+                //b2
+                assert property ( @(posedge clk) (age_ptr[q]==1'b1) ##1  ( packet_age[q] == $past(packet_age[q])+1 )) $display ("Assert check : Property b2 succeeded");
+                else $error("Assert check : $ Warning - Property b2 failed in %m at %t", $time);
+            end
+
         end //Always
+
+
     `endif   
 
     

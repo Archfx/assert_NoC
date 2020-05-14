@@ -5,7 +5,7 @@
 | prop. | Formalization  | Assert | Branch | Module |
 |---|---|---|---|---|
 | b1  | Read and write pointers are incremented when r_en/w_en are set | ✓  | ✓ | flit_buffer.sv |
-| b2  | Age of packet is incremented in each cycle |    | ✓ | flit_buffer.sv |
+| b2  | Age of packet is incremented in each cycle |  ✓  | ✓ | flit_buffer.sv |
 | b3 | Read and Write pointers are not incremented when the buffer is empty and full | ✓ | ✓ | flit_buffer.sv |
 |  b4  | Buffer can not be both full and empty at the same time |  ✓ | ✓ | flit_buffer.sv |
 |  b5  | Data that was read from the buffer was at some point in time written into the buffer | ✓ | ✓ | flit_buffer.sv |
@@ -18,6 +18,7 @@
 |  a3  | No grant can be issued without a request | ✓ | ✓ | arbiter.sv |
 |  a4  | Time between two issued grants is always the same for all requests |   | ✓ | arbiter.sv |
 |  m1  | During multiplexing output data shlould be equal to input data | ✓  | ✓ | main_comp.sv |
+
 ## Combined Properties
 
 | prop. | Formalization  | Comb. | 

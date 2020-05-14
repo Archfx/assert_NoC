@@ -407,11 +407,11 @@ generate
                 end
 
                 if (packet_count_flag_in) begin
-                    b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Couting the payload and tail packets
+                    b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Counting the payload and tail packets
                 end
 
                 if (din[34]==1'b1) begin
-                    packet_count_flag_in<=1'b0; // If tail found, stop couting packets
+                    packet_count_flag_in<=1'b0; // If tail found, stop Counting packets
                 end
             end
 
@@ -422,6 +422,8 @@ generate
                     // $display (" buffer out %b",dout[31:0]);
                     for(z=0;z<10;z=z+1) begin :asserion_check_loop2
                         // $display ("buffer_values %b",b5_check_buffer[z]);
+                        // branch statement
+                        //b5
                         if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin // Compare with check buffer
                             $display("Assert check : (Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                             $display("Assert check : Property b5 succeeded");
@@ -431,23 +433,21 @@ generate
                             age_ptr[z]=1'b0; // resetting age pointer
                             //packet_age[z]=1'b0; // resetting age
 
-                            // branch statements
+                            // branch statement
                             //R6
                             if (packet_age[z] > Tmin) $display("Assert check : Property R6 succeeded");
                             else $display("Assert check : $ Warning - Property R6 failed in %m at %t", $time);
-                            //R7
-                            if (packet_age[z] < Tmax) $display("Assert check : Property R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
-                            else $display("Assert check : $ Warning - Property R7 failed in %m at %t", $time);
-
+                            
                             // assertion statements
                             //R6
                             assert (packet_age[z] > Tmin) $display ("Assert check : Property R6 succeeded");
                             else $error("Assert check : $ Warning - Property R6 failed in %m at %t", $time);
-                            //R7
-                            assert (packet_age[z] < Tmax) $display ("Assert check : Property R7 succeeded");
-                            else $error("Assert check : $ Warning - Property R7 failed in %m at %t", $time);
                             break;
                         end
+                        // assertion statements
+                        //b5
+                        assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) $display ("Assert check : Property b5 succeeded");
+
                         if (z==10) $display("Assert check : $ Warning - Property b5 failed in %m at %t", $time); // Packet not found in the check buffer
                     end
                     
@@ -457,14 +457,30 @@ generate
                 end
                 if (dout[34]==1'b1) begin // tail packet found
                     packet_count_flag_out<=1'b0;
+                    // branch statement
+                    //b6
                     if (b6_buffer_counter[z]==1'b0) $display("Assert check : Property b6 succeeded");
                     else $display("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
+                    // assertion statements
+                    //b6
+                    assert (b6_buffer_counter[z]==1'b0) $display ("Assert check : Property b6 succeeded");
+                    else $error("Assert check : $ Warning - Property b6 failed in %m at %t", $time);
                 end
             end
             // b2
             for(p=0;p<10;p=p+1) begin :asserion_check_loop3
                 if (age_ptr[p]==1'b1) begin
                     packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
+                    
+                    // branch statement
+                    //R7
+                    if (packet_age[p] < Tmax) $display("Assert check : Property R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
+                    else $display("Assert check : $ Warning - Property R7 failed in %m at %t", $time);
+                    
+                    // assertion statements
+                    //R7
+                    assert (packet_age[p] < Tmax) $display ("Assert check : Property R7 succeeded");
+                    else $error("Assert check : $ Warning - Property R7 failed in %m at %t", $time);
                 end
             end
 

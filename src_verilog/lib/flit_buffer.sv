@@ -322,7 +322,7 @@ generate
                     if ( rd_ptr[i]== rd_ptr_check[i] ) $display(" b3.2 succeeded");
                     else $display(" $error :b3.2 failed in %m at %t", $time);
                 end
-                //b4 buffer cannot be empty and full at the same time : obvious fact
+                //b4 buffer cannot be empty and full at the same time
                 if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display (" b4 succeeded");
                 else $display(" $error :b4 failed in %m at %t", $time);
                 

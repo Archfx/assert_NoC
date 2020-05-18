@@ -1,5 +1,5 @@
 `timescale   1ns/1ps
-// `define ASSERTION_ENABLE
+`define ASSERTION_ENABLE
 // `define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
@@ -388,7 +388,7 @@ generate
                 // b5 : adding the header to monitoring list
                 if (din[35]==1'b1) begin // Header found
                     //  $display ("Buffer in %b",din);
-                    for(y=0;y<10;y=y+1) begin :asserion_check_loop1
+                    for(y=0;y<$size(b5_check_buffer);y=y+1) begin :asserion_check_loop1
                         if (!b5_check_ptr[y]) begin
                             b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
                             b5_check_ptr[y]<=1'b1; // check buffer pointer
@@ -416,11 +416,11 @@ generate
                 // b5 : removing the header from the monitoring list
                 if (dout[35]==1'b1) begin // Header found
                     // $display (" buffer out %b",dout[31:0]);
-                    for(z=0;z<10;z=z+1) begin :asserion_check_loop2
+                    for(z=0;z<$size(b5_check_buffer)+1;z=z+1) begin :asserion_check_loop2
                         // $display ("buffer_values %b",b5_check_buffer[z]);
                         // branch statement
                         //b5
-                        if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] ) begin // Compare with check buffer
+                        if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer)) begin // Compare with check buffer
                             $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                             $display(" b5 succeeded");
                             b5_check_ptr[z]<=1'b0; // reset check buffer pointer
@@ -441,9 +441,9 @@ generate
                         end
                         // assertion statements
                         //b5
-                        b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] );
+                        b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer));
 
-                        if (z==10) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
+                        if (z==$size(b5_check_buffer)) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
                     end
                     
                 end
@@ -462,7 +462,7 @@ generate
                 end
             end
             // b2 implementation
-            for(p=0;p<10;p=p+1) begin :asserion_check_loop3
+            for(p=0;p<$size(b5_check_buffer);p=p+1) begin :asserion_check_loop3
                 if (age_ptr[p]==1'b1) begin
                     packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
                     
@@ -478,7 +478,7 @@ generate
             end
 
             //b2 checks
-            for(q=0;q<10;q=q+1) begin :asserion_check_loop4
+            for(q=0;q<$size(b5_check_buffer);q=q+1) begin :asserion_check_loop4
                 // branch statement
                 //b2
                 if (age_ptr[q]==1'b1) begin

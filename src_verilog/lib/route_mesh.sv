@@ -155,7 +155,7 @@ module xy_mesh_routing #(
 
                 // Assert statments
                 //r1
-                r1: assert (($onehot(destport) || destport == 1'b0) || $isunknown(destport));
+                r1: assert ($onehot0(destport) || $isunknown(destport));
                 //r2
                 r2: assert (dest_x<=1'b1 && dest_y<=1'b1 || ($isunknown(dest_x) || $isunknown(dest_y)));
                 // r3

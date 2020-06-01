@@ -136,29 +136,6 @@ module arbiter #(
             if ($onehot(grant) && grant[i]==1'b1 && request!=grant) $display(" $error :a2 failed in %m at %t", $time);
         end
        
-        // if ($onehot(request)) begin
-        //     for(i=0;i<$size(request);i=i+1) begin :loop0
-        //         if(request[i]==1'b1) begin
-        //             counter = 0; // clock counter initialization
-        //             @(posedge request[i]);
-        //             while(grant[i]!=1'b1) begin 
-        //                 @(posedge clk); // when clock signal gets high
-        //                 counter++; // increase counter by 1
-        //             end
-        //             if ( grant[i]==1'b1) $display (" a2 Request granted after %d clock cycles", counter); 
-        //         end
-        //     end
-        // end
-        // //a3
-        // if ($onehot(grant)) begin
-        //     for(x=0;x<$size(grant);x=x+1) begin :loop1
-        //         if (grant[x]==1'b1) begin
-        //             if(grant[x]==1'b1 && request[x]==1'b1) $display (" a3 succeeded");
-        //             else $display(" $error :a3 failed in %m at %t", $time);
-        //         end
-        //     end
-        // end
-        
         //a3
         for(x=0;x<$size(request);x=x+1) begin :loop1
             if (!request[x]) begin

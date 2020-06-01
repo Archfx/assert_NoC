@@ -1,5 +1,5 @@
 `timescale     1ns/1ps
-//  `define ASSERTION_ENABLE
+ `define ASSERTION_ENABLE
 /**********************************************************************
 **	File:  route_mesh.v
 **    
@@ -114,9 +114,7 @@ module xy_mesh_routing #(
 
                 // Branch statements
                 //r1
-                if ($onehot(destport) || destport == 1'b0) begin
-                    if ($onehot(destport)) $display (" r1 succeeded");
-                end
+                if ($onehot0(destport)) $display (" r1 succeeded");
                 else if ( !$isunknown(destport) )$display(" $error :r1 failed in %m at %t", $time);
                 //r2
                 if (dest_x<=1'b1 && dest_y<=1'b1) $display (" r2 succeeded");
@@ -126,32 +124,6 @@ module xy_mesh_routing #(
                 //r3
                 if ((dest_x > current_x && destport_next==EAST) || (dest_x < current_x && destport_next==WEST) || (dest_y > current_y && destport_next==SOUTH) || (dest_y < current_y && destport_next==NORTH) || (destport_next==LOCAL)) $display (" r3 succeeded");
                 else $display(" $error :r3 failed in %m at %t", $time);
-                //r3
-                // case (dest_x  > current_x) 
-                //     1'b0 :  begin
-                //                 case (dest_x < current_x)
-                //                     1'b1 : destport_next_r3 = WEST [DSTw-1    :0];
-                //                     1'b0 :  begin
-                //                                 case (dest_y    > current_y)
-                //                                     1'b0 :  begin
-                //                                                 case (dest_y < current_y)
-                //                                                     1'b1 : destport_next_r3    = NORTH [DSTw-1    :0];
-                //                                                     default : destport_next_r3    = LOCAL [DSTw-1    :0];
-                //                                                 endcase
-                //                                             end
-                //                                     1'b1 :  destport_next_r3    = SOUTH [DSTw-1:0];
-                //                                     default : destport_next_r3    = LOCAL [DSTw-1    :0];
-                //                                 endcase
-                //                             end
-                //                     default : destport_next_r3    = LOCAL [DSTw-1    :0];
-                //                 endcase
-                //             end
-                //     1'b1 :   destport_next_r3 = EAST [DSTw-1    :0];
-                    
-                //     default : destport_next_r3    = LOCAL [DSTw-1    :0];
-                // endcase
-                // if ( destport_next_r3==destport_next ) $display (" r3 succeeded");
-                // else $display(" $error :r3 failed in %m at %t", $time);
 
                 // Assert statments
                 //r1

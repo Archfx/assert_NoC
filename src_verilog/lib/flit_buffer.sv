@@ -1,6 +1,6 @@
 `timescale   1ns/1ps
 `define ASSERTION_ENABLE
-// `define DUMP_ENABLE
+`define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
 **    
@@ -493,6 +493,9 @@ generate
             end
 
         end //Always
+
+        // //b5 (PSL)
+        b5_psl: assert property (@(posedge clk) wr_en |-> s_eventually din[8:0]==dout[8:0]);
 
 
     `endif   

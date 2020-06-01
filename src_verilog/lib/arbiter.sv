@@ -1,5 +1,5 @@
  `timescale     1ns/1ps
-//  `define ASSERTION_ENABLE
+ `define ASSERTION_ENABLE
 /**********************************************************************
 **	File: arbiter.v
 **    
@@ -218,6 +218,9 @@ module arbiter #(
         for (j=0; j < $size(request); j++) begin
             // From SystemVerilog Assertions and Functional Coverage: Guide to Language pg: 85
             a2: assert property(@(posedge clk) disable iff (!$onehot(request)) $rose(request[j]) |-> request[j][*1:$] ##0 $rose(grant[j]));
+            a2_liveliness: assert property (@(posedge clk) request[j] |-> s_eventually grant[j]); // liveliness property with infinite counter examples
+            a2_safety: assert property (@(posedge clk) request[j] until_with grant[j]); // if grant[j] does not happen, request[j] holds forever
+            a2_general: assert property (@(posedge clk) request[j] s_until_with grant[j]); // grant[j] must eventually happen
         end
     endgenerate  
 

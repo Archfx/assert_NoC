@@ -116,7 +116,7 @@ module arbiter #(
     always@(posedge clk) begin
         //$display("%b", grant);
         //a1
-        if ($onehot(grant) || grant == 1'b0 ) begin
+        if ($onehot0(grant)) begin
             if ($onehot(grant)) $display (" a1 succeeded");
         end
         else $display(" $error :a1 failed in %m at %t", $time);
@@ -210,7 +210,7 @@ module arbiter #(
 
     // Assert statements
     //a1
-    a1: assert property (@(posedge clk) $onehot(grant) || grant == 1'b0);
+    a1: assert property (@(posedge clk) $onehot0(grant));
     
     //a2
     genvar j;

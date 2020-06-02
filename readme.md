@@ -17,7 +17,7 @@
 |  a2  | As long as the request is available, it will eventually be granted by the arbiter within T cycles | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L123-L137) | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L192-L202) | [arbiter.sv](src_verilog/lib/arbiter.sv) |
 |  a3  | No grant can be issued without a request | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L139-L146) | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L204-L210) | [arbiter.sv](src_verilog/lib/arbiter.sv) |
 |  a4  | Time between two issued grants is always the same for all requests | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L148-L183) | [✓](https://github.com/Archfx/assert_NoC/blob/622976510395a07c9523b975fc52918020d23214/src_verilog/lib/arbiter.sv#L211-L219) | [arbiter.sv](src_verilog/lib/arbiter.sv) |
-|  m1  | During multiplexing output data shlould be equal to input data | ✓  | ✓ | [main_comp.sv](src_verilog/lib/main_comp.sv) |
+|  m1  | During multiplexing output data shlould be equal to input data | [✓](https://github.com/Archfx/assert_NoC/blob/2fd383c17618c96987fb20b87183e0eb66208c6e/src_verilog/lib/main_comp.sv#L91-L95)  | [✓](https://github.com/Archfx/assert_NoC/blob/2fd383c17618c96987fb20b87183e0eb66208c6e/src_verilog/lib/main_comp.sv#L97-L98) | [main_comp.sv](src_verilog/lib/main_comp.sv) |
 
 ## Combined Properties
 
@@ -28,7 +28,7 @@
 | R3 | No packet modification inside the router  | b1^b3^b4^b5^m1  |
 | R4 | Packet that enteres the router will eventually leave the router at some point of time  | a1^a2^a3^b1^b2^b4^m1^r1^r2^r3 |
 | R5 | Packet is correctly routed to the correct port according to the destination | r3^R2 |
-| R6 | Age of the packet leaving the router will be at least Tmin | ✓  |
-| R7 | Age of the packet leaving the router should not exceed Tmax  |  ✓  |
+| R6 | Age of the packet leaving the router will be at least Tmin | [✓](https://github.com/Archfx/assert_NoC/blob/2fd383c17618c96987fb20b87183e0eb66208c6e/src_verilog/lib/flit_buffer.sv#L433-L439)  |
+| R7 | Age of the packet leaving the router should not exceed Tmax  |  [✓](https://github.com/Archfx/assert_NoC/blob/2fd383c17618c96987fb20b87183e0eb66208c6e/src_verilog/lib/flit_buffer.sv#L470-L476)  |
 
 

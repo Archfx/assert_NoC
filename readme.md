@@ -1,4 +1,4 @@
-# Assertion Implementation Progress
+# Assertion Implementation Map
 
 ## Properties table
 

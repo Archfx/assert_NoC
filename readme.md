@@ -5,11 +5,11 @@
 | prop. | Formalization  | Assert | Branch | Module |
 |---|---|---|---|---|
 | b1  | Read and write pointers are incremented when r_en/w_en are set | [✓](src_verilog/lib/flit_buffer.sv#L295-L310)  | [✓](src_verilog/lib/flit_buffer.sv#L333-L336) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
-| b2  | Age of packet is incremented in each cycle |  ✓ | ✓ | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
+| b2  | Age of packet is incremented in each cycle |  [✓](src_verilog/lib/flit_buffer.sv#L480-L489) | [✓](src_verilog/lib/flit_buffer.sv#L491-L492) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
 | b3 | Read and Write pointers are not incremented when the buffer is empty and full | [✓](src_verilog/lib/flit_buffer.sv#L318-L324) | [✓](src_verilog/lib/flit_buffer.sv#L333-L336) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
 |  b4  | Buffer can not be both full and empty at the same time |  [✓](src_verilog/lib/flit_buffer.sv#L325-L327) | [✓](src_verilog/lib/flit_buffer.sv#L325-L327) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
-|  b5  | Data that was read from the buffer was at some point in time written into the buffer | ✓ | ✓ | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
-|  b6  | The same number of packets that were written in to the buffer can be read from the buffer | ✓   | ✓ | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
+|  b5  | Data that was read from the buffer was at some point in time written into the buffer | [✓](src_verilog/lib/flit_buffer.sv#L422-L425) | [✓](src_verilog/lib/flit_buffer.sv#L443-L444) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
+|  b6  | The same number of packets that were written in to the buffer can be read from the buffer | [✓](src_verilog/lib/flit_buffer.sv#L456-L458)  | [✓](src_verilog/lib/flit_buffer.sv#L460-L461) | [flit_buffer.sv](src_verilog/lib/flit_buffer.sv) |
 |  r1  |  Route can issue at most one request | ✓ | ✓ | [route_mesh.sv](src_verilog/lib/route_mesh.sv) |
 |  r2  | Route should issue a request whenever a data is valid |  ✓  | ✓ | [route_mesh.sv](src_verilog/lib/route_mesh.sv) |
 |  r3  | Desired routing algorithm should be correctly implemented |  ✓ | ✓ | [route_mesh.sv](src_verilog/lib/route_mesh.sv) |

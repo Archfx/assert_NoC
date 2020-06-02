@@ -127,7 +127,7 @@ module arbiter #(
                     counter = 0; // clock counter initialization
                     while(request[i]==1'b1) begin 
                         @(posedge clk); // when clock signal gets high
-                        if ( grant[i]==1'b1) $display (" a2 Request granted after %d clock cycles", counter); 
+                        // if ( grant[i]==1'b1) $display (" a2 Request granted after %d clock cycles", counter); 
                         counter++; // increase counter by 1
                     end
                     

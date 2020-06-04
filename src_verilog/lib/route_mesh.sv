@@ -1,5 +1,5 @@
 `timescale     1ns/1ps
- `define ASSERTION_ENABLE
+//  `define ASSERTION_ENABLE
 /**********************************************************************
 **	File:  route_mesh.v
 **    

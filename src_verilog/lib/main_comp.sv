@@ -1,5 +1,5 @@
  `timescale  1ns/1ps
-// `define ASSERTION_ENABLE
+`define ASSERTION_ENABLE
 
 /**********************************************************************
 **	File:  main_comp.v
@@ -85,7 +85,7 @@ module one_hot_mux #(
     always @ * begin
         // $display("in %b sel %b out %b", mux_in,sel, mux_out);
         
-        if (sel!=1'b0) begin
+        if (sel!=1'b0 && $onehot(sel)) begin
             for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
                 // Branch statement
                 //m1
@@ -95,7 +95,7 @@ module one_hot_mux #(
                 end
                 // Assert statement
                 //m1
-                m1: assert ((sel[x] && (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out))==1);
+                m1: assert (!$onehot(sel) || sel!=1'b0 || (sel[x]==1'b1 && (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out)));
             end
         end
         

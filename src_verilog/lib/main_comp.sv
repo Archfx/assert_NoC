@@ -95,7 +95,7 @@ module one_hot_mux #(
                 end
                 // Assert statement
                 //m1
-                m1: assert (!$onehot(sel) || sel!=1'b0 || (sel[x]==1'b1 && (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out)));
+                m1: assert (!$onehot(sel) || sel!=1'b0 || (sel[x]==1'b1 && (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out))==1);
             end
         end
         

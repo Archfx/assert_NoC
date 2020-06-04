@@ -158,8 +158,14 @@ generate
     
     
     
-    assign  wr_addr =   {wr_select_addr,vc_wr_addr};
-    assign  rd_addr =   {rd_select_addr,vc_rd_addr};
+    //assign  wr_addr =   {wr_select_addr,vc_wr_addr};
+    // assign  rd_addr =   {rd_select_addr,vc_rd_addr};
+
+    assign wr_addr[Vw-1:0] = wr_select_addr[Vw-1     :    0];
+    assign wr_addr[Bw-1+Vw:Vw] = vc_wr_addr[Bw-1     :    0];
+
+    assign rd_addr[Vw-1:0] = rd_select_addr[Vw-1     :    0];
+    assign rd_addr[Bw-1+Vw:Vw] = vc_rd_addr[Bw-1     :    0];
     
     
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];

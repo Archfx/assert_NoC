@@ -1,5 +1,5 @@
 `timescale   1ns/1ps
-// `define ASSERTION_ENABLE
+`define ASSERTION_ENABLE
 //`define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv

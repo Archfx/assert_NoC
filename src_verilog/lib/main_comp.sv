@@ -1,5 +1,5 @@
  `timescale  1ns/1ps
-`define ASSERTION_ENABLE
+// `define ASSERTION_ENABLE
 
 /**********************************************************************
 **	File:  main_comp.v
@@ -263,7 +263,8 @@ endmodule
 
 module one_hot_to_bin #(
     parameter ONE_HOT_WIDTH =   4,
-    parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
+    parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? ((ONE_HOT_WIDTH==2)? 1 : 2):1
+    // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
 )
 (
     input   [ONE_HOT_WIDTH-1        :   0] one_hot_code,
@@ -272,14 +273,14 @@ module one_hot_to_bin #(
 );
 
   
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+    // function integer log2;
+    //   input integer number; begin   
+    //      log2=(number <=1) ? 1: 0;    
+    //      while(2**log2<number) begin    
+    //         log2=log2+1;    
+    //      end 	   
+    //   end   
+    // endfunction // log2 
 
 localparam MUX_IN_WIDTH =   BIN_WIDTH* ONE_HOT_WIDTH;
 

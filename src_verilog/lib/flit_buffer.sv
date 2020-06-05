@@ -1,5 +1,5 @@
 `timescale   1ns/1ps
-`define ASSERTION_ENABLE
+// `define ASSERTION_ENABLE
 //`define DUMP_ENABLE
 /**********************************************************************
 **	File:  flit_buffer.sv
@@ -135,7 +135,7 @@ initial begin
 end
 
 
-generate 
+// generate 
     if((2**Bw)==B)begin :pow2
         /*****************      
           Buffer width is power of 2
@@ -643,7 +643,7 @@ generate
     
     
     // end
-    endgenerate
+    // endgenerate
     
     
     

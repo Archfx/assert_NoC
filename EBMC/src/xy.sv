@@ -10,17 +10,19 @@ module xy_mesh_routing
     
     parameter NX        =    4;
     parameter NY        =    3;
-    parameter OUT_BIN =    1 ;   // 1: destination port is in binary format 0: onehot  
+    parameter OUT_BIN =    0 ;   // 1: destination port is in binary format 0: onehot  
 
     // function integer log2;
-    //   input integer number; 
+    //    integer number=NX; 
     //   begin   
-    //      log2=(number <=1) ? 1: 0;    
-    //      while(2**log2<number) begin    
-    //         log2=log2+1;    
+    //      log2_1=(number <=1) ? 1: 0;    
+    //      while(2**log2_1<number) begin    
+    //         log2_1=log2_1+1;    
     //      end        
     //   end   
     // endfunction // log2 
+    
+  
 
     localparam  P            =    5;    // router port number is always 5 in a mesh topology
     
@@ -84,9 +86,10 @@ module xy_mesh_routing
 
                 // Assert statments
                 //r1
-                assert ($onehot0(destport) );
+                assert ($onehot(destport) );
+                
                 //r2
-                assert (dest_x<=1'b1 && dest_y<=1'b1 );
+                assert (dest_x<=2'b11 && dest_y<=1'b1);
                 // r3
                 assert ((dest_x > current_x && destport_next==EAST) || (dest_x < current_x && destport_next==WEST) || (dest_y > current_y && destport_next==SOUTH) || (dest_y < current_y && destport_next==NORTH) || (destport_next==LOCAL)); 
 

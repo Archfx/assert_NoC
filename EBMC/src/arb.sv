@@ -145,27 +145,37 @@ module arbiter
 
     // Assert statements
     //a1
-    a1: assert property ( $onehot0(grant));
+     assert property ( $onehot0(grant));
     
     //a2
-    genvar j;
-    generate
-        for (j=0; j < ARBITER_WIDTH; j=j+1) begin
-            // From SystemVerilog Assertions and Functional Coverage: Guide to Language pg: 85
-            // a2: assert property($onehot(request) && $rose(request[j]) |-> request[j][*1:$] ##0 $rose(grant[j]));
-            a2_liveliness: assert property (request[j] |-> s_eventually grant[j]); // liveliness property with infinite counter examples
-            // a2_safety: assert property (@(posedge clk) request[j] until_with grant[j]); // if grant[j] does not happen, request[j] holds forever
-            // a2_general: assert property (@(posedge clk) request[j] s_until_with grant[j]); // grant[j] must eventually happen
-        end
-    endgenerate  
+    // genvar j;
+    // generate
+    //     for (j=0; j < ARBITER_WIDTH; j=j+1) begin
+    //         // From SystemVerilog Assertions and Functional Coverage: Guide to Language pg: 85
+    //         // a2: assert property($onehot(request) && $rose(request[j]) |-> request[j][*1:$] ##0 $rose(grant[j]));
+    //         assert property (request[j] |-> s_eventually grant[j]); // liveliness property with infinite counter examples
+    //         // a2_safety: assert property (@(posedge clk) request[j] until_with grant[j]); // if grant[j] does not happen, request[j] holds forever
+    //         // a2_general: assert property (@(posedge clk) request[j] s_until_with grant[j]); // grant[j] must eventually happen
+    //     end
+    // endgenerate  
+    
+    a2_0: assert property (($onehot(request) && request[0] )|-> s_eventually grant[0]);
+    a2_1: assert property (($onehot(request) && request[1] ) |-> s_eventually grant[1]);
+    a2_2: assert property (($onehot(request) && request[2] )|-> s_eventually grant[2]);
+    a2_3: assert property (($onehot(request) && request[3] ) |-> s_eventually grant[3]);
 
     //a3
-    genvar k;
-    generate
-        for (k=0; k < ARBITER_WIDTH; k=k+1) begin
-            a3: assert property ( !request[k] |->  ##1 !grant[k]);
-        end
-    endgenerate
+    // genvar k;
+    // generate
+    //     for (k=0; k < ARBITER_WIDTH; k=k+1) begin
+    //          assert property ( !request[k] |->  ##1 !grant[k]);
+    //     end
+    // endgenerate
+    assert property ( !request[0] |-> !grant[0]);
+    assert property (!request[1] |-> !grant[1]);
+    assert property ( !request[2] |-> !grant[2]);
+    assert property ( !request[3] |-> !grant[3]);
+    
     //a4
     // genvar l;
     // generate

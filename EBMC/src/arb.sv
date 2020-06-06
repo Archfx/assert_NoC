@@ -163,7 +163,7 @@ module arbiter
     genvar k;
     generate
         for (k=0; k < ARBITER_WIDTH; k=k+1) begin
-            a3: assert property ( !request[k] |->  !grant[k]);
+            a3: assert property ( !request[k] |->  ##1 !grant[k]);
         end
     endgenerate
     //a4

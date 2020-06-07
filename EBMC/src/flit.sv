@@ -12,20 +12,20 @@ module flit_buffer
         ssa_rd
     );
 
-    parameter V        =   4;
+    parameter V        =   2;//4;
     parameter B        =   4;   // buffer space :flit per VC 
     parameter Fpay     =   32;
-    parameter DEBUG_EN =   1;
-    parameter SSA_EN="YES" ;// "YES" , "NO"       
-   
-    function integer log2;
-      input integer number; begin   
-         log2=(number <=1) ? 1: 0;    
-         while(2**log2<number) begin    
-            log2=log2+1;    
-         end 	   
-      end   
-    endfunction // log2 
+    // parameter DEBUG_EN =   1;
+    parameter SSA_EN="NO" ;// "YES" , "NO"       
+    parameter CL        =   10;
+    // function integer log2;
+    //   input integer number; begin   
+    //      log2=(number <=1) ? 1: 0;    
+    //      while(2**log2<number) begin    
+    //         log2=log2+1;    
+    //      end 	   
+    //   end   
+    // endfunction // log2 
     
     localparam      Fw      =   2+V+Fpay,   //flit width
                     BV      =   B   *   V,
@@ -46,8 +46,8 @@ module flit_buffer
     input  [V-1        :0]  ssa_rd;
     
     localparam BVw              =   4,
-               Bw               =   (B==1)? 1 : log2(B),
-               Vw               =  (V==1)? 1 : log2(V),
+               Bw               =   (B==1)? 1 : 2,//log2(B),
+               Vw               =  (V==1)? 1 : 2,//log2(V),
                DEPTHw           =   Bw+1,
                BwV              =   Bw * V,
                BVwV             =   BVw * V,
@@ -72,35 +72,35 @@ module flit_buffer
     // Assertion variables
 
     // integer packet_age [10          :0]; // Counting packet age
-    reg [15     :   0] packet_age [10          :0]; // Counting packet age
-    reg [15     :   0] packet_age_check [10          :0]; // Counting packet age
-    reg [1      :   0] age_ptr [10      :   0] ;
-    reg [8     :   0] b5_check_buffer [10          :0]; // Buffer table
-    reg [1      :   0] b5_check_ptr [10      :   0] ;
-    reg [4     :   0] b6_buffer_counter [10          :0]; // Packet counter
-    reg packet_count_flag_in;
-    reg packet_count_flag_out;
+    reg [15     :   0] packet_age [CL-1          :0]={16'b0,16'b0,16'b0,16'b0,16'b0,16'b0,16'b0,16'b0,16'b0,16'b0}; // Counting packet age
+    reg [15     :   0] packet_age_check [CL-1         :0]; // Counting packet age
+    reg [1      :   0] age_ptr [CL-1      :   0] ={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
+    reg [8     :   0] b5_check_buffer [CL-1          :0]; // Buffer table
+    reg [1      :   0] b5_check_ptr [CL-1     :   0] ={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0} ;
+    reg [4     :   0] b6_buffer_counter [CL-1         :0]={5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0}; // Packet counter
+    reg packet_count_flag_in=1'b0;
+    reg packet_count_flag_out=1'b0;
     integer x,y,z,p,q;
 
 genvar i;
 
 
-initial begin
-    // 
-    // for(x=0;x<10;x=x+1) begin :assertion_loop0
-    //     b5_check_ptr[x] <= 1'b0;
-    //     b6_buffer_counter[x] <= 1'b0;
-    //     packet_age[x]=1'b0; 
-    //     // packet_age[x] <= 0; 
-    //     age_ptr[x] = 1'b0;
-    // end
-    // packet_count_flag_in<=1'b0;
-    // packet_count_flag_out<=1'b0;
-end
+// initial begin
+//     // 
+//     // for(x=0;x<10;x=x+1) begin :assertion_loop0
+//     //     b5_check_ptr[x] <= 1'b0;
+//     //     b6_buffer_counter[x] <= 1'b0;
+//     //     packet_age[x]=1'b0; 
+//     //     // packet_age[x] <= 0; 
+//     //     age_ptr[x] = 1'b0;
+//     // end
+//     // packet_count_flag_in<=1'b0;
+//     // packet_count_flag_out<=1'b0;
+// end
 
 
 // generate 
-    if((2**Bw)==B)begin :pow2
+    // if((2**Bw)==B)begin :pow2
         /*****************      
           Buffer width is power of 2
         ******************/
@@ -137,11 +137,7 @@ end
 
 
     
-    one_hot_mux #(
-        .IN_WIDTH       (BwV),
-        .SEL_WIDTH      (V) 
-    )
-    wr_ptr_mux
+    one_hot_mux  wr_ptr_mux
     (
         .mux_in         (wr_ptr_array),
         .mux_out            (vc_wr_addr),
@@ -150,11 +146,7 @@ end
     
         
     
-    one_hot_mux #(
-        .IN_WIDTH       (BwV),
-        .SEL_WIDTH      (V) 
-    )
-    rd_ptr_mux
+    one_hot_mux rd_ptr_mux
     (
         .mux_in         (rd_ptr_array),
         .mux_out            (vc_rd_addr),
@@ -163,10 +155,11 @@ end
     
     
     
-    one_hot_to_bin #(
-    .ONE_HOT_WIDTH  (V)
-    
-    )
+    one_hot_to_bin 
+    // #(
+    // .ONE_HOT_WIDTH  (V)
+    // 
+    // )
     wr_vc_start_addr
     (
     .one_hot_code   (vc_num_wr),
@@ -174,10 +167,11 @@ end
 
     );
     
-    one_hot_to_bin #(
-    .ONE_HOT_WIDTH  (V)
-    
-    )
+    one_hot_to_bin 
+    // #(
+    // .ONE_HOT_WIDTH  (V)
+    // 
+    // )
     rd_vc_start_addr
     (
     .one_hot_code   (vc_num_rd),
@@ -185,12 +179,13 @@ end
 
     );
 
-    fifo_ram    #(
-        .DATA_WIDTH (RAM_DATA_WIDTH),
-        .ADDR_WIDTH (BVw ),
-        .SSA_EN(SSA_EN)       
-    )
-    the_queue
+    // fifo_ram   
+    //  #(
+    //     .DATA_WIDTH (RAM_DATA_WIDTH),
+    //     .ADDR_WIDTH (BVw ),
+    //     .SSA_EN(SSA_EN)       
+    // )
+    fifo_ram the_queue
     (
         .wr_data        (fifo_ram_din), 
         .wr_addr        (wr_addr[BVw-1  :   0]),
@@ -201,6 +196,8 @@ end
         .rd_data        (fifo_ram_dout)
     );  
 
+
+generate
     for(i=0;i<V;i=i+1) begin :loop0
         
         assign  wr_ptr_array[(i+1)*Bw- 1        :   i*Bw]   =       wr_ptr[i];
@@ -298,15 +295,15 @@ end
             
             // Assert statements
             //b1.1
-            b1_1: assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) ##1  ( wr_ptr[i] == $past(wr_ptr[i])+1 ));
-            //b1.2
-            b1_2: assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) ##1  ( rd_ptr[i] == $past(rd_ptr[i])+1 )); 
-            //b3.1
-            b3_1: assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) )); 
+            // b1_1: assert property ( @(posedge clk) ( wr[i] && (!rd[i] && !(depth[i] == B) || rd[i]) ) |=>  ( wr_ptr[i] == $past(wr_ptr[i])+1 ));
+            // //b1.2
+            // b1_2: assert property ( @(posedge clk) (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) |=>  ( rd_ptr[i] == $past(rd_ptr[i])+1 )); 
+            // //b3.1
+            // b3_1: assert property ( @(posedge clk) (wr[i] && !rd[i] && (depth[i] == B) ) |=>   ( rd_ptr[i] == $past(rd_ptr[i]) )); 
             //b3.2
-            b3_2: assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) ##1  ( rd_ptr[i] == $past(rd_ptr[i]) )) ; 
-            //b4
-            b4: assert property ( @(posedge clk) (!(depth[i] == {DEPTHw{1'b0}} && depth[i] == B))); 
+            // b3_2: assert property ( @(posedge clk) (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) |=>   ( rd_ptr[i] == $past(rd_ptr[i]) )) ; 
+            // //b4
+            // b4: assert property ( @(posedge clk) (!(depth[i] == {DEPTHw{1'b0}} && depth[i] == B))); 
  
     end//for
  
@@ -321,7 +318,7 @@ end
                 // b5 : adding the header to monitoring list
                 if (din[35]==1'b1) begin // Header found
                     //  $display ("Buffer in %b",din);
-                    for(y=0;y<$size(b5_check_buffer);y=y+1) begin :asserion_check_loop1
+                    for(y=0;y<CL;y=y+1) begin :asserion_check_loop1
                         if (!b5_check_ptr[y]) begin
                             b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
                             b5_check_ptr[y]<=1'b1; // check buffer pointer
@@ -329,7 +326,7 @@ end
                             packet_count_flag_in<=1'b1; // Enabled to count payload packets and tails packets
                             age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
                             packet_age[y]=1'b0; // Resetting the packet age
-                            break;
+                            // break;
                         end
                     end
                     
@@ -349,11 +346,11 @@ end
                 // b5 : removing the header from the monitoring list
                 if (dout[35]==1'b1) begin // Header found
                     // $display (" buffer out %b",dout[31:0]);
-                    for(z=0;z<$size(b5_check_buffer)+1;z=z+1) begin :asserion_check_loop2
+                    for(z=0;z<CL+1;z=z+1) begin :asserion_check_loop2
                         // $display ("buffer_values %b",b5_check_buffer[z]);
                         // branch statement
                         //b5
-                        if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer)) begin // Compare with check buffer
+                        if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=CL) begin // Compare with check buffer
                             $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                             $display(" b5 succeeded");
                             b5_check_ptr[z]<=1'b0; // reset check buffer pointer
@@ -369,14 +366,14 @@ end
                             
                             // assertion statements
                             //R6
-                            R6: assert (packet_age[z] > Tmin);
-                            break;
+                            assert (packet_age[z] > Tmin);
+                            // break;
                         end
                         // assertion statements
                         //b5
-                        b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer));
+                        assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=CL);
 
-                        if (z==$size(b5_check_buffer)) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
+                        if (z==CL) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
                     end
                     
                 end
@@ -391,11 +388,11 @@ end
                     else $display(" $error :b6 failed in %m at %t", $time);
                     // assertion statements
                     //b6
-                    b6: assert (b6_buffer_counter[z]==1'b0);
+                    assert (b6_buffer_counter[z]==1'b0);
                 end
             end
             // b2 implementation
-            for(p=0;p<$size(b5_check_buffer);p=p+1) begin :asserion_check_loop3
+            for(p=0;p<CL;p=p+1) begin :asserion_check_loop3
                 if (age_ptr[p]==1'b1) begin
                     packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
                     
@@ -406,12 +403,12 @@ end
                     
                     // assertion statements
                     //R7
-                    R7: assert (packet_age[p] < Tmax);
+                    assert (packet_age[p] < Tmax);
                 end
             end
 
             //b2 checks
-            for(q=0;q<$size(b5_check_buffer);q=q+1) begin :asserion_check_loop4
+            for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
                 // branch statement
                 //b2
                 if (age_ptr[q]==1'b1) begin
@@ -422,36 +419,20 @@ end
                 end
                 // assertion statements
                 //b2
-                b2: assert property ( @(posedge clk) (age_ptr[q]==1'b1) ##1  ( packet_age[q] == $past(packet_age[q])+1 ));
+                // assert property ( @(posedge clk) (age_ptr[q]==1'b1) |=>  ( packet_age[q] == $past(packet_age[q])+1 ));
             end
 
         end //Always
 
         // //b5 (PSL)
-        b5_psl: assert property (@(posedge clk) wr_en |-> s_eventually din[8:0]==dout[8:0]);
+        assert property (wr_en |-> s_eventually din[8:0]==dout[8:0]);
 
 
 
     
-    end 
+    // end 
  
-generate
-if(DEBUG_EN) begin :dbg 
-    always @(posedge clk) begin
-        if(~reset)begin
-            if(wr_en && vc_num_wr == {V{1'b0}})
-                    $display("%t: ERROR: Attempt to write when no wr VC is asserted: %m",$time);
-            if(rd_en && vc_num_rd == {V{1'b0}})
-                    $display("%t: ERROR: Attempt to read when no rd VC is asserted: %m",$time);
-        end
-    end
-end 
-endgenerate 
-//synopsys  translate_on
-//synthesis translate_on    
-
-
-
+ endgenerate  
 endmodule 
 
 module one_hot_mux 
@@ -462,8 +443,8 @@ module one_hot_mux
 
     );
     
-    parameter   IN_WIDTH      = 20;
-    parameter   SEL_WIDTH =   5;
+    parameter   IN_WIDTH      = 8;
+    parameter   SEL_WIDTH =   4;
     parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
 
     wire [IN_WIDTH-1    :0] mask;
@@ -515,5 +496,151 @@ module one_hot_mux
     end
     
 
+
+endmodule
+
+module one_hot_mux_2 
+    (
+        input [IN_WIDTH-1       :0] mux_in,
+        output[OUT_WIDTH-1  :0] mux_out,
+        input[SEL_WIDTH-1   :0] sel
+
+    );
+    
+    parameter   IN_WIDTH      = 2;
+    parameter   SEL_WIDTH =   2;
+    parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
+
+    wire [IN_WIDTH-1    :0] mask;
+    wire [IN_WIDTH-1    :0] masked_mux_in;
+    wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
+    
+    genvar i,j;
+    integer x;
+    //first selector masking
+    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+        for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
+            assign mask[(i+1)*OUT_WIDTH-1 : (i)*OUT_WIDTH]  =   {OUT_WIDTH{sel[i]} };
+        end
+        
+        assign masked_mux_in    = mux_in & mask;
+        
+        for(i=0; i<OUT_WIDTH; i=i+1) begin : lp1
+            for(j=0; j<SEL_WIDTH; j=j+1) begin : lp2
+                assign mux_out_gen [i][j]   =   masked_mux_in[i+OUT_WIDTH*j];
+            end
+            assign mux_out[i] = | mux_out_gen [i];
+        end
+    endgenerate
+
+
+    // Asserting the Property m1 : During multiplexing output data shlould be equal to input data
+    
+    always @ * begin
+        // $display("in %b sel %b out %b", mux_in,sel, mux_out);
+        
+        // if (sel!=1'b0 && $onehot(sel)) begin
+            // for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
+                // Branch statement
+                //m1
+                // if (sel[x]==1) begin
+                //     if (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out) $display(" m1 succeeded");  
+                //     else $display(" $error :m1 failed in %m at %t", $time);          
+                // end
+                // Assert statement
+                //m1
+                assert (!$onehot(sel) || sel!=1'b0 || (sel[0]==1'b1 && (mux_in[OUT_WIDTH*(0)+:OUT_WIDTH]==mux_out))==1);
+                assert (!$onehot(sel) || sel!=1'b0 || (sel[1]==1'b1 && (mux_in[OUT_WIDTH*(1)+:OUT_WIDTH]==mux_out))==1);
+                // assert (!$onehot(sel) || sel!=1'b0 || (sel[2]==1'b1 && (mux_in[OUT_WIDTH*(2)+:OUT_WIDTH]==mux_out))==1);
+                // assert (!$onehot(sel) || sel!=1'b0 || (sel[3]==1'b1 && (mux_in[OUT_WIDTH*(3)+:OUT_WIDTH]==mux_out))==1);
+            // end
+        // end
+        
+
+    end
+    
+
+
+endmodule
+
+
+
+module fifo_ram     
+    (
+        input [DATA_WIDTH-1         :       0]  wr_data,        
+        input [ADDR_WIDTH-1         :       0]      wr_addr,
+        input [ADDR_WIDTH-1         :       0]      rd_addr,
+        input                                               wr_en,
+        input                                               rd_en,
+        input                                           clk,
+        output [DATA_WIDTH-1   :       0]      rd_data
+    );  
+    parameter DATA_WIDTH    = 34;
+    parameter ADDR_WIDTH    = 4;
+    parameter SSA_EN="NO" ;// "YES" , "NO"       
+    
+	reg [DATA_WIDTH-1:0] memory_rd_data; 
+   // memory
+	reg [DATA_WIDTH-1:0] queue [2**ADDR_WIDTH-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
+	always @(posedge clk ) begin
+			if (wr_en)
+				 queue[wr_addr] <= wr_data;
+			if (rd_en)
+				 memory_rd_data <=
+//synthesis translate_off
+//synopsys  translate_off
+					  #1
+//synopsys  translate_on
+//synthesis translate_on   
+					  queue[rd_addr];
+	end
+	
+    generate 
+    /* verilator lint_off WIDTH */
+        assign rd_data =  memory_rd_data;
+
+    endgenerate
+endmodule
+
+module one_hot_to_bin 
+(
+    input   [ONE_HOT_WIDTH-1        :   0] one_hot_code,
+    output  [BIN_WIDTH-1            :   0]  bin_code
+
+);
+
+
+    
+    parameter ONE_HOT_WIDTH =   2;
+    parameter BIN_WIDTH     =  1;
+    // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
+
+localparam MUX_IN_WIDTH =   BIN_WIDTH* ONE_HOT_WIDTH;
+
+wire [MUX_IN_WIDTH-1        :   0]  bin_temp ;
+
+one_hot_mux_2  one_hot_to_bcd_mux //.IN_WIDTH   (MUX_IN_WIDTH),  .SEL_WIDTH  (ONE_HOT_WIDTH)
+        (
+            .mux_in     (bin_temp),
+            .mux_out        (bin_code),
+            .sel            (one_hot_code)
+    
+        );
+
+genvar i;
+generate 
+    if(ONE_HOT_WIDTH>1)begin :if1
+        for(i=0; i<ONE_HOT_WIDTH; i=i+1) begin :mux_in_gen_loop
+            assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
+        end
+
+
+        
+     end else begin :els
+        assign  bin_code = one_hot_code;
+     
+     end
+
+endgenerate
 
 endmodule

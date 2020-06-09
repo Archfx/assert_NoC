@@ -304,20 +304,14 @@ end
                 if (rd[i] && !reset && !(depth[i] == B)) begin
                     rd_ptr_check[i] <= rd_ptr[i];
                 end
-            //     //b3.1 trying to write to full buffer
-            //     if (wr[i] && !rd[i] && (depth[i] == B) ) begin
-            //         wr_ptr_check[i] <= wr_ptr[i];
-            //         #1
-            //         if ( wr_ptr[i]== wr_ptr_check[i] ) $display(" b3.1 succeeded");
-            //         else $display(" $error :b3.1 failed in %m at %t", $time);
-            //     end
-            //     //b3.2 trying to read from empty buffer
-            //     if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) begin
-            //         rd_ptr_check[i] <= rd_ptr[i];
-            //         #1
-            //         if ( rd_ptr[i]== rd_ptr_check[i] ) $display(" b3.2 succeeded");
-            //         else $display(" $error :b3.2 failed in %m at %t", $time);
-            //     end
+                //b3.1 trying to write to full buffer
+                if (wr[i] && !rd[i] && (depth[i] == B) ) begin
+                    wr_ptr_check[i] <= wr_ptr[i];
+                end
+                //b3.2 trying to read from empty buffer
+                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) begin
+                    rd_ptr_check[i] <= rd_ptr[i];
+                end
             //     //b4 buffer cannot be empty and full at the same time
             //     if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display (" b4 succeeded");
             //     else $display(" $error :b4 failed in %m at %t", $time);
@@ -339,11 +333,15 @@ end
          `endif 
     end//for
 
-    ddassert property ((wr[0] && !reset && depth[0] != B) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
+    //b1
+    assert property ((wr[0] && !reset && depth[0] != B) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
     assert property ((wr[1] && !reset && depth[1] != B) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
-
     assert property ((rd[0] && !reset && depth[0] != B) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
     assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
+    // //b3
+    // assert property ((wr[i] && !rd[i] && (depth[i] == B)) |=> (rd_ptr[0]== rd_ptr_check[0]));
+    // assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== rd_ptr_check[1]));
+
 
     `ifdef DUMP_ENABLE
         // Dumping buffer input values to files

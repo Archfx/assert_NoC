@@ -57,12 +57,13 @@ module arbiter
     // Asserting the Property a4 : Time between two issued grants is always the same for all requests
 
 
-    integer i,x,y,z,counter,t_const,t_count;
-    integer rx_t[0:3]; // a4 First time time counter variable
-    integer tx_flag[0:3]; // a4 First time time counter variable
-    integer rx_t_2[0:3]; // a4 real time always counter variable
-    integer tx_flag_2[0:3]; // a4 real time always counter variable
-
+    integer i,x,y,z,counter;
+    reg [15     :   0] rx_t[0:3]={0,0,0,0}; // a4 First time time counter variable
+    reg [15     :   0] tx_flag[0:3]={0,0,0,0}; // a4 First time time counter variable
+    reg [15     :   0] rx_t_2[0:3]; // a4 real time always counter variable
+    reg [15     :   0] tx_flag_2[0:3]={0,0,0,0}; // a4 real time always counter variable
+    reg t_const =0;
+    reg t_count = 0;
     // initial begin
     //     t_const=0;
     //     t_count=0;
@@ -103,43 +104,43 @@ module arbiter
             end
         end
 
-        //a4
+        // a4
         // if($onehot(grant)) begin
         //     // $display("%d $size(grant)",$size(grant));
         //     for(y=0;y<ARBITER_WIDTH;y=y+1) begin :loop2
         //         if (grant[y]==1'b1) begin
-        //             if (rx_t[y]==0 && tx_flag[y]==0) begin
-        //                 tx_flag[y]=1;
-        //                 while(tx_flag[y]==1 && request[y]==1'b1) begin 
-        //                     @(posedge clk); // when clock signal gets high
+        //             if (rx_t[y]==1'b0 && tx_flag[y]==1'b0) begin
+        //                 tx_flag[y]=1'b1;
+        //                 while(tx_flag[y]==1'b1 && request[y]==1'b1) begin 
+        //                     // @(posedge clk); // when clock signal gets high
         //                     rx_t[y]++; // increase counter by 1
         //                     // $display("counter is %d for %d", rx_t[y],y);
         //                 end
         //             end
-        //             else tx_flag[y]=0;
+        //             else tx_flag[y]=1'b0;
         //         end
         //     end
 
         //     for(z=0;z<ARBITER_WIDTH;z=z+1) begin :loop3
-        //         if (grant[z]==1'b1 && tx_flag_2[z]==0) begin
+        //         if (grant[z]==1'b1 && tx_flag_2[z]==1'b0) begin
         //                 tx_flag_2[z]=1;
         //                 rx_t_2[z]=0;
-        //                 while(tx_flag_2[z]==1 && request[z]==1'b1) begin 
+        //                 while(tx_flag_2[z]==1'b1 && request[z]==1'b1) begin 
         //                     @(posedge clk); // when clock signal gets high
         //                     rx_t_2[z]++; // increase counter by 1
         //                     $display("real time counter is %d for %d", rx_t[z],z);
         //                 end
         //         end
-        //         if (grant[z]==1'b1 && tx_flag_2[z]==1) begin    
-        //             tx_flag_2[z]=0;
-        //             if (rx_t[z]==rx_t_2[z] && rx_t[z]!=0) $display(" a4 (real time check) succeeded");
+        //         if (grant[z]==1'b1 && tx_flag_2[z]==1'b1) begin    
+        //             tx_flag_2[z]=1'b0;
+        //             if (rx_t[z]==rx_t_2[z] && rx_t[z]!=1'b0) $display(" a4 (real time check) succeeded");
         //             else $display(" $error :a4 (real time check) failed in %m at %t", $time);
         //         end
         //     end
 
-        //     if (rx_t[0]==rx_t[1]==rx_t[2]==rx_t[3] && tx_flag[0]==tx_flag[1]==tx_flag[2]==tx_flag[3]==0 && rx_t[0]!=0) $display (" a4 (first time check) succeeded");
+        //     if (rx_t[0]==rx_t[1]==rx_t[2]==rx_t[3] && tx_flag[0]==tx_flag[1]==tx_flag[2]==tx_flag[3]==1'b0 && rx_t[0]!=1'b0) $display (" a4 (first time check) succeeded");
         //     else $display(" $error :a4 (first time check) failed in %m at %t", $time);
-            
+        //     
         // end
     end
 
@@ -184,7 +185,8 @@ module arbiter
     //         
     //     end
     // endgenerate
-    // a4_2: assert property (rx_t[0]==rx_t[1]==rx_t[2]==rx_t[3] && tx_flag[0]==tx_flag[1]==tx_flag[2]==tx_flag[3]==0 && rx_t[0]!=0); // time of north, east, west, south check
+     // a4_1: assert property (grant[0]==1'b1 && tx_flag_2[0]==1'b1 && rx_t[0]==rx_t_2[0] && rx_t[0]!=1'b0);
+    // a4_2: assert property (rx_t[0]==rx_t[1]==rx_t[2]==rx_t[3] && tx_flag[0]==tx_flag[1]==tx_flag[2]==tx_flag[3]==1'b0 && rx_t[0]!=1'b0); // time of north, east, west, south check
 
 
 endmodule

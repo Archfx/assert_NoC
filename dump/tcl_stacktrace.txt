@@ -1,0 +1,18 @@
+Mon Jun 08 23:36:08 +0530 2020
+Trace back: Macro Break
+    while executing
+"tk::MessageBox {*}$args"
+    (procedure "tk_messageBox" line 2)
+    invoked from within
+"tk_messageBox -parent [Misc::getWinParent] -icon question  -title $title  -message "Are you sure you want to quit?"  -type yesno -default yes"
+    (procedure "Transcript::QuitDialog" line 5)
+    invoked from within
+"Transcript::QuitDialog"
+    (procedure "quit" line 75)
+    invoked from within
+"quit"
+    invoked from within
+"if {[Console::okToClose .]} {quit}"
+    (command for "WM_DELETE_WINDOW" window manager protocol)
+  <2:/home/archfx/Documents/NoCem-MPSoC/ModelSim_ase/modelsim_ase/linuxaloem/tk8.5/bgerror.tcl:92: ::tkerror {Macro Break}
+  <1:eval:1: ::tk::dialog::error::bgerror {Macro Break}

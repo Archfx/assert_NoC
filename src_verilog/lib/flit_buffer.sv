@@ -171,8 +171,6 @@ end
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
 
-
-    
     one_hot_mux #(
         .IN_WIDTH       (BwV),
         .SEL_WIDTH      (V) 
@@ -297,23 +295,15 @@ end
             // Asserting the property b4 : Buffer can not be both full and empty at the same time
                             
             // Branch statements
-            // always@(posedge clk) begin
-            //     //b1.1
-            //     if (wr[i] && (!rd[i] && !(depth[i] == B) || rd[i])) begin
-            //         //$display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
-            //         wr_ptr_check[i] <= wr_ptr[i];
-            //         #1
-            //         // $display ("new %d old %b ",wr_ptr[i],wr_ptr_check[i] );
-            //         if ( wr_ptr[i]== wr_ptr_check[i] +1'b1 ) $display(" b1.1 succeeded");
-            //         else $display(" $error :b1.1 failed in %m at %t", $time);
-            //     end
-            //     //b1.2
-            //     if (rd[i] && (!wr[i] && !(depth[i] == B) || wr[i])) begin
-            //         rd_ptr_check[i] <= rd_ptr[i];
-            //         #1
-            //         if ( rd_ptr[i]== rd_ptr_check[i]+ 1'b1 ) $display(" b1.2 succeeded");
-            //         else $display(" $error :b1.2 failed in %m at %t", $time);
-            //     end
+            always@(posedge clk) begin
+                //b1.1
+                if (wr[i] && !reset && depth[i] != B ) begin
+                    wr_ptr_check[i] <= wr_ptr[i];
+                end  
+                //b1.2
+                if (rd[i] && !reset && !(depth[i] == B)) begin
+                    rd_ptr_check[i] <= rd_ptr[i];
+                end
             //     //b3.1 trying to write to full buffer
             //     if (wr[i] && !rd[i] && (depth[i] == B) ) begin
             //         wr_ptr_check[i] <= wr_ptr[i];
@@ -333,7 +323,7 @@ end
             //     else $display(" $error :b4 failed in %m at %t", $time);
                 
 
-            // end
+            end
             
             // Assert statements
             //b1.1
@@ -348,6 +338,12 @@ end
             b4: assert property ( @(posedge clk) (!(depth[i] == {DEPTHw{1'b0}} && depth[i] == B))); 
          `endif 
     end//for
+
+    ddassert property ((wr[0] && !reset && depth[0] != B) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
+    assert property ((wr[1] && !reset && depth[1] != B) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
+
+    assert property ((rd[0] && !reset && depth[0] != B) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
+    assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
 
     `ifdef DUMP_ENABLE
         // Dumping buffer input values to files
@@ -430,7 +426,7 @@ end
                         // branch statement
                         //b5
                         if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && !rd_flag ) begin // Compare with check buffer
-                            $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
+                            // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                             
                             b5_check_ptr[z]<=1'b0; // reset check buffer pointer
                             b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting the packets for b6
@@ -441,29 +437,29 @@ end
 
                             // branch statement
                             //R6
-                            if (packet_age[z] > Tmin) $display(" R6 succeeded");
-                            else $display(" $error :R6 failed in %m at %t", $time);
+                            // if (packet_age[z] > Tmin) $display(" R6 succeeded");
+                            // else $display(" $error :R6 failed in %m at %t", $time);
                             
                             // assertion statements
                             //R6
-                            R6: assert (packet_age[z] > Tmin);
+                            // R6: assert (packet_age[z] > Tmin);
                         end
                        
                         // b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer));
 
-                        if (dout[35]==1'b1 && (
-                           (b5_check_ptr[0]==1'b1 && (b5_check_buffer[0])==dout[8:0])
-                        || (b5_check_ptr[1]==1'b1 && (b5_check_buffer[1])==dout[8:0])
-                        || (b5_check_ptr[2]==1'b1 && (b5_check_buffer[2])==dout[8:0])
-                        || (b5_check_ptr[3]==1'b1 && (b5_check_buffer[3])==dout[8:0])
-                        || (b5_check_ptr[4]==1'b1 && (b5_check_buffer[4])==dout[8:0])
-                        || (b5_check_ptr[5]==1'b1 && (b5_check_buffer[5])==dout[8:0])
-                        || (b5_check_ptr[6]==1'b1 && (b5_check_buffer[6])==dout[8:0])
-                        || (b5_check_ptr[7]==1'b1 && (b5_check_buffer[7])==dout[8:0])
-                        || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8])==dout[8:0])
-                        || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9])==dout[8:0])
-                        )) $display(" b5 succeeded");
-                        else $display(" $error :b5 failed in %m at %t", $time);
+                        // if (dout[35]==1'b1 && (
+                        //    (b5_check_ptr[0]==1'b1 && (b5_check_buffer[0])==dout[8:0])
+                        // || (b5_check_ptr[1]==1'b1 && (b5_check_buffer[1])==dout[8:0])
+                        // || (b5_check_ptr[2]==1'b1 && (b5_check_buffer[2])==dout[8:0])
+                        // || (b5_check_ptr[3]==1'b1 && (b5_check_buffer[3])==dout[8:0])
+                        // || (b5_check_ptr[4]==1'b1 && (b5_check_buffer[4])==dout[8:0])
+                        // || (b5_check_ptr[5]==1'b1 && (b5_check_buffer[5])==dout[8:0])
+                        // || (b5_check_ptr[6]==1'b1 && (b5_check_buffer[6])==dout[8:0])
+                        // || (b5_check_ptr[7]==1'b1 && (b5_check_buffer[7])==dout[8:0])
+                        // || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8])==dout[8:0])
+                        // || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9])==dout[8:0])
+                        // )) $display(" b5 succeeded");
+                        // else $display(" $error :b5 failed in %m at %t", $time);
 
                         // if (z==$size(b5_check_buffer)) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
                     end
@@ -475,12 +471,12 @@ end
                 if (dout[34]==1'b1) begin // tail packet found
                     packet_count_flag_out<=1'b0;
                     // branch statement
-                    //b6
-                    if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
-                    else $display(" $error :b6 failed in %m at %t", $time);
+                    // //b6
+                    // if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
+                    // else $display(" $error :b6 failed in %m at %t", $time);
                     // assertion statements
                     //b6
-                    b6: assert (b6_buffer_counter[z]==1'b0);
+                    // b6: assert (b6_buffer_counter[z]==1'b0);
                 end
             end
             // b2 implementation
@@ -495,7 +491,7 @@ end
                     
                     // assertion statements
                     //R7
-                    R7: assert (age_ptr[p] && (packet_age[p] < Tmax));
+                    // R7: assert (age_ptr[p] && (packet_age[p] < Tmax));
                 end
             end
 

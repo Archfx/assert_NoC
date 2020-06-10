@@ -142,9 +142,7 @@ end
         ******************/
     reg [Bw- 1      :   0] rd_ptr [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr [V-1          :0];
-    
-    
-    
+
     
     wire [BwV-1    :    0]  rd_ptr_array;
     wire [BwV-1    :    0]  wr_ptr_array;
@@ -250,8 +248,8 @@ end
                 depth   [i] <= {DEPTHw{1'b0}};
             end
             else begin
-                if (wr[i] ) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
-                if (rd[i] ) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
+                if (wr[i] && depth[i] != B) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
+                if (rd[i] && (depth[i] != {DEPTHw{1'b0}})) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
                 if (wr[i] & ~rd[i]) depth [i]<=
                 //synthesis translate_off
                 //synopsys  translate_off
@@ -297,26 +295,21 @@ end
             // Branch statements
             always@(posedge clk) begin
                 //b1.1
-                if (wr[i] && !reset && depth[i] != B ) begin
+                if (wr[i] && depth[i] != B && !reset) begin
                     wr_ptr_check[i] <= wr_ptr[i];
                 end  
                 //b1.2
-                if (rd[i] && !reset && !(depth[i] == B)) begin
+                if (rd[i] && (depth[i] != {DEPTHw{1'b0}}) && !reset) begin
                     rd_ptr_check[i] <= rd_ptr[i];
                 end
                 //b3.1 trying to write to full buffer
-                if (wr[i] && !rd[i] && (depth[i] == B) ) begin
+                if (wr[i] & ~rd[i] && (depth[i] == B) && !reset) begin
                     wr_ptr_check[i] <= wr_ptr[i];
                 end
                 //b3.2 trying to read from empty buffer
-                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}})) begin
+                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}}) && !reset) begin
                     rd_ptr_check[i] <= rd_ptr[i];
                 end
-            //     //b4 buffer cannot be empty and full at the same time
-            //     if (!((depth[i] == {DEPTHw{1'b0}}) && (depth[i] == B))) $display (" b4 succeeded");
-            //     else $display(" $error :b4 failed in %m at %t", $time);
-                
-
             end
             
             // Assert statements
@@ -333,15 +326,19 @@ end
          `endif 
     end//for
 
+       //b4
+    assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
+    assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
     //b1
-    assert property ((wr[0] && !reset && depth[0] != B) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
-    assert property ((wr[1] && !reset && depth[1] != B) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
-    assert property ((rd[0] && !reset && depth[0] != B) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
-    assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
-    // //b3
-    // assert property ((wr[i] && !rd[i] && (depth[i] == B)) |=> (rd_ptr[0]== rd_ptr_check[0]));
-    // assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== rd_ptr_check[1]));
-
+    assert property ((wr[0] && !reset && (!rd[0] && depth[0] != B)) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
+    assert property ((wr[1] && !reset && (!rd[1] && depth[1] != B)) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
+    assert property ((rd[0] && !reset && (!wr[0] && depth[0] != {DEPTHw{1'b0}})) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
+    assert property ((rd[1] && !reset && (!wr[1] && depth[1] != {DEPTHw{1'b0}})) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
+    //b3
+    assert property ((wr[0] & ~rd[0] && !reset  && (depth[0] == B)) |=> (wr_ptr[0]== wr_ptr_check[0]));
+    assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
+    assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
+    assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
 
     `ifdef DUMP_ENABLE
         // Dumping buffer input values to files

@@ -60,8 +60,7 @@ module flit_buffer
     wire  [V-1                  :   0] wr;
     wire  [V-1                  :   0] rd;
     reg   [DEPTHw-1             :   0] depth    [V-1            :0];
-    // EBMC
-    // reg   [V-1             :   0] depth    [DEPTHw-1            :0];
+
     
     
     assign fifo_ram_din = {din[Fw-1 :   Fw-2],din[Fpay-1        :   0]};
@@ -76,13 +75,19 @@ module flit_buffer
     reg packet_count_flag_in=1'b0;
     reg packet_count_flag_out=1'b0;
     integer x,y,z,p,q;
-//EBMC
-    reg [15     :   0] packet_age [CL-1          :0]; // Counting packet age
-    reg [15     :   0] packet_age_check [CL-1         :0]; // Counting packet age
-    reg [CL-1     :   0] age_ptr  =4'b0;
-    reg [8   :   0] b5_check_buffer  [CL-1          :0]; // Buffer table
-    reg [CL-1     :   0] b5_check_ptr  =4'b0;
-    reg [4     :   0] b6_buffer_counter [CL-1         :0]; // Packet counter
+
+    reg [15     :   0]       packet_age           [CL-1          :0]; // Counting packet age
+    reg [15     :   0]       packet_age_check     [CL-1         :0]; // Counting packet age
+    reg [CL-1     :   0]     age_ptr              =4'b0000;
+    reg [8   :   0]          b5_check_buffer      [(CL*2)-1          :0]; // Buffer table
+    reg                      b5_check_ptr         [(CL*2)-1     :   0] ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
+    reg [4     :   0]        b6_buffer_counter    [CL-1         :0]; // Packet counter
+
+    wire [8:0] dou;
+    wire dou35 ;
+    assign dou = dout[8:0];
+    assign dou35 = dout[35];
+
 
 genvar i;
 
@@ -101,18 +106,10 @@ genvar i;
 // end
 
 
-// generate 
-    // if((2**Bw)==B)begin :pow2
-        /*****************      
-          Buffer width is power of 2
-        ******************/
+
     reg [Bw- 1      :   0] rd_ptr [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr [V-1          :0];
-    
 
-    
-    
-    
     
     wire [BwV-1    :    0]  rd_ptr_array;
     wire [BwV-1    :    0]  wr_ptr_array;
@@ -138,8 +135,7 @@ genvar i;
     
     reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
-    reg [Bw- 1      :   0] rd_ptr_check_b3 [V-1          :0];
-    reg [Bw- 1      :   0] wr_ptr_check_b3 [V-1          :0];
+
     
     one_hot_mux  wr_ptr_mux
     (
@@ -217,13 +213,8 @@ generate
                 depth   [i] <= {DEPTHw{1'b0}};
             end
             else begin
-                if (wr[i] ) begin
-                     wr_ptr[i] <= wr_ptr [i]+ 1'h1;
-                    //  wr_ptr_check[i] = wr_ptr[i];
-                    // //  assert_true_b1_1[i] = 2'b00;
-                    //  tick_skip[i] = 1'b1;
-                end
-                if (rd[i] ) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
+                if (wr[i] && depth[i] != B) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
+                if (rd[i] && (depth[i] != {DEPTHw{1'b0}})) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
                 if (wr[i] & ~rd[i]) depth [i]<=
                 //synthesis translate_off
                 //synopsys  translate_off
@@ -266,20 +257,20 @@ generate
         // Branch statements
         always@(posedge clk) begin
             //b1.1
-            if (wr[i] && !reset && depth[i] != B ) begin
+            if (wr[i] && depth[i] != B && !reset) begin
                 wr_ptr_check[i] <= wr_ptr[i];
             end  
             //b1.2
-            if (rd[i] && !reset && depth[i] != B) begin
+            if (rd[i] && (depth[i] != {DEPTHw{1'b0}}) && !reset) begin
                 rd_ptr_check[i] <= rd_ptr[i];
             end
             //b3.1 trying to write to full buffer
-            if (wr[i] && !rd[i] && (depth[i] == B) && !reset ) begin
-                wr_ptr_check_b3[i] <= wr_ptr[i];
+            if (wr[i] & ~rd[i] && (depth[i] == B) && !reset) begin
+                wr_ptr_check[i] <= wr_ptr[i];
             end
             //b3.2 trying to read from empty buffer
-            if (rd[i] && !wr[i] && depth[i] == {DEPTHw{1'b0}} && !reset) begin
-                rd_ptr_check_b3[i] <= rd_ptr[i];
+            if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}}) && !reset) begin
+                rd_ptr_check[i] <= rd_ptr[i];
             end
  
         end            
@@ -290,14 +281,16 @@ endgenerate
     assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
     assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
     //b1
-    assert property ((wr[0] && !reset && depth[0] != B) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
-    assert property ((wr[1] && !reset && depth[1] != B) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
-    assert property ((rd[0] && !reset && depth[0] != B) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
-    assert property ((rd[1] && !reset && depth[1] != B) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
+    assert property ((wr[0] && !reset && (!rd[0] && depth[0] != B)) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
+    assert property ((wr[1] && !reset && (!rd[1] && depth[1] != B)) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
+    assert property ((rd[0] && !reset && (!wr[0] && depth[0] != {DEPTHw{1'b0}})) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
+    assert property ((rd[1] && !reset && (!wr[1] && depth[1] != {DEPTHw{1'b0}})) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
     //b3
-    // assert property ((wr[0] && !reset  && (depth[0] == B) && !rd[0]) |=> (wr_ptr[0]== wr_ptr_check_b3[0]));
-    // assert property ((wr[1] && !reset  && (depth[1] == B) && !rd[1] ) |=> (wr_ptr[1]== wr_ptr_check_b3[1]));
-    // assert property ((rd[0] && !wr[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check_b3[0]));
+    assert property ((wr[0] & ~rd[0] && !reset  && (depth[0] == B)) |=> (wr_ptr[0]== wr_ptr_check[0]));
+    assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
+    assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
+    assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
+
     // assert property ((rd[1] && !wr[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check_b3[1]));
 
     
@@ -312,17 +305,17 @@ endgenerate
 
             // b5 : adding the header to monitoring list
             if (din[35]==1'b1) begin // Header found
-                wr_flag = 1'b0;
+                wr_flag = 1'b1;
                 //  $display ("Buffer in %b",din);
                 for(y=0;y<CL;y=y+1) begin :asserion_check_loop1
-                    if (!b5_check_ptr[y] && !wr_flag) begin
+                    if (!b5_check_ptr[y] && wr_flag) begin
                         b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
                         b5_check_ptr[y]<=1'b1; // check buffer pointer
                         // b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
                         // packet_count_flag_in<=1'b1; // Enabled to count payload packets and tails packets
                         // age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
                         // packet_age[y]=1'b0; // Resetting the packet age
-                        wr_flag <= 1'b1;
+                        wr_flag <= 1'b0;
                     end
                 end    
             end
@@ -340,20 +333,20 @@ endgenerate
         if (rd_en) begin      
             // b5 : removing the header from the monitoring list
             if (dout[35]==1'b1) begin // Header found
-                rd_flag <= 1'b0; 
+                rd_flag <= 1'b1; 
                 // $display (" buffer out %b",dout[31:0]);
                 for(z=0;z<CL;z=z+1) begin :asserion_check_loop2
                     // $display ("buffer_values %b",b5_check_buffer[z]);
                     // branch statement
                     // b5
-                    if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && !rd_flag ) begin // Compare with check buffer
+                    if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && rd_flag ) begin // Compare with check buffer
                         // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
-                        // b5_check_buffer[z]<=9'b0;
+                        b5_check_buffer[z]<=9'b0;
                         b5_check_ptr[z]<=1'b0; // reset check buffer pointer
                         // b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting the packets for b6
                         // packet_count_flag_out<=1'b1; // Enabled to count payload and tail packets
                         // age_ptr[z]=1'b0; // resetting age pointer
-                        rd_flag <= 1'b1; 
+                        rd_flag <= 1'b0; 
                         //packet_age[z]=1'b0; // resetting age
 
                         // branch statement
@@ -368,21 +361,6 @@ endgenerate
                     // b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer));
                     // if (z==$size(b5_check_buffer)) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
                 end
-                
-                // if (dout[35]==1'b1 && (
-                //        (b5_check_ptr[0]==1'b1 && (b5_check_buffer[0])==dout[8:0])
-                //     || (b5_check_ptr[1]==1'b1 && (b5_check_buffer[1])==dout[8:0])
-                //     || (b5_check_ptr[2]==1'b1 && (b5_check_buffer[2])==dout[8:0])
-                //     || (b5_check_ptr[3]==1'b1 && (b5_check_buffer[3])==dout[8:0])
-                //     // || (b5_check_ptr[4]==1'b1 && (b5_check_buffer[4])==dout[8:0])
-                //     // || (b5_check_ptr[5]==1'b1 && (b5_check_buffer[5])==dout[8:0])
-                //     // || (b5_check_ptr[6]==1'b1 && (b5_check_buffer[6])==dout[8:0])
-                //     // || (b5_check_ptr[7]==1'b1 && (b5_check_buffer[7])==dout[8:0])
-                //     // || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8])==dout[8:0])
-                //     // || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9])==dout[8:0])
-                //     )) $display(" b5 succeeded");
-                //     else $display(" $error :b5 failed in %m at %t", $time);
-                
             end
             else rd_flag <= 1'b0;
             // if (packet_count_flag_out) begin
@@ -431,56 +409,41 @@ endgenerate
         // end
 
     end //Always
-    //     // assertion statements
-    //     //b5
-        assert property ( (rd_en && dout[35]==1'b1) |-> ( 
-                       (b5_check_ptr[0]==1'b1 && (b5_check_buffer[0]==dout[8:0]))
-                    || (b5_check_ptr[1]==1'b1 && (b5_check_buffer[1]==dout[8:0]))
-                    || (b5_check_ptr[2]==1'b1 && (b5_check_buffer[2]==dout[8:0]))
-                    || (b5_check_ptr[3]==1'b1 && (b5_check_buffer[3]==dout[8:0]))
-        //             || (b5_check_ptr[4]==1'b1 && (b5_check_buffer[4]==dout[8:0]))
-        //             || (b5_check_ptr[5]==1'b1 && (b5_check_buffer[5]==dout[8:0]))
-        //             || (b5_check_ptr[6]==1'b1 && (b5_check_buffer[6]==dout[8:0]))
-        //             || (b5_check_ptr[7]==1'b1 && (b5_check_buffer[7]==dout[8:0]))
-        //             || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8]==dout[8:0]))
-        //             || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9]==dout[8:0]))
-        //             || (b5_check_ptr[10]==1'b1 && (b5_check_buffer[10]==dout[8:0]))
-        //             || (b5_check_ptr[11]==1'b1 && (b5_check_buffer[11]==dout[8:0]))
-        //             || (b5_check_ptr[12]==1'b1 && (b5_check_buffer[12]==dout[8:0]))
-        //             || (b5_check_ptr[13]==1'b1 && (b5_check_buffer[13]==dout[8:0]))
-        //             || (b5_check_ptr[14]==1'b1 && (b5_check_buffer[14]==dout[8:0]))
-        //             || (b5_check_ptr[15]==1'b1 && (b5_check_buffer[15]==dout[8:0]))
-                    ));
+    // assertion statements
     //b5
-    assert property ((din[35]==1'b1)|-> s_eventually (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
-    assert property ((dout[35]==1'b1) |-> (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
+    // assert property ( (dout[35]==1'b1) |-> ( 
+    //                 (b5_check_ptr[0] && (b5_check_buffer[0]==dout[8:0]))
+    //                 || (b5_check_ptr[1] && (b5_check_buffer[1]==dout[8:0]))
+    //                 || (b5_check_ptr[2] && (b5_check_buffer[2]==dout[8:0]))
+    //                 || (b5_check_ptr[3] && (b5_check_buffer[3]==dout[8:0]))
+    //                 || (b5_check_ptr[4]&& (b5_check_buffer[4]==dout[8:0]))
+    //                 || (b5_check_ptr[5] && (b5_check_buffer[5]==dout[8:0]))
+    //                 || (b5_check_ptr[6] && (b5_check_buffer[6]==dout[8:0]))
+    //                 || (b5_check_ptr[7] && (b5_check_buffer[7]==dout[8:0]))
+    assert property ( (dout[35] && rd_en) && ( 
+                        (b5_check_buffer[0]==dout[8:0])
+                    ||  (b5_check_buffer[1]==dout[8:0])
+                    ||  (b5_check_buffer[2]==dout[8:0])
+                    ||  (b5_check_buffer[3]==dout[8:0])
+                    ||  (b5_check_buffer[4]==dout[8:0])
+                    ||  (b5_check_buffer[5]==dout[8:0])
+                    ||  (b5_check_buffer[6]==dout[8:0])
+                    ||  (b5_check_buffer[7]==dout[8:0])
+                // || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8]==dout[8:0]))
+    //             || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9]==dout[8:0]))
+    //             || (b5_check_ptr[10]==1'b1 &&) (b5_check_buffer[10]==dout[8:0]))
+    //             || (b5_check_ptr[11]==1'b1 && (b5_check_buffer[11]==dout[8:0]))
+    //             || (b5_check_ptr[12]==1'b1 && (b5_check_buffer[12]==dout[8:0]))
+    //             || (b5_check_ptr[13]==1'b1 && (b5_check_buffer[13]==dout[8:0]))
+    //             || (b5_check_ptr[14]==1'b1 && (b5_check_buffer[14]==dout[8:0]))
+    //             || (b5_check_ptr[15]==1'b1 && (b5_check_buffer[15]==dout[8:0]))
+                ));
+    //b5
+    // assert property ((din[35]==1'b1)|-> s_eventually (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
+    // assert property ((dout[35]==1'b1) |-> (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
 
-        
-        // property b5_check;
-        //     int local_var ;
-        //     @(posedge clk) (wr_en, local_var = din[8:0]) |->  s_eventually local_var==dout[8:0] ; 
-        // endproperty
- 
-        // assert property (b5_check);
-        // b5_psl: assert property (@(posedge clk) wr_en |-> s_eventually din[8:0]==dout[8:0]);
-
-  
-
-    
-    // end 
-
-
-
-    
-    // end 
- 
    
-        // property b5_check;
-        //     int local_var;
-        //     @(posedge clk) (wr_en, local_var = din[8:0]) |->  s_eventually local_var==dout[8:0] ; 
-        // endproperty
- 
-      //       // assert property (b5_check);
+
 endmodule 
 
 module one_hot_mux 

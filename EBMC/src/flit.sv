@@ -290,8 +290,13 @@ endgenerate
     assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
     assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
     assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
+    //b2
+    assert property (age_ptr[0] |=> (packet_age[0]== (packet_age_check[0] +1'h1 )));
+    assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
+    assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
+    assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
 
-    // assert property ((rd[1] && !wr[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check_b3[1]));
+
 
     
  
@@ -311,23 +316,21 @@ endgenerate
                     if (!b5_check_ptr[y] && wr_flag) begin
                         b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
                         b5_check_ptr[y]<=1'b1; // check buffer pointer
-                        // b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
-                        // packet_count_flag_in<=1'b1; // Enabled to count payload packets and tails packets
-                        // age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
-                        // packet_age[y]=1'b0; // Resetting the packet age
+                        b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
+                        packet_count_flag_in<=1'b1; // Enabled to count payload packets and tails packets
+                        age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
+                        packet_age[y]=1'b0; // Resetting the packet age
                         wr_flag <= 1'b0;
                     end
                 end    
             end
             else wr_flag <= 1'b0;
-
-            // if (packet_count_flag_in) begin
-            //     b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Counting the payload and tail packets
-            // end
-
-            // if (din[34]==1'b1) begin
-            //     packet_count_flag_in<=1'b0; // If tail found, stop Counting packets
-            // end
+            if (packet_count_flag_in) begin
+                b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Counting the payload and tail packets
+            end
+            if (din[34]==1'b1) begin
+                packet_count_flag_in<=1'b0; // If tail found, stop Counting packets
+            end
         end
 
         if (rd_en) begin      
@@ -343,16 +346,16 @@ endgenerate
                         // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                         b5_check_buffer[z]<=9'b0;
                         b5_check_ptr[z]<=1'b0; // reset check buffer pointer
-                        // b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting the packets for b6
-                        // packet_count_flag_out<=1'b1; // Enabled to count payload and tail packets
-                        // age_ptr[z]=1'b0; // resetting age pointer
+                        b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting the packets for b6
+                        packet_count_flag_out<=1'b1; // Enabled to count payload and tail packets
+                        age_ptr[z]=1'b0; // resetting age pointer
                         rd_flag <= 1'b0; 
-                        //packet_age[z]=1'b0; // resetting age
+                        packet_age[z]=1'b0; // resetting age
 
                         // branch statement
                         //R6
-                        // if (packet_age[z] > Tmin) $display(" R6 succeeded");
-                        // else $display(" $error :R6 failed in %m at %t", $time);
+                        if (packet_age[z] > Tmin) $display(" R6 succeeded");
+                        else $display(" $error :R6 failed in %m at %t", $time);
                         
                         // assertion statements
                         //R6
@@ -363,50 +366,50 @@ endgenerate
                 end
             end
             else rd_flag <= 1'b0;
-            // if (packet_count_flag_out) begin
-            //     b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting payload and tail packets that are leaving buffer
-            // end
-            // if (dout[34]==1'b1 && packet_count_flag_out) begin // tail packet found
-            //     packet_count_flag_out<=1'b0;
-            //     // branch statement
-            //     //b6
-            //     // if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
-            //     // else $display(" $error :b6 failed in %m at %t", $time);
-            //     // // assertion statements
-            //     // //b6
+            if (packet_count_flag_out) begin
+                b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting payload and tail packets that are leaving buffer
+            end
+            if (dout[34]==1'b1 && packet_count_flag_out) begin // tail packet found
+                packet_count_flag_out<=1'b0;
+                // branch statement
+                //b6
+                // if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
+                // else $display(" $error :b6 failed in %m at %t", $time);
+                // // assertion statements
+                // //b6
                 // assert (b6_buffer_counter[z]==1'b0);
-            // end
+            end
         end
         // b2 implementation
-        // for(p=0;p<CL;p=p+1) begin
-        //     if (age_ptr[p]==1'b1) begin
-        //         packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
-        //         
-        //         // branch statement
-        //         //R7
-        //         // if (packet_age[p] < Tmax) $display(" R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
-        //         // else $display(" $error :R7 failed in %m at %t", $time);
-        //         
-        //         // assertion statements
-        //         //R7
-        //         // assert (age_ptr[p] && (packet_age[p] < Tmax));
-        //     end
-        // end
+        for(p=0;p<CL;p=p+1) begin
+            if (age_ptr[p]==1'b1) begin
+                packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
+                
+                // branch statement
+                //R7
+                // if (packet_age[p] < Tmax) $display(" R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
+                // else $display(" $error :R7 failed in %m at %t", $time);
+                
+                // assertion statements
+                //R7
+                // assert (age_ptr[p] && (packet_age[p] < Tmax));
+            end
+        end
 
         //b2 checks
-        // for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
-        //     // branch statement
-        //     //b2
-        //     if (age_ptr[q]==1'b1) begin
-        //         packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
-        //         #1
-        //         if ( packet_age[q] == packet_age_check[q] +1'b1 ) $display(" b2 succeeded");
-        //         // else $display(" $error :b2 failed in %m at %t", $time);
-        //     end
-        //     // assertion statements
-        //     //b2
-        //     // assert property ( @(posedge clk) (age_ptr[q]==1'b1) ##1  ( packet_age[q] == $past(packet_age[q])+1 ));
-        // end
+        for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
+            // branch statement
+            //b2
+            if (age_ptr[q]==1'b1) begin
+                packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
+                // #1
+                // if ( packet_age[q] == packet_age_check[q] +1'b1 ) $display(" b2 succeeded");
+                // else $display(" $error :b2 failed in %m at %t", $time);
+            end
+            // assertion statements
+            //b2
+            // assert property ( @(posedge clk) (age_ptr[q]==1'b1) ##1  ( packet_age[q] == $past(packet_age[q])+1 ));
+        end
 
     end //Always
     // assertion statements

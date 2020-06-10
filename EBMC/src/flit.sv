@@ -72,8 +72,9 @@ module flit_buffer
     
     // Assertion variables
 
-    reg packet_count_flag_in=1'b0;
-    reg packet_count_flag_out=1'b0;
+    reg pkt_count_flag_in;//=1'b0;
+    reg pkt_count_flag_out;//=1'b0;
+    // reg packet_count_flag_out=1'b0;
     integer x,y,z,p,q;
 
     reg [15     :   0]       packet_age           [CL-1          :0]; // Counting packet age
@@ -81,7 +82,7 @@ module flit_buffer
     reg [CL-1     :   0]     age_ptr              =4'b0000;
     reg [8   :   0]          b5_check_buffer      [(CL*2)-1          :0]; // Buffer table
     reg                      b5_check_ptr         [(CL*2)-1     :   0] ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
-    reg [4     :   0]        b6_buffer_counter    [CL-1         :0]; // Packet counter
+    reg [4     :   0]        b6_buffer_counter ;//   [CL-1         :0]; // Packet counter
 
     wire [8:0] dou;
     wire dou35 ;
@@ -272,11 +273,33 @@ generate
             if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}}) && !reset) begin
                 rd_ptr_check[i] <= rd_ptr[i];
             end
- 
         end            
             
     end//for
 endgenerate
+
+    always@(posedge clk) begin 
+        //b6 counter enable
+        if (din[35]) begin
+            pkt_count_flag_in<=1'b1;
+        end
+        if (din[34]) begin
+            pkt_count_flag_in<=1'b0;
+        end
+        if (pkt_count_flag_in) begin
+            if(wr_en) b6_buffer_counter<=b6_buffer_counter+1'b1;
+        end
+        if (dout[35]) begin
+            pkt_count_flag_out<=1'b1;
+        end
+        if (dout[34]) begin
+            pkt_count_flag_out<=1'b0;
+        end
+        if (pkt_count_flag_out) begin
+            if(rd_en) b6_buffer_counter<=b6_buffer_counter-1'b1;
+        end
+    end
+
     //b4
     assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
     assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
@@ -295,6 +318,22 @@ endgenerate
     assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
     assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
     assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
+    //b6
+    assert property (dout[34] |-> b6_buffer_counter==1'b0);
+    //b5
+    assert property ( (dout[35]) && ( 
+                        (b5_check_buffer[0]==dout[8:0])
+                    ||  (b5_check_buffer[1]==dout[8:0])
+                    ||  (b5_check_buffer[2]==dout[8:0])
+                    ||  (b5_check_buffer[3]==dout[8:0])
+                    ||  (b5_check_buffer[4]==dout[8:0])
+                    ||  (b5_check_buffer[5]==dout[8:0])
+                    ||  (b5_check_buffer[6]==dout[8:0])
+                    ||  (b5_check_buffer[7]==dout[8:0])
+                                                        ));
+    //R6
+    assert property ( !b5_check_ptr[0] |-> (age_ptr[0] && packet_age[0] > Tmin));
+
 
 
 
@@ -316,8 +355,7 @@ endgenerate
                     if (!b5_check_ptr[y] && wr_flag) begin
                         b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
                         b5_check_ptr[y]<=1'b1; // check buffer pointer
-                        b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
-                        packet_count_flag_in<=1'b1; // Enabled to count payload packets and tails packets
+                        // b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
                         age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
                         packet_age[y]=1'b0; // Resetting the packet age
                         wr_flag <= 1'b0;
@@ -325,12 +363,6 @@ endgenerate
                 end    
             end
             else wr_flag <= 1'b0;
-            if (packet_count_flag_in) begin
-                b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Counting the payload and tail packets
-            end
-            if (din[34]==1'b1) begin
-                packet_count_flag_in<=1'b0; // If tail found, stop Counting packets
-            end
         end
 
         if (rd_en) begin      
@@ -346,8 +378,6 @@ endgenerate
                         // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
                         b5_check_buffer[z]<=9'b0;
                         b5_check_ptr[z]<=1'b0; // reset check buffer pointer
-                        b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting the packets for b6
-                        packet_count_flag_out<=1'b1; // Enabled to count payload and tail packets
                         age_ptr[z]=1'b0; // resetting age pointer
                         rd_flag <= 1'b0; 
                         packet_age[z]=1'b0; // resetting age
@@ -361,29 +391,33 @@ endgenerate
                         //R6
                          // assert (packet_age[z] > Tmin);
                     end    
-                    // b5: assert (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && z!=$size(b5_check_buffer));
-                    // if (z==$size(b5_check_buffer)) $display(" $error :b5 failed in %m at %t", $time); // Packet not found in the check buffer
+                     // Packet not found in the check buffer
                 end
             end
             else rd_flag <= 1'b0;
-            if (packet_count_flag_out) begin
-                b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting payload and tail packets that are leaving buffer
-            end
-            if (dout[34]==1'b1 && packet_count_flag_out) begin // tail packet found
-                packet_count_flag_out<=1'b0;
-                // branch statement
-                //b6
-                // if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
-                // else $display(" $error :b6 failed in %m at %t", $time);
-                // // assertion statements
-                // //b6
-                // assert (b6_buffer_counter[z]==1'b0);
-            end
+            // if (packet_count_flag_out) begin
+            //     b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting payload and tail packets that are leaving buffer
+            // end
+            // if (dout[34]==1'b1 && packet_count_flag_out) begin // tail packet found
+            //     packet_count_flag_out<=1'b0;
+            //     // branch statement
+            //     //b6
+            //     // if (b6_buffer_counter[z]==1'b0) $display(" b6 succeeded");
+            //     // else $display(" $error :b6 failed in %m at %t", $time);
+            //     // assertion statements
+            //     //b6
+            // end
         end
         // b2 implementation
         for(p=0;p<CL;p=p+1) begin
+            if (!b5_check_ptr[p]) begin
+                b5_check_buffer[p]<=9'b0;
+                // b6_buffer_counter[p]<=1'b0; // reset Count packets for b6
+                age_ptr[p]<=1'b0; // resetting age pointer
+                packet_age[p]<=1'b0; // resetting age    
+            end
             if (age_ptr[p]==1'b1) begin
-                packet_age[p]=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
+                packet_age[p]<=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
                 
                 // branch statement
                 //R7
@@ -423,24 +457,7 @@ endgenerate
     //                 || (b5_check_ptr[5] && (b5_check_buffer[5]==dout[8:0]))
     //                 || (b5_check_ptr[6] && (b5_check_buffer[6]==dout[8:0]))
     //                 || (b5_check_ptr[7] && (b5_check_buffer[7]==dout[8:0]))
-    assert property ( (dout[35] && rd_en) && ( 
-                        (b5_check_buffer[0]==dout[8:0])
-                    ||  (b5_check_buffer[1]==dout[8:0])
-                    ||  (b5_check_buffer[2]==dout[8:0])
-                    ||  (b5_check_buffer[3]==dout[8:0])
-                    ||  (b5_check_buffer[4]==dout[8:0])
-                    ||  (b5_check_buffer[5]==dout[8:0])
-                    ||  (b5_check_buffer[6]==dout[8:0])
-                    ||  (b5_check_buffer[7]==dout[8:0])
-                // || (b5_check_ptr[8]==1'b1 && (b5_check_buffer[8]==dout[8:0]))
-    //             || (b5_check_ptr[9]==1'b1 && (b5_check_buffer[9]==dout[8:0]))
-    //             || (b5_check_ptr[10]==1'b1 &&) (b5_check_buffer[10]==dout[8:0]))
-    //             || (b5_check_ptr[11]==1'b1 && (b5_check_buffer[11]==dout[8:0]))
-    //             || (b5_check_ptr[12]==1'b1 && (b5_check_buffer[12]==dout[8:0]))
-    //             || (b5_check_ptr[13]==1'b1 && (b5_check_buffer[13]==dout[8:0]))
-    //             || (b5_check_ptr[14]==1'b1 && (b5_check_buffer[14]==dout[8:0]))
-    //             || (b5_check_ptr[15]==1'b1 && (b5_check_buffer[15]==dout[8:0]))
-                ));
+   
     //b5
     // assert property ((din[35]==1'b1)|-> s_eventually (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
     // assert property ((dout[35]==1'b1) |-> (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));

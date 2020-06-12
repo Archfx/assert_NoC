@@ -45,7 +45,7 @@ module flit_buffer
     input                   clk;
     input  [V-1        :0]  ssa_rd;
     
-    localparam BVw              =   2,
+    localparam BVw              =   4,
                Bw               =   (B==1)? 1 : 2,//log2(B),
                Vw               =  (V==1)? 1 : 2,//log2(V),
                DEPTHw           =   Bw+1,
@@ -62,8 +62,9 @@ module flit_buffer
     reg   [DEPTHw-1             :   0] depth    [V-1            :0];
 
     
-    
-    assign fifo_ram_din = {din[Fw-1 :   Fw-2],din[Fpay-1        :   0]};
+        assign fifo_ram_din ={din[Fw-1 :   Fw-2],din[Fpay-1        :   15],6'b111111,din[8:0]};
+
+    // assign fifo_ram_din =din[35]? {din[Fw-1 :   Fw-2],din[Fpay-1        :   15],6'b111111,din[8:0]} : {din[Fw-1 :   Fw-2],din[Fpay-1        :   0]};
     assign dout = {fifo_ram_dout[Fpay+1:Fpay],{V{1'bX}},fifo_ram_dout[Fpay-1        :   0]};    
     assign  wr  =   (wr_en)?  vc_num_wr : {V{1'b0}};
     assign  rd  =   (rd_en)?  vc_num_rd : ssa_rd;
@@ -80,14 +81,18 @@ module flit_buffer
     reg [15     :   0]       packet_age           [CL-1          :0]; // Counting packet age
     reg [15     :   0]       packet_age_check     [CL-1         :0]; // Counting packet age
     reg [CL-1     :   0]     age_ptr              =4'b0000;
-    reg [8   :   0]          b5_check_buffer      [(CL*2)-1          :0]; // Buffer table
-    reg                      b5_check_ptr         [(CL*2)-1     :   0] ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
+    reg [8   :   0]          b5_check_buffer      [(CL)-1          :0]; // Buffer table
+    reg                      b5_check_ptr         [(CL)-1     :   0] ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
     reg [4     :   0]        b6_buffer_counter ;//   [CL-1         :0]; // Packet counter
+    reg [1   :   0]          b5_wr_addr = 0;
+    reg [1   :   0]          b5_rd_addr = 0;
 
-    wire [8:0] dou;
+    // reg [RAM_DATA_WIDTH-1:0] b5_check_buffer [2**BVw-1:0];
+
+    wire [5:0] dou;
     wire dou35 ;
-    assign dou = dout[8:0];
-    assign dou35 = dout[35];
+    assign dou = dout[14:9];
+    assign dou35 =dout[35];
 
 
 genvar i;
@@ -196,6 +201,7 @@ genvar i;
         .clk            (clk),
         .rd_data        (fifo_ram_dout)
     );  
+    
 
 
 generate
@@ -319,82 +325,79 @@ endgenerate
     assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
     assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
     //b6
-    assert property (dout[34] |-> b6_buffer_counter==1'b0);
+    // assert property (dout[34] |-> b6_buffer_counter==1'b0);
     //b5
-    assert property ( (dout[35]) && ( 
-                        (b5_check_buffer[0]==dout[8:0])
-                    ||  (b5_check_buffer[1]==dout[8:0])
-                    ||  (b5_check_buffer[2]==dout[8:0])
-                    ||  (b5_check_buffer[3]==dout[8:0])
-                    ||  (b5_check_buffer[4]==dout[8:0])
-                    ||  (b5_check_buffer[5]==dout[8:0])
-                    ||  (b5_check_buffer[6]==dout[8:0])
-                    ||  (b5_check_buffer[7]==dout[8:0])
-                                                        ));
+    // assert property ( (dout[35]) |-> ( 
+    //                     (b5_check_buffer[0]==dout[8:0])
+    //                 ||  (b5_check_buffer[1]==dout[8:0])
+    //                 ||  (b5_check_buffer[2]==dout[8:0])
+    //                 ||  (b5_check_buffer[3]==dout[8:0])
+    //                 // ||  (b5_check_buffer[4]==dout[8:0])
+    //                 // ||  (b5_check_buffer[5]==dout[8:0])
+    //                 // ||  (b5_check_buffer[6]==dout[8:0])
+    //                 // ||  (b5_check_buffer[7]==dout[8:0])
+                                                        // ));
+    // assert property ( (fifo_ram_dout[Fpay+1])  |-> (fifo_ram_dout[14:9]==6'b111111));
     //R6
-    assert property ( !b5_check_ptr[0] |-> (age_ptr[0] && packet_age[0] > Tmin));
+    // assert property ( !b5_check_ptr[0] |-> (age_ptr[0] && packet_age[0] > Tmin));
 
 
-
-
-    
- 
-    reg wr_flag = 1'b0;
-    reg rd_flag = 1'b0 ;
     always @(posedge clk) begin
         if (wr_en) begin      
-
             // Asserting the property b5 : Data that was read from the buffer was at some point in time written into the buffer
             // Asserting the property b6 : The same number of packets that were written in to the buffer can be read from the buffer
 
             // b5 : adding the header to monitoring list
+            // b5_check_buffer[wr_addr]=din;
             if (din[35]==1'b1) begin // Header found
-                wr_flag = 1'b1;
-                //  $display ("Buffer in %b",din);
-                for(y=0;y<CL;y=y+1) begin :asserion_check_loop1
-                    if (!b5_check_ptr[y] && wr_flag) begin
-                        b5_check_buffer[y]<=din[8:0]; // Adding the packet header to check buffer
-                        b5_check_ptr[y]<=1'b1; // check buffer pointer
-                        // b6_buffer_counter[y]<=b6_buffer_counter[y] + 1'b1; // Packet counter for entering packets
-                        age_ptr[y]=1'b1; //  Enabled to count the age of the packet inside the buffer
-                        packet_age[y]=1'b0; // Resetting the packet age
-                        wr_flag <= 1'b0;
-                    end
-                end    
+                b5_check_buffer[b5_wr_addr]<=din[8:0];
+                // din[15:9]<=6'b111111;
+                age_ptr[b5_wr_addr]<=1'b1;
+                packet_age[b5_wr_addr]<=1'b0;
+                b5_wr_addr<=b5_wr_addr+ 1'b1;   
             end
-            else wr_flag <= 1'b0;
         end
 
         if (rd_en) begin      
             // b5 : removing the header from the monitoring list
             if (dout[35]==1'b1) begin // Header found
-                rd_flag <= 1'b1; 
-                // $display (" buffer out %b",dout[31:0]);
-                for(z=0;z<CL;z=z+1) begin :asserion_check_loop2
-                    // $display ("buffer_values %b",b5_check_buffer[z]);
-                    // branch statement
-                    // b5
-                    if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && rd_flag ) begin // Compare with check buffer
-                        // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
-                        b5_check_buffer[z]<=9'b0;
-                        b5_check_ptr[z]<=1'b0; // reset check buffer pointer
-                        age_ptr[z]=1'b0; // resetting age pointer
-                        rd_flag <= 1'b0; 
-                        packet_age[z]=1'b0; // resetting age
-
-                        // branch statement
-                        //R6
-                        if (packet_age[z] > Tmin) $display(" R6 succeeded");
-                        else $display(" $error :R6 failed in %m at %t", $time);
-                        
-                        // assertion statements
-                        //R6
-                         // assert (packet_age[z] > Tmin);
-                    end    
-                     // Packet not found in the check buffer
+                if (b5_check_buffer[b5_rd_addr]==dout[8:0]) begin
+                    $display("b5 done");
+                    if (packet_age[b5_rd_addr] > Tmin) $display(" R6 succeeded");
+                    else $display(" $error :R6 failed in %m at %t", $time);
+                    b5_check_buffer[b5_rd_addr]<=9'b0;
+                    age_ptr[b5_rd_addr]<=1'b0; // resetting age pointer
+                    packet_age[b5_rd_addr]<=1'b0;
+                    b5_rd_addr<=b5_rd_addr+1'b1;
                 end
+                
+
+                // $display (" buffer out %b",dout[31:0]);
+                // for(z=0;z<CL;z=z+1) begin :asserion_check_loop2
+                //     // $display ("buffer_values %b",b5_check_buffer[z]);
+                //     // branch statement
+                //     // b5
+                //     if (b5_check_ptr[z]==1'b1 && (b5_check_buffer[z])==dout[8:0] && rd_flag ) begin // Compare with check buffer
+                //         // $display("(Property b2) packet %b stayed in buffer for %d ticks at %m",b5_check_buffer[z],packet_age[z]);
+                //         b5_check_buffer[z]<=9'b0;
+                //         b5_check_ptr[z]<=1'b0; // reset check buffer pointer
+                //         age_ptr[z]=1'b0; // resetting age pointer
+                //         rd_flag <= 1'b0; 
+                //         packet_age[z]=1'b0; // resetting age
+
+                //         // branch statement
+                //         //R6
+                //         if (packet_age[z] > Tmin) $display(" R6 succeeded");
+                //         else $display(" $error :R6 failed in %m at %t", $time);
+                        
+                //         // assertion statements
+                //         //R6
+                //          // assert (packet_age[z] > Tmin);
+                //     end    
+                //      // Packet not found in the check buffer
+                // end
             end
-            else rd_flag <= 1'b0;
+            // else rd_flag <= 1'b0;
             // if (packet_count_flag_out) begin
             //     b6_buffer_counter[z]<=b6_buffer_counter[z] - 1'b1; // Counting payload and tail packets that are leaving buffer
             // end
@@ -410,12 +413,6 @@ endgenerate
         end
         // b2 implementation
         for(p=0;p<CL;p=p+1) begin
-            if (!b5_check_ptr[p]) begin
-                b5_check_buffer[p]<=9'b0;
-                // b6_buffer_counter[p]<=1'b0; // reset Count packets for b6
-                age_ptr[p]<=1'b0; // resetting age pointer
-                packet_age[p]<=1'b0; // resetting age    
-            end
             if (age_ptr[p]==1'b1) begin
                 packet_age[p]<=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
                 
@@ -432,17 +429,11 @@ endgenerate
 
         //b2 checks
         for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
-            // branch statement
+            // branch statement check
             //b2
             if (age_ptr[q]==1'b1) begin
                 packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
-                // #1
-                // if ( packet_age[q] == packet_age_check[q] +1'b1 ) $display(" b2 succeeded");
-                // else $display(" $error :b2 failed in %m at %t", $time);
             end
-            // assertion statements
-            //b2
-            // assert property ( @(posedge clk) (age_ptr[q]==1'b1) ##1  ( packet_age[q] == $past(packet_age[q])+1 ));
         end
 
     end //Always
@@ -607,7 +598,7 @@ module fifo_ram
         output [DATA_WIDTH-1   :       0]      rd_data
     );  
     parameter DATA_WIDTH    = 34;
-    parameter ADDR_WIDTH    = 2;
+    parameter ADDR_WIDTH    = 4;
     parameter SSA_EN="NO" ;// "YES" , "NO"       
     
 	reg [DATA_WIDTH-1:0] memory_rd_data; 
@@ -625,7 +616,9 @@ module fifo_ram
 //synthesis translate_on   
 					  queue[rd_addr];
 	end
-	
+	// assert property (  (wr_data[14:9]==6'b111111));
+    // assert property ( (memory_rd_data[14:9]==6'b111111));
+
     generate 
     /* verilator lint_off WIDTH */
         assign rd_data =  memory_rd_data;

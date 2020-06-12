@@ -324,6 +324,7 @@ endgenerate
     assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
     assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
     assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
+   
     //b6
     // assert property (dout[34] |-> b6_buffer_counter==1'b0);
     //b5
@@ -338,8 +339,22 @@ endgenerate
     //                 // ||  (b5_check_buffer[7]==dout[8:0])
                                                         // ));
     // assert property ( (fifo_ram_dout[Fpay+1])  |-> (fifo_ram_dout[14:9]==6'b111111));
+
     //R6
-    // assert property ( !b5_check_ptr[0] |-> (age_ptr[0] && packet_age[0] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+
+
+    //R7
+    assert property (age_ptr[0] |=> (packet_age[0] < Tmax));
+    assert property (age_ptr[1] |=> (packet_age[1] < Tmax));
+    assert property (age_ptr[2] |=> (packet_age[2] < Tmax));
+    assert property (age_ptr[3] |=> (packet_age[3] < Tmax));
+
+
+
 
 
     always @(posedge clk) begin
@@ -415,15 +430,16 @@ endgenerate
         for(p=0;p<CL;p=p+1) begin
             if (age_ptr[p]==1'b1) begin
                 packet_age[p]<=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
+                if (!packet_age[p] < Tmax) begin
+                    packet_age[p]<=16'b0;
+                end
                 
                 // branch statement
                 //R7
                 // if (packet_age[p] < Tmax) $display(" R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
                 // else $display(" $error :R7 failed in %m at %t", $time);
                 
-                // assertion statements
-                //R7
-                // assert (age_ptr[p] && (packet_age[p] < Tmax));
+
             end
         end
 

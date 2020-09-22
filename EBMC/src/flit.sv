@@ -143,21 +143,76 @@ genvar i;
     reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
 
     
-    one_hot_mux  wr_ptr_mux
-    (
-        .mux_in         (wr_ptr_array),
-        .mux_out            (vc_wr_addr),
-        .sel                (vc_num_wr)
-    );
+    // one_hot_mux  wr_ptr_mux
+    // (
+    //     .mux_in         (wr_ptr_array),
+    //     .mux_out            (vc_wr_addr),
+    //     .sel                (vc_num_wr)
+    // );
+
+    parameter   IN_WIDTH_0      = 8;
+    parameter   SEL_WIDTH_0 =   4;
+    parameter   OUT_WIDTH_0 = IN_WIDTH_0/SEL_WIDTH_0;
+
+    wire [IN_WIDTH_0-1    :0] mask_0;
+    wire [IN_WIDTH_0-1    :0] masked_mux_in_0;
+    wire [SEL_WIDTH_0-1:0]    mux_out_gen_0 [OUT_WIDTH_0-1:0]; 
+    
+    genvar i,j;
+    integer x;
+    //first selector masking (one_hot_mux  wr_ptr_mux)
+    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+        for(i=0; i<SEL_WIDTH_0; i=i+1) begin : mask_loop
+            assign mask_0[(i+1)*OUT_WIDTH_0-1 : (i)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[i]} };
+        end
+        
+        assign masked_mux_in_0    = wr_ptr_array & mask_0;
+        
+        for(i=0; i<OUT_WIDTH_0; i=i+1) begin : lp1
+            for(j=0; j<SEL_WIDTH_0; j=j+1) begin : lp2
+                assign mux_out_gen_0 [i][j]   =   masked_mux_in_0[i+OUT_WIDTH*j];
+            end
+            assign vc_wr_addr_0[i] = | mux_out_gen_0 [i];
+        end
+    endgenerate
     
         
     
-    one_hot_mux rd_ptr_mux
-    (
-        .mux_in         (rd_ptr_array),
-        .mux_out            (vc_rd_addr),
-        .sel                (vc_num_rd)
-    );
+    // one_hot_mux rd_ptr_mux
+    // (
+    //     .mux_in         (rd_ptr_array),
+    //     .mux_out            (vc_rd_addr),
+    //     .sel                (vc_num_rd)
+    // );
+
+  
+    
+    parameter   IN_WIDTH_1      = 8;
+    parameter   SEL_WIDTH_1 =   4;
+    parameter   OUT_WIDTH_1 = IN_WIDTH_1/SEL_WIDTH_1;
+
+    wire [IN_WIDTH_1-1    :0] mask_1;
+    wire [IN_WIDTH_1-1    :0] masked_mux_in_1;
+    wire [SEL_WIDTH_1-1:0]    mux_out_gen_1 [OUT_WIDTH_1-1:0]; 
+    
+    genvar i,j;
+    integer x;
+    //first selector masking
+    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+        for(i=0; i<SEL_WIDTH_1; i=i+1) begin : mask_loop
+            assign mask_1[(i+1)*OUT_WIDTH_1-1 : (i)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_rd[i]} };
+        end
+        
+        assign masked_mux_in_1    = rd_ptr_array & mask_1;
+        
+        for(i=0; i<OUT_WIDTH_1; i=i+1) begin : lp1
+            for(j=0; j<SEL_WIDTH_1; j=j+1) begin : lp2
+                assign mux_out_gen_1 [i][j]   =   masked_mux_in_1[i+OUT_WIDTH_1*j];
+            end
+            assign vc_rd_addr[i] = | mux_out_gen_1 [i];
+        end
+    endgenerate
+
     
     
     
@@ -506,34 +561,6 @@ module one_hot_mux
             assign mux_out[i] = | mux_out_gen [i];
         end
     endgenerate
-
-
-    // Asserting the Property m1 : During multiplexing output data shlould be equal to input data
-    
-    // always @ * begin
-    //     // $display("in %b sel %b out %b", mux_in,sel, mux_out);
-    //     
-    //     // if (sel!=1'b0 && $onehot(sel)) begin
-    //         // for(x=0;x<SEL_WIDTH;x=x+1) begin :asserion_check_loop0
-    //             // Branch statement
-    //             //m1
-    //             // if (sel[x]==1) begin
-    //             //     if (mux_in[OUT_WIDTH*(x)+:OUT_WIDTH]==mux_out) $display(" m1 succeeded");  
-    //             //     else $display(" $error :m1 failed in %m at %t", $time);          
-    //             // end
-    //             // Assert statement
-    //             //m1
-    //             assert (!$onehot(sel) || sel!=1'b0 || (sel[0]==1'b1 && (mux_in[OUT_WIDTH*(0)+:OUT_WIDTH]==mux_out))==1);
-    //             assert (!$onehot(sel) || sel!=1'b0 || (sel[1]==1'b1 && (mux_in[OUT_WIDTH*(1)+:OUT_WIDTH]==mux_out))==1);
-    //             assert (!$onehot(sel) || sel!=1'b0 || (sel[2]==1'b1 && (mux_in[OUT_WIDTH*(2)+:OUT_WIDTH]==mux_out))==1);
-    //             assert (!$onehot(sel) || sel!=1'b0 || (sel[3]==1'b1 && (mux_in[OUT_WIDTH*(3)+:OUT_WIDTH]==mux_out))==1);
-    //         // end
-    //     // end
-    //     
-
-    // end
-    
-
 
 endmodule
 

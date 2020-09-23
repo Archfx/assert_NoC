@@ -1,1 +1,1 @@
-/home/archfx/Documents/NoCem-MPSoC/ModelSim_ase/modelsim_ase/bin/vsim -do /home/archfx/Documents/NoCem-MPSoC/mor1k_mpsoc/Modelsim/run.tcl
+/home/archfx/intelFPGA/20.1/modelsim_ase/bin/vsim -c -do /home/archfx/Documents/AssertNoc/assert_NoC/Modelsim/run.tcl

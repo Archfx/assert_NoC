@@ -365,17 +365,98 @@ genvar i;
     //     .ADDR_WIDTH (BVw ),
     //     .SSA_EN(SSA_EN)       
     // )
-    fifo_ram the_queue
-    (
-        .wr_data        (fifo_ram_din), 
-        .wr_addr        (wr_addr[BVw-1  :   0]),
-        .rd_addr        (rd_addr[BVw-1  :   0]),
-        .wr_en          (wr_en),
-        .rd_en          (rd_en),
-        .clk            (clk),
-        .rd_data        (fifo_ram_dout)
-    );  
+    // fifo_ram the_queue
+    // (
+    //     .wr_data        (fifo_ram_din), 
+    //     .wr_addr        (wr_addr[BVw-1  :   0]),
+    //     .rd_addr        (rd_addr[BVw-1  :   0]),
+    //     .wr_en          (wr_en),
+    //     .rd_en          (rd_en),
+    //     .clk            (clk),
+    //     .rd_data        (fifo_ram_dout)
+    // );  
     
+    // module fifo_ram     
+    // (
+    //     input [DATA_WIDTH-1         :       0]  wr_data,        
+    //     input [ADDR_WIDTH-1         :       0]      wr_addr,
+    //     input [ADDR_WIDTH-1         :       0]      rd_addr,
+    //     input                                               wr_en,
+    //     input                                               rd_en,
+    //     input                                           clk,
+    //     output [DATA_WIDTH-1   :       0]      rd_data
+    // );  
+    parameter DATA_WIDTH    = 34;
+    parameter ADDR_WIDTH    = 4;
+    parameter SSA_EN="NO" ;// "YES" , "NO"       
+    
+	reg [DATA_WIDTH-1:0] memory_rd_data; 
+   // memory
+	reg [DATA_WIDTH-1:0] queue [2**ADDR_WIDTH-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
+	always @(posedge clk ) begin
+			if (wr_en)
+				 queue[(wr_addr[BVw-1  :   0])] <= fifo_ram_din;
+			if (rd_en)
+				 memory_rd_data <=
+//synthesis translate_off
+//synopsys  translate_off
+					  #1
+//synopsys  translate_on
+//synthesis translate_on   
+					  queue[(rd_addr[BVw-1  :   0])];
+	end
+	// assert property (  (wr_data[14:9]==6'b111111));
+    // assert property ( (memory_rd_data[14:9]==6'b111111));
+
+    generate 
+    /* verilator lint_off WIDTH */
+        assign fifo_ram_dout =  memory_rd_data;
+
+    endgenerate
+endmodule
+
+module one_hot_to_bin 
+(
+    input   [ONE_HOT_WIDTH-1        :   0] one_hot_code,
+    output  [BIN_WIDTH-1            :   0]  bin_code
+
+);
+
+
+    
+    parameter ONE_HOT_WIDTH =   2;
+    parameter BIN_WIDTH     =  1;
+    // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
+
+localparam MUX_IN_WIDTH =   BIN_WIDTH* ONE_HOT_WIDTH;
+
+wire [MUX_IN_WIDTH-1        :   0]  bin_temp ;
+
+one_hot_mux_2  one_hot_to_bcd_mux //.IN_WIDTH   (MUX_IN_WIDTH),  .SEL_WIDTH  (ONE_HOT_WIDTH)
+        (
+            .mux_in     (bin_temp),
+            .mux_out        (bin_code),
+            .sel            (one_hot_code)
+    
+        );
+
+genvar i;
+generate 
+    if(ONE_HOT_WIDTH>1)begin :if1
+        for(i=0; i<ONE_HOT_WIDTH; i=i+1) begin :mux_in_gen_loop
+            assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
+        end
+
+
+        
+     end else begin :els
+        assign  bin_code = one_hot_code;
+     
+     end
+
+endgenerate
+
+//end fifo
 
 
 generate
@@ -745,7 +826,7 @@ endmodule
     
 
 
-endmodule
+// endmodule
 
 
 

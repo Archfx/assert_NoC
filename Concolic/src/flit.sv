@@ -221,24 +221,143 @@ genvar i;
     // .ONE_HOT_WIDTH  (V)
     // 
     // )
-    one_hot_to_bin wr_vc_start_addr
-    (
-    .one_hot_code   (vc_num_wr),
-    .bin_code       (wr_select_addr)
+    // one_hot_to_bin wr_vc_start_addr
+    // (
+    // .one_hot_code   (vc_num_wr),
+    // .bin_code       (wr_select_addr)
 
-    );
+    // );
+    
+    parameter ONE_HOT_WIDTH_0 =   2;
+    parameter BIN_WIDTH_0     =  1;
+    // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
+
+    localparam MUX_IN_WIDTH_0 =   BIN_WIDTH_0* ONE_HOT_WIDTH_0;
+
+    wire [MUX_IN_WIDTH_0-1        :   0]  bin_temp_0 ;
+
+// one_hot_mux_2  one_hot_to_bcd_mux //.IN_WIDTH   (MUX_IN_WIDTH),  .SEL_WIDTH  (ONE_HOT_WIDTH)
+//         (
+//             .mux_in     (bin_temp),
+//             .mux_out        (bin_code),
+//             .sel            (one_hot_code)
+    
+//         );
+
+    parameter   IN_WIDTH_2      = 2;
+    parameter   SEL_WIDTH_2 =   2;
+    parameter   OUT_WIDTH_2 = IN_WIDTH/SEL_WIDTH;
+
+    wire [IN_WIDTH_2-1    :0] mask_2;
+    wire [IN_WIDTH_2-1    :0] masked_mux_in_2;
+    wire [SEL_WIDTH_2-1:0]    mux_out_gen_2 [OUT_WIDTH_2-1:0]; 
+    
+    genvar i,j;
+    integer x;
+    //first selector masking
+    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+        for(i=0; i<SEL_WIDTH_2; i=i+1) begin : mask_loop
+            assign mask_2[(i+1)*OUT_WIDTH_2-1 : (i)*OUT_WIDTH_2]  =   {OUT_WIDTH_2{vc_num_wr[i]} };
+        end
+        
+        assign masked_mux_in_2    = bin_temp_0 & mask_2;
+        
+        for(i=0; i<OUT_WIDTH_2; i=i+1) begin : lp1
+            for(j=0; j<SEL_WIDTH_2; j=j+1) begin : lp2
+                assign mux_out_gen_2 [i][j]   =   masked_mux_in_2[i+OUT_WIDTH_2*j];
+            end
+            assign vc_num_wr[i] = | mux_out_gen_2 [i];
+        end
+    endgenerate
+
+
+
+    genvar i;
+    generate 
+        if(ONE_HOT_WIDTH_0>1)begin :if1
+            for(i=0; i<ONE_HOT_WIDTH_0; i=i+1) begin :mux_in_gen_loop
+                assign bin_temp_0[(i+1)*BIN_WIDTH_0-1 : i*BIN_WIDTH_0] =  i[BIN_WIDTH_0-1:0];
+            end
+
+
+            
+        end else begin :els
+            assign  wr_select_addr = vc_num_wr;
+        
+        end
+
+    endgenerate
+
     
      
     // #(
     // .ONE_HOT_WIDTH  (V)
     // 
     // )
-    one_hot_to_bin rd_vc_start_addr
-    (
-    .one_hot_code   (vc_num_rd),
-    .bin_code       (rd_select_addr)
+    // one_hot_to_bin rd_vc_start_addr
+    // (
+    // .one_hot_code   (vc_num_rd),
+    // .bin_code       (rd_select_addr)
 
-    );
+    // );
+
+    parameter ONE_HOT_WIDTH_1 =   2;
+    parameter BIN_WIDTH_1     =  1;
+        // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
+
+    localparam MUX_IN_WIDTH_1 =   BIN_WIDTH_1* ONE_HOT_WIDTH_1;
+
+    wire [MUX_IN_WIDTH_1-1        :   0]  bin_temp_1 ;
+
+    // one_hot_mux_2  one_hot_to_bcd_mux //.IN_WIDTH   (MUX_IN_WIDTH),  .SEL_WIDTH  (ONE_HOT_WIDTH)
+    //         (
+    //             .mux_in     (bin_temp),
+    //             .mux_out        (bin_code),
+    //             .sel            (one_hot_code)
+        
+    //         );
+
+    parameter   IN_WIDTH_3      = 2;
+    parameter   SEL_WIDTH_3 =   2;
+    parameter   OUT_WIDTH_3 = IN_WIDTH_3/SEL_WIDTH_3;
+
+    wire [IN_WIDTH_3-1    :0] mask_3;
+    wire [IN_WIDTH_3-1    :0] masked_mux_in_3;
+    wire [SEL_WIDTH_3-1:0]    mux_out_gen_3 [OUT_WIDTH_3-1:0]; 
+    
+    genvar i,j;
+    integer x;
+    //first selector masking
+    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+        for(i=0; i<SEL_WIDTH_3; i=i+1) begin : mask_loop
+            assign mask_3[(i+1)*OUT_WIDTH_3-1 : (i)*OUT_WIDTH_3]  =   {OUT_WIDTH_3{vc_num_rd[i]} };
+        end
+        
+        assign masked_mux_in_3    = bin_temp_1 & mask_3;
+        
+        for(i=0; i<OUT_WIDTH_3; i=i+1) begin : lp1
+            for(j=0; j<SEL_WIDTH_3; j=j+1) begin : lp2
+                assign mux_out_gen_3 [i][j]   =   masked_mux_in_3[i+OUT_WIDTH_3*j];
+            end
+            assign rd_select_addr[i] = | mux_out_gen_3 [i];
+        end
+    endgenerate
+
+    genvar i;
+    generate 
+        if(ONE_HOT_WIDTH_1>1)begin :if1
+            for(i=0; i<ONE_HOT_WIDTH_1; i=i+1) begin :mux_in_gen_loop
+                assign bin_temp_1[(i+1)*BIN_WIDTH_1-1 : i*BIN_WIDTH_1] =  i[BIN_WIDTH_1-1:0];
+            end
+
+
+            
+        end else begin :els
+            assign  rd_select_addr = vc_num_rd;
+        
+        end
+
+    endgenerate
 
     // fifo_ram   
     //  #(
@@ -528,75 +647,75 @@ endgenerate
 
 endmodule 
 
-module one_hot_mux 
-    (
-        input [IN_WIDTH-1       :0] mux_in,
-        output[OUT_WIDTH-1  :0] mux_out,
-        input[SEL_WIDTH-1   :0] sel
+// module one_hot_mux 
+//     (
+//         input [IN_WIDTH-1       :0] mux_in,
+//         output[OUT_WIDTH-1  :0] mux_out,
+//         input[SEL_WIDTH-1   :0] sel
 
-    );
+//     );
     
-    parameter   IN_WIDTH      = 8;
-    parameter   SEL_WIDTH =   4;
-    parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
+//     parameter   IN_WIDTH      = 8;
+//     parameter   SEL_WIDTH =   4;
+//     parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
 
-    wire [IN_WIDTH-1    :0] mask;
-    wire [IN_WIDTH-1    :0] masked_mux_in;
-    wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
+//     wire [IN_WIDTH-1    :0] mask;
+//     wire [IN_WIDTH-1    :0] masked_mux_in;
+//     wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
     
-    genvar i,j;
-    integer x;
-    //first selector masking
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
-            assign mask[(i+1)*OUT_WIDTH-1 : (i)*OUT_WIDTH]  =   {OUT_WIDTH{sel[i]} };
-        end
+//     genvar i,j;
+//     integer x;
+//     //first selector masking
+//     generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+//         for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
+//             assign mask[(i+1)*OUT_WIDTH-1 : (i)*OUT_WIDTH]  =   {OUT_WIDTH{sel[i]} };
+//         end
         
-        assign masked_mux_in    = mux_in & mask;
+//         assign masked_mux_in    = mux_in & mask;
         
-        for(i=0; i<OUT_WIDTH; i=i+1) begin : lp1
-            for(j=0; j<SEL_WIDTH; j=j+1) begin : lp2
-                assign mux_out_gen [i][j]   =   masked_mux_in[i+OUT_WIDTH*j];
-            end
-            assign mux_out[i] = | mux_out_gen [i];
-        end
-    endgenerate
+//         for(i=0; i<OUT_WIDTH; i=i+1) begin : lp1
+//             for(j=0; j<SEL_WIDTH; j=j+1) begin : lp2
+//                 assign mux_out_gen [i][j]   =   masked_mux_in[i+OUT_WIDTH*j];
+//             end
+//             assign mux_out[i] = | mux_out_gen [i];
+//         end
+//     endgenerate
 
-endmodule
+// endmodule
 
-module one_hot_mux_2 
-    (
-        input [IN_WIDTH-1       :0] mux_in,
-        output[OUT_WIDTH-1  :0] mux_out,
-        input[SEL_WIDTH-1   :0] sel
+// module one_hot_mux_2 
+//     (
+//         input [IN_WIDTH-1       :0] mux_in,
+//         output[OUT_WIDTH-1  :0] mux_out,
+//         input[SEL_WIDTH-1   :0] sel
 
-    );
+//     );
     
-    parameter   IN_WIDTH      = 2;
-    parameter   SEL_WIDTH =   2;
-    parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
+//     parameter   IN_WIDTH      = 2;
+//     parameter   SEL_WIDTH =   2;
+//     parameter   OUT_WIDTH = IN_WIDTH/SEL_WIDTH;
 
-    wire [IN_WIDTH-1    :0] mask;
-    wire [IN_WIDTH-1    :0] masked_mux_in;
-    wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
+//     wire [IN_WIDTH-1    :0] mask;
+//     wire [IN_WIDTH-1    :0] masked_mux_in;
+//     wire [SEL_WIDTH-1:0]    mux_out_gen [OUT_WIDTH-1:0]; 
     
-    genvar i,j;
-    integer x;
-    //first selector masking
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
-            assign mask[(i+1)*OUT_WIDTH-1 : (i)*OUT_WIDTH]  =   {OUT_WIDTH{sel[i]} };
-        end
+//     genvar i,j;
+//     integer x;
+//     //first selector masking
+//     generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+//         for(i=0; i<SEL_WIDTH; i=i+1) begin : mask_loop
+//             assign mask[(i+1)*OUT_WIDTH-1 : (i)*OUT_WIDTH]  =   {OUT_WIDTH{sel[i]} };
+//         end
         
-        assign masked_mux_in    = mux_in & mask;
+//         assign masked_mux_in    = mux_in & mask;
         
-        for(i=0; i<OUT_WIDTH; i=i+1) begin : lp1
-            for(j=0; j<SEL_WIDTH; j=j+1) begin : lp2
-                assign mux_out_gen [i][j]   =   masked_mux_in[i+OUT_WIDTH*j];
-            end
-            assign mux_out[i] = | mux_out_gen [i];
-        end
-    endgenerate
+//         for(i=0; i<OUT_WIDTH; i=i+1) begin : lp1
+//             for(j=0; j<SEL_WIDTH; j=j+1) begin : lp2
+//                 assign mux_out_gen [i][j]   =   masked_mux_in[i+OUT_WIDTH*j];
+//             end
+//             assign mux_out[i] = | mux_out_gen [i];
+//         end
+//     endgenerate
 
 
     // Asserting the Property m1 : During multiplexing output data shlould be equal to input data

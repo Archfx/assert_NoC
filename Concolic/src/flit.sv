@@ -413,48 +413,8 @@ genvar i;
         assign fifo_ram_dout =  memory_rd_data;
 
     endgenerate
-endmodule
-
-module one_hot_to_bin 
-(
-    input   [ONE_HOT_WIDTH-1        :   0] one_hot_code,
-    output  [BIN_WIDTH-1            :   0]  bin_code
-
-);
 
 
-    
-    parameter ONE_HOT_WIDTH =   2;
-    parameter BIN_WIDTH     =  1;
-    // parameter BIN_WIDTH     =  (ONE_HOT_WIDTH>1)? log2(ONE_HOT_WIDTH):1
-
-localparam MUX_IN_WIDTH =   BIN_WIDTH* ONE_HOT_WIDTH;
-
-wire [MUX_IN_WIDTH-1        :   0]  bin_temp ;
-
-one_hot_mux_2  one_hot_to_bcd_mux //.IN_WIDTH   (MUX_IN_WIDTH),  .SEL_WIDTH  (ONE_HOT_WIDTH)
-        (
-            .mux_in     (bin_temp),
-            .mux_out        (bin_code),
-            .sel            (one_hot_code)
-    
-        );
-
-genvar i;
-generate 
-    if(ONE_HOT_WIDTH>1)begin :if1
-        for(i=0; i<ONE_HOT_WIDTH; i=i+1) begin :mux_in_gen_loop
-            assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
-        end
-
-
-        
-     end else begin :els
-        assign  bin_code = one_hot_code;
-     
-     end
-
-endgenerate
 
 //end fifo
 

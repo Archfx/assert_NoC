@@ -156,7 +156,7 @@ genvar i;
 
     wire [IN_WIDTH_0-1    :0] mask_0;
     wire [IN_WIDTH_0-1    :0] masked_mux_in_0;
-    wire [SEL_WIDTH_0-1:0]    mux_out_gen_0 [OUT_WIDTH_0-1:0]; 
+    wire [SEL_WIDTH_0*OUT_WIDTH_0-1:0]    mux_out_gen_0 ;//[OUT_WIDTH_0-1:0]; 
     
     // genvar e,w;
     // // integer x;
@@ -184,17 +184,17 @@ genvar i;
 
     assign masked_mux_in_0    = wr_ptr_array & mask_0;
 
-    assign mux_out_gen_0 [0][0]   =   masked_mux_in_0[0+OUT_WIDTH_0*0];
-    assign mux_out_gen_0 [0][1]   =   masked_mux_in_0[0+OUT_WIDTH_0*1];
-    assign mux_out_gen_0 [0][2]   =   masked_mux_in_0[0+OUT_WIDTH_0*2];
-    assign mux_out_gen_0 [0][3]   =   masked_mux_in_0[0+OUT_WIDTH_0*3];
-    assign mux_out_gen_0 [1][0]   =   masked_mux_in_0[1+OUT_WIDTH_0*0];
-    assign mux_out_gen_0 [1][1]   =   masked_mux_in_0[1+OUT_WIDTH_0*1];
-    assign mux_out_gen_0 [1][2]   =   masked_mux_in_0[1+OUT_WIDTH_0*2];
-    assign mux_out_gen_0 [1][3]   =   masked_mux_in_0[1+OUT_WIDTH_0*3];
+    assign mux_out_gen_0 [0]   =   masked_mux_in_0[0+OUT_WIDTH_0*0];
+    assign mux_out_gen_0 [1]   =   masked_mux_in_0[0+OUT_WIDTH_0*1];
+    assign mux_out_gen_0 [2]   =   masked_mux_in_0[0+OUT_WIDTH_0*2];
+    assign mux_out_gen_0 [3]   =   masked_mux_in_0[0+OUT_WIDTH_0*3];
+    assign mux_out_gen_0 [4]   =   masked_mux_in_0[1+OUT_WIDTH_0*0];
+    assign mux_out_gen_0 [5]   =   masked_mux_in_0[1+OUT_WIDTH_0*1];
+    assign mux_out_gen_0 [6]   =   masked_mux_in_0[1+OUT_WIDTH_0*2];
+    assign mux_out_gen_0 [7]   =   masked_mux_in_0[1+OUT_WIDTH_0*3];
     
-    assign vc_wr_addr[0] = | mux_out_gen_0 [0];
-    assign vc_wr_addr[1] = | mux_out_gen_0 [1];
+    assign vc_wr_addr[0] = | mux_out_gen_0 [0*OUT_WIDTH_0+:SEL_WIDTH_0];
+    assign vc_wr_addr[1] = | mux_out_gen_0 [1*OUT_WIDTH_0+:SEL_WIDTH_0];
 
     
         
@@ -214,9 +214,9 @@ genvar i;
 
     wire [IN_WIDTH_1-1    :0] mask_1;
     wire [IN_WIDTH_1-1    :0] masked_mux_in_1;
-    wire [SEL_WIDTH_1-1:0]    mux_out_gen_1 [OUT_WIDTH_1-1:0]; 
+    wire [SEL_WIDTH_1*OUT_WIDTH_1-1:0]    mux_out_gen_1;// [OUT_WIDTH_1-1:0]; 
     
-    genvar m,n;
+    // genvar m,n;
     // integer x;
     //first selector masking
     // generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
@@ -239,19 +239,19 @@ genvar i;
     assign mask_1[(2+1)*OUT_WIDTH_1-1 : (2)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[2]} };
     assign mask_1[(3+1)*OUT_WIDTH_1-1 : (3)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[3]} };
 
-    assign masked_mux_in_1    = wr_ptr_array & mask_1;
+    assign masked_mux_in_1    = rd_ptr_array & mask_1;
 
-    assign mux_out_gen_1 [0][0]   =   masked_mux_in_1[0+OUT_WIDTH_1*0];
-    assign mux_out_gen_1 [0][1]   =   masked_mux_in_1[0+OUT_WIDTH_1*1];
-    assign mux_out_gen_1 [0][2]   =   masked_mux_in_1[0+OUT_WIDTH_1*2];
-    assign mux_out_gen_1 [0][3]   =   masked_mux_in_1[0+OUT_WIDTH_1*3];
-    assign mux_out_gen_1 [1][0]   =   masked_mux_in_1[1+OUT_WIDTH_1*0];
-    assign mux_out_gen_1 [1][1]   =   masked_mux_in_1[1+OUT_WIDTH_1*1];
-    assign mux_out_gen_1 [1][2]   =   masked_mux_in_1[1+OUT_WIDTH_1*2];
-    assign mux_out_gen_1 [1][3]   =   masked_mux_in_1[1+OUT_WIDTH_1*3];
+    assign mux_out_gen_1 [0]   =   masked_mux_in_1[0+OUT_WIDTH_1*0];
+    assign mux_out_gen_1 [1]   =   masked_mux_in_1[0+OUT_WIDTH_1*1];
+    assign mux_out_gen_1 [2]   =   masked_mux_in_1[0+OUT_WIDTH_1*2];
+    assign mux_out_gen_1 [3]   =   masked_mux_in_1[0+OUT_WIDTH_1*3];
+    assign mux_out_gen_1 [4]   =   masked_mux_in_1[1+OUT_WIDTH_1*0];
+    assign mux_out_gen_1 [5]   =   masked_mux_in_1[1+OUT_WIDTH_1*1];
+    assign mux_out_gen_1 [6]   =   masked_mux_in_1[1+OUT_WIDTH_1*2];
+    assign mux_out_gen_1 [7]   =   masked_mux_in_1[1+OUT_WIDTH_1*3];
     
-    assign vc_wr_addr[0] = | mux_out_gen_1 [0];
-    assign vc_wr_addr[1] = | mux_out_gen_1 [1];
+    assign vc_wr_addr[0] = | mux_out_gen_1 [0*OUT_WIDTH_1+:SEL_WIDTH_1];
+    assign vc_wr_addr[1] = | mux_out_gen_1 [1*OUT_WIDTH_1+:SEL_WIDTH_1];
 
 
     
@@ -291,34 +291,52 @@ genvar i;
 
     wire [IN_WIDTH_2-1    :0] mask_2;
     wire [IN_WIDTH_2-1    :0] masked_mux_in_2;
-    wire [SEL_WIDTH_2-1:0]    mux_out_gen_2 [OUT_WIDTH_2-1:0]; 
+    wire [SEL_WIDTH_2*OUT_WIDTH_2-1:0]    mux_out_gen_2;// [OUT_WIDTH_2-1:0]; 
     
-    genvar a,b;
+    // genvar a,b;
     // integer x;
     //first selector masking
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(a=0; a<SEL_WIDTH_2; a=a+1) begin //: mask_loop
-            assign mask_2[(a+1)*OUT_WIDTH_2-1 : (a)*OUT_WIDTH_2]  =   {OUT_WIDTH_2{vc_num_wr[a]} };
-        end
+    // generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+    //     for(a=0; a<SEL_WIDTH_2; a=a+1) begin //: mask_loop
+    //         assign mask_2[(a+1)*OUT_WIDTH_2-1 : (a)*OUT_WIDTH_2]  =   {OUT_WIDTH_2{vc_num_wr[a]} };
+    //     end
         
-        assign masked_mux_in_2    = bin_temp_0 & mask_2;
+    //     assign masked_mux_in_2    = bin_temp_0 & mask_2;
         
-        for(a=0; a<OUT_WIDTH_2; a=a+1) begin //: lp1
-            for(b=0; b<SEL_WIDTH_2; b=b+1) begin //: lp2
-                assign mux_out_gen_2 [a][b]   =   masked_mux_in_2[a+OUT_WIDTH_2*b];
-            end
-            assign vc_num_wr[a] = | mux_out_gen_2 [a];
-        end
-    endgenerate
+    //     for(a=0; a<OUT_WIDTH_2; a=a+1) begin //: lp1
+    //         for(b=0; b<SEL_WIDTH_2; b=b+1) begin //: lp2
+    //             assign mux_out_gen_2 [a][b]   =   masked_mux_in_2[a+OUT_WIDTH_2*b];
+    //         end
+    //         assign vc_num_wr[a] = | mux_out_gen_2 [a];
+    //     end
+    // endgenerate
+
+    assign mask_2[(0+1)*OUT_WIDTH_2-1 : (0)*OUT_WIDTH_2]  =   {OUT_WIDTH_2{vc_num_wr[0]} };
+    assign mask_2[(1+1)*OUT_WIDTH_2-1 : (1)*OUT_WIDTH_2]  =   {OUT_WIDTH_2{vc_num_wr[1]} };
+    
+    assign masked_mux_in_2    = bin_temp_0 & mask_2;
+
+    assign mux_out_gen_2 [0]   =   masked_mux_in_2[0+OUT_WIDTH_2*0];
+    assign mux_out_gen_2 [1]   =   masked_mux_in_2[0+OUT_WIDTH_2*1];
+        
+    assign vc_wr_addr[0] = | mux_out_gen_2 [0*OUT_WIDTH_2+:SEL_WIDTH_2];
 
 
 
     genvar c;
     generate 
         if(ONE_HOT_WIDTH_0>1)begin //:if1
-            for(c=0; c<ONE_HOT_WIDTH_0; c=c+1) begin //:mux_in_gen_loop
-                assign bin_temp_0[(c+1)*BIN_WIDTH_0-1 : c*BIN_WIDTH_0] =  c[BIN_WIDTH_0-1:0];
-            end
+            // for(c=0; c<ONE_HOT_WIDTH_0; c=c+1) begin //:mux_in_gen_loop
+            //     assign bin_temp_0[(c+1)*BIN_WIDTH_0-1 : c*BIN_WIDTH_0] =  c[BIN_WIDTH_0-1:0];
+               
+            // end
+            
+
+            
+            assign bin_temp_0[(0+1)*BIN_WIDTH_0-1 : 0*BIN_WIDTH_0] =  0;
+            assign bin_temp_0[(1+1)*BIN_WIDTH_0-1 : 1*BIN_WIDTH_0] =  1;
+            
+            // assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
 
 
             
@@ -364,35 +382,45 @@ genvar i;
 
     wire [IN_WIDTH_3-1    :0] mask_3;
     wire [IN_WIDTH_3-1    :0] masked_mux_in_3;
-    wire [SEL_WIDTH_3-1:0]    mux_out_gen_3 [OUT_WIDTH_3-1:0]; 
+    wire [SEL_WIDTH_3*OUT_WIDTH_3-1:0]    mux_out_gen_3;// [OUT_WIDTH_3-1:0]; 
     
-    genvar f,s;
-    // integer x;
-    //first selector masking
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(f=0; f<SEL_WIDTH_3; f=f+1) begin //: mask_loop
-            assign mask_3[(f+1)*OUT_WIDTH_3-1 : (f)*OUT_WIDTH_3]  =   {OUT_WIDTH_3{vc_num_rd[f]} };
-        end
+    // genvar f,s;
+    // // integer x;
+    // //first selector masking
+    // generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+    //     for(f=0; f<SEL_WIDTH_3; f=f+1) begin //: mask_loop
+    //         assign mask_3[(f+1)*OUT_WIDTH_3-1 : (f)*OUT_WIDTH_3]  =   {OUT_WIDTH_3{vc_num_rd[f]} };
+    //     end
         
-        assign masked_mux_in_3    = bin_temp_1 & mask_3;
+    //     assign masked_mux_in_3    = bin_temp_1 & mask_3;
         
-        for(f=0; f<OUT_WIDTH_3; f=f+1) begin //: lp1
-            for(s=0; s<SEL_WIDTH_3; s=s+1) begin //: lp2
-                assign mux_out_gen_3 [f][s]   =   masked_mux_in_3[f+OUT_WIDTH_3*s];
-            end
-            assign rd_select_addr[f] = | mux_out_gen_3 [f];
-        end
-    endgenerate
+    //     for(f=0; f<OUT_WIDTH_3; f=f+1) begin //: lp1
+    //         for(s=0; s<SEL_WIDTH_3; s=s+1) begin //: lp2
+    //             assign mux_out_gen_3 [f][s]   =   masked_mux_in_3[f+OUT_WIDTH_3*s];
+    //         end
+    //         assign rd_select_addr[f] = | mux_out_gen_3 [f];
+    //     end
+    // endgenerate
+
+    assign mask_3[(0+1)*OUT_WIDTH_3-1 : (0)*OUT_WIDTH_3]  =   {OUT_WIDTH_3{vc_num_wr[0]} };
+    assign mask_3[(1+1)*OUT_WIDTH_3-1 : (1)*OUT_WIDTH_3]  =   {OUT_WIDTH_3{vc_num_wr[1]} };
+ 
+    assign masked_mux_in_3    = bin_temp_1 & mask_3;
+
+    assign mux_out_gen_3 [0]   =   masked_mux_in_3[0+OUT_WIDTH_3*0];
+    assign mux_out_gen_3 [1]   =   masked_mux_in_3[0+OUT_WIDTH_3*1];
+    
+    assign vc_wr_addr[0] = | mux_out_gen_3 [0*OUT_WIDTH_3+:SEL_WIDTH_3];
 
     genvar d;
     generate 
         if(ONE_HOT_WIDTH_1>1)begin :if1
-            for(d=0; d<ONE_HOT_WIDTH_1; d=d+1) begin //:mux_in_gen_loop
-                assign bin_temp_1[(d+1)*BIN_WIDTH_1-1 : d*BIN_WIDTH_1] =  d[BIN_WIDTH_1-1:0];
-            end
+            // for(d=0; d<ONE_HOT_WIDTH_1; d=d+1) begin //:mux_in_gen_loop
+            //     assign bin_temp_1[(d+1)*BIN_WIDTH_1-1 : d*BIN_WIDTH_1] =  d[BIN_WIDTH_1-1:0];
+            // end
+            assign bin_temp_1[(0+1)*BIN_WIDTH_1-1 : 0*BIN_WIDTH_1] =  0;
+            assign bin_temp_1[(1+1)*BIN_WIDTH_1-1 : 1*BIN_WIDTH_1] =  1;
 
-
-            
         end else begin :els
             assign  rd_select_addr = vc_num_rd;
         
@@ -432,11 +460,11 @@ genvar i;
     // parameter SSA_EN="NO" ;// "YES" , "NO"       
     
 	reg [DATA_WIDTH-1:0] memory_rd_data; 
-   // memory
-	reg [DATA_WIDTH-1:0] queue [2**ADDR_WIDTH-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
+   // memory/
+	reg [DATA_WIDTH*(2**ADDR_WIDTH)-1:0] queue ;//[2**ADDR_WIDTH-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
 	always @(posedge clk ) begin
 			if (wr_en)
-				 queue[(wr_addr[BVw-1  :   0])] <= fifo_ram_din;
+				 queue[(2**ADDR_WIDTH)*(wr_addr[BVw-1  :   0])+:DATA_WIDTH] <= fifo_ram_din;
 			if (rd_en)
 				 memory_rd_data <=
 //synthesis translate_off
@@ -444,7 +472,7 @@ genvar i;
 					  #1
 //synopsys  translate_on
 //synthesis translate_on   
-					  queue[(rd_addr[BVw-1  :   0])];
+					  queue[(2**ADDR_WIDTH)*(rd_addr[BVw-1  :   0])+:DATA_WIDTH];
 	end
 	// assert property (  (wr_data[14:9]==6'b111111));
     // assert property ( (memory_rd_data[14:9]==6'b111111));
@@ -460,85 +488,237 @@ genvar i;
 //end fifo
 
 
-generate
-    for(i=0;i<V;i=i+1) begin :loop0
+// generate
+//     for(i=0;i<V;i=i+1) begin :loop0
         
-        assign  wr_ptr_array[(i+1)*Bw- 1        :   i*Bw]   =       wr_ptr[i];
-        assign  rd_ptr_array[(i+1)*Bw- 1        :   i*Bw]   =       rd_ptr[i];
-        //assign    vc_nearly_full[i] = (depth[i] >= B-1);
-        assign  vc_not_empty    [i] =   (depth[i] > 0);
+//         assign  wr_ptr_array[(i+1)*Bw- 1        :   i*Bw]   =       wr_ptr[i];
+//         assign  rd_ptr_array[(i+1)*Bw- 1        :   i*Bw]   =       rd_ptr[i];
+//         //assign    vc_nearly_full[i] = (depth[i] >= B-1);
+//         assign  vc_not_empty    [i] =   (depth[i] > 0);
     
     
-        always @(posedge clk or posedge reset) begin
-            if (reset) begin
-                rd_ptr  [i] <= {Bw{1'b0}};
-                wr_ptr  [i] <= {Bw{1'b0}};
-                depth   [i] <= {DEPTHw{1'b0}};
-            end
-            else begin
-                if (wr[i] && depth[i] != B) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
-                if (rd[i] && (depth[i] != {DEPTHw{1'b0}})) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
-                if (wr[i] & ~rd[i]) depth [i]<=
-                //synthesis translate_off
-                //synopsys  translate_off
-                   #1
-                //synopsys  translate_on
-                //synthesis translate_on
-                   depth[i] + 1'h1;
-                else if (~wr[i] & rd[i]) depth [i]<=
-                //synthesis translate_off
-                //synopsys  translate_off
-                   #1
-                //synopsys  translate_on
-                //synthesis translate_on
-                   depth[i] - 1'h1;
-            end//else
-        end//always
+//         always @(posedge clk or posedge reset) begin
+//             if (reset) begin
+//                 rd_ptr  [i] <= {Bw{1'b0}};
+//                 wr_ptr  [i] <= {Bw{1'b0}};
+//                 depth   [i] <= {DEPTHw{1'b0}};
+//             end
+//             else begin
+//                 if (wr[i] && depth[i] != B) wr_ptr[i] <= wr_ptr [i]+ 1'h1;
+//                 if (rd[i] && (depth[i] != {DEPTHw{1'b0}})) rd_ptr [i]<= rd_ptr [i]+ 1'h1;
+//                 if (wr[i] & ~rd[i]) depth [i]<=
+//                 //synthesis translate_off
+//                 //synopsys  translate_off
+//                    #1
+//                 //synopsys  translate_on
+//                 //synthesis translate_on
+//                    depth[i] + 1'h1;
+//                 else if (~wr[i] & rd[i]) depth [i]<=
+//                 //synthesis translate_off
+//                 //synopsys  translate_off
+//                    #1
+//                 //synopsys  translate_on
+//                 //synthesis translate_on
+//                    depth[i] - 1'h1;
+//             end//else
+//         end//always
 
-        //synthesis translate_off
-        //synopsys  translate_off
+//         //synthesis translate_off
+//         //synopsys  translate_off
     
-        always @(posedge clk) begin
-            if(~reset)begin
-                if (wr[i] && (depth[i] == B) && !rd[i])
-                    $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
-                /* verilator lint_off WIDTH */
-                if (rd[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
-                    $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-                if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
-                    $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-                /* verilator lint_on WIDTH */
+//         always @(posedge clk) begin
+//             if(~reset)begin
+//                 if (wr[i] && (depth[i] == B) && !rd[i])
+//                     $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
+//                 /* verilator lint_off WIDTH */
+//                 if (rd[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
+//                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+//                 if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+//                     $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+//                 /* verilator lint_on WIDTH */
           
-            end//~reset      
-        end//always
+//             end//~reset      
+//         end//always
 
      
-            // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
-            // Asserting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
-            // Asserting the property b4 : Buffer can not be both full and empty at the same time
+//             // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+//             // Asserting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+//             // Asserting the property b4 : Buffer can not be both full and empty at the same time
                             
-        // Branch statements
-        always@(posedge clk) begin
-            //b1.1
-            if (wr[i] && depth[i] != B && !reset) begin
-                wr_ptr_check[i] <= wr_ptr[i];
-            end  
-            //b1.2
-            if (rd[i] && (depth[i] != {DEPTHw{1'b0}}) && !reset) begin
-                rd_ptr_check[i] <= rd_ptr[i];
-            end
-            //b3.1 trying to write to full buffer
-            if (wr[i] & ~rd[i] && (depth[i] == B) && !reset) begin
-                wr_ptr_check[i] <= wr_ptr[i];
-            end
-            //b3.2 trying to read from empty buffer
-            if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}}) && !reset) begin
-                rd_ptr_check[i] <= rd_ptr[i];
-            end
-        end            
+//         // Branch statements
+//         always@(posedge clk) begin
+//             //b1.1
+//             if (wr[i] && depth[i] != B && !reset) begin
+//                 wr_ptr_check[i] <= wr_ptr[i];
+//             end  
+//             //b1.2
+//             if (rd[i] && (depth[i] != {DEPTHw{1'b0}}) && !reset) begin
+//                 rd_ptr_check[i] <= rd_ptr[i];
+//             end
+//             //b3.1 trying to write to full buffer
+//             if (wr[i] & ~rd[i] && (depth[i] == B) && !reset) begin
+//                 wr_ptr_check[i] <= wr_ptr[i];
+//             end
+//             //b3.2 trying to read from empty buffer
+//             if (rd[i] && !wr[i] && (depth[i] == {DEPTHw{1'b0}}) && !reset) begin
+//                 rd_ptr_check[i] <= rd_ptr[i];
+//             end
+//         end            
             
-    end//for
-endgenerate
+//     end//for
+// endgenerate
+
+    assign  wr_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       wr_ptr[0];
+    assign  rd_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       rd_ptr[0];
+    //assign    vc_nearly_full[0] = (depth[0] >= B-1);
+    assign  vc_not_empty    [0] =   (depth[0] > 0);
+
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            rd_ptr  [0] <= {Bw{1'b0}};
+            wr_ptr  [0] <= {Bw{1'b0}};
+            depth   [0] <= {DEPTHw{1'b0}};
+        end
+        else begin
+            if (wr[0] && depth[0] != B) wr_ptr[0] <= wr_ptr [0]+ 1'h1;
+            if (rd[0] && (depth[0] != {DEPTHw{1'b0}})) rd_ptr [0]<= rd_ptr [0]+ 1'h1;
+            if (wr[0] & ~rd[0]) depth [0]<=
+            //synthesis translate_off
+            //synopsys  translate_off
+                #1
+            //synopsys  translate_on
+            //synthesis translate_on
+                depth[0] + 1'h1;
+            else if (~wr[0] & rd[0]) depth [0]<=
+            //synthesis translate_off
+            //synopsys  translate_off
+                #1
+            //synopsys  translate_on
+            //synthesis translate_on
+                depth[0] - 1'h1;
+        end//else
+    end//always
+
+    //synthesis translate_off
+    //synopsys  translate_off
+
+    always @(posedge clk) begin
+        if(~reset)begin
+            if (wr[0] && (depth[0] == B) && !rd[0])
+                $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
+            /* verilator lint_off WIDTH */
+            if (rd[0] && (depth[0] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
+                $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+            if (rd[0] && !wr[0] && (depth[0] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+                $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+            /* verilator lint_on WIDTH */
+        
+        end//~reset      
+    end//always
+
+    
+        // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+        // Asserting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+        // Asserting the property b4 : Buffer can not be both full and empty at the same time
+                        
+    // Branch statements
+    always@(posedge clk) begin
+        //b1.1
+        if (wr[0] && depth[0] != B && !reset) begin
+            wr_ptr_check[0] <= wr_ptr[0];
+        end  
+        //b1.2
+        if (rd[0] && (depth[0] != {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[0] <= rd_ptr[0];
+        end
+        //b3.1 trying to write to full buffer
+        if (wr[0] & ~rd[0] && (depth[0] == B) && !reset) begin
+            wr_ptr_check[0] <= wr_ptr[0];
+        end
+        //b3.2 trying to read from empty buffer
+        if (rd[0] && !wr[0] && (depth[0] == {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[0] <= rd_ptr[0];
+        end
+    end  
+
+    assign  wr_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       wr_ptr[1];
+    assign  rd_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       rd_ptr[1];
+    //assign    vc_nearly_full[1] = (depth[1] >= B-1);
+    assign  vc_not_empty    [1] =   (depth[1] > 0);
+
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            rd_ptr  [1] <= {Bw{1'b0}};
+            wr_ptr  [1] <= {Bw{1'b0}};
+            depth   [1] <= {DEPTHw{1'b0}};
+        end
+        else begin
+            if (wr[1] && depth[1] != B) wr_ptr[1] <= wr_ptr [1]+ 1'h1;
+            if (rd[1] && (depth[1] != {DEPTHw{1'b0}})) rd_ptr [1]<= rd_ptr [1]+ 1'h1;
+            if (wr[1] & ~rd[1]) depth [1]<=
+            //synthesis translate_off
+            //synopsys  translate_off
+                #1
+            //synopsys  translate_on
+            //synthesis translate_on
+                depth[1] + 1'h1;
+            else if (~wr[1] & rd[1]) depth [1]<=
+            //synthesis translate_off
+            //synopsys  translate_off
+                #1
+            //synopsys  translate_on
+            //synthesis translate_on
+                depth[1] - 1'h1;
+        end//else
+    end//always
+
+    //synthesis translate_off
+    //synopsys  translate_off
+
+    always @(posedge clk) begin
+        if(~reset)begin
+            if (wr[1] && (depth[1] == B) && !rd[1])
+                $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
+            /* verilator lint_off WIDTH */
+            if (rd[1] && (depth[1] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
+                $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+            if (rd[1] && !wr[1] && (depth[1] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+                $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
+            /* verilator lint_on WIDTH */
+        
+        end//~reset      
+    end//always
+
+    
+        // Asserting the Property b1 : Read and write pointers are incremented when r_en/w_en are set
+        // Asserting the property b3 : Read and Write pointers are not incremented when the buffer is empty and full
+        // Asserting the property b4 : Buffer can not be both full and empty at the same time
+                        
+    // Branch statements
+    always@(posedge clk) begin
+        //b1.1
+        if (wr[1] && depth[1] != B && !reset) begin
+            wr_ptr_check[1] <= wr_ptr[1];
+        end  
+        //b1.2
+        if (rd[1] && (depth[1] != {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[1] <= rd_ptr[1];
+        end
+        //b3.1 trying to write to full buffer
+        if (wr[1] & ~rd[1] && (depth[1] == B) && !reset) begin
+            wr_ptr_check[1] <= wr_ptr[1];
+        end
+        //b3.2 trying to read from empty buffer
+        if (rd[1] && !wr[1] && (depth[1] == {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[1] <= rd_ptr[1];
+        end
+    end           
+        
+            
+        
+
 
     always@(posedge clk) begin 
         //b6 counter enable
@@ -899,7 +1079,7 @@ endmodule
 // generate 
 //     if(ONE_HOT_WIDTH>1)begin :if1
 //         for(i=0; i<ONE_HOT_WIDTH; i=i+1) begin :mux_in_gen_loop
-//             assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
+//              assign bin_temp[(i+1)*BIN_WIDTH-1 : i*BIN_WIDTH] =  i[BIN_WIDTH-1:0];
 //         end
 
 

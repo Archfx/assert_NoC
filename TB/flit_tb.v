@@ -1,5 +1,13 @@
-`include "timescale.v"
+// `include "timescale.v"
 module tb_flit_buffer;
+
+parameter V        =   2;//4;
+    parameter B        =   4;   // buffer space :flit per VC 
+    parameter Fpay     =   32;
+    parameter SSA_EN="NO" ;// "YES" , "NO"       
+    
+    localparam      Fw      =   2+V+Fpay,   //flit width
+                    BV      =   B   *   V;
 
 reg     [Fw-1 :0]    din             ;
 reg     [V-1 :0]     vc_num_wr       ;
@@ -28,8 +36,8 @@ flit_buffer uut (
 parameter PERIOD = 10;
 
 initial begin
-    $dumpfile("db_tb_flit_buffer.vcd");
-    $dumpvars(0, tb_flit_buffer);
+    // $dumpfile("db_tb_flit_buffer.vcd");
+    // $dumpvars(0, tb_flit_buffer);
     clk = 1'b0;
     #(PERIOD/2);
     forever

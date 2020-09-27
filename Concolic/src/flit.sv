@@ -158,23 +158,44 @@ genvar i;
     wire [IN_WIDTH_0-1    :0] masked_mux_in_0;
     wire [SEL_WIDTH_0-1:0]    mux_out_gen_0 [OUT_WIDTH_0-1:0]; 
     
-    genvar e,w;
-    // integer x;
-    //first selector masking (one_hot_mux  wr_ptr_mux)
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(e=0; e<SEL_WIDTH_0; e=e+1) begin //: mask_loop
-            assign mask_0[(e+1)*OUT_WIDTH_0-1 : (e)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[e]} };
-        end
+    // genvar e,w;
+    // // integer x;
+    // //first selector masking (one_hot_mux  wr_ptr_mux)
+    // generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+    //     for(e=0; e<SEL_WIDTH_0; e=e+1) begin //: mask_loop
+    //         assign mask_0[(e+1)*OUT_WIDTH_0-1 : (e)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[e]} };
+    //     end
         
-        assign masked_mux_in_0    = wr_ptr_array & mask_0;
+    //     assign masked_mux_in_0    = wr_ptr_array & mask_0;
         
-        for(e=0; e<OUT_WIDTH_0; e=e+1) begin //: lp1
-            for(w=0; w<SEL_WIDTH_0; w=w+1) begin //: lp2
-                assign mux_out_gen_0 [e][w]   =   masked_mux_in_0[e+OUT_WIDTH_0*w];
-            end
-            assign vc_wr_addr[e] = | mux_out_gen_0 [e];
-        end
-    endgenerate
+    //     for(e=0; e<OUT_WIDTH_0; e=e+1) begin //: lp1
+    //         for(w=0; w<SEL_WIDTH_0; w=w+1) begin //: lp2
+    //             assign mux_out_gen_0 [e][w]   =   masked_mux_in_0[e+OUT_WIDTH_0*w];
+    //         end
+    //         assign vc_wr_addr[e] = | mux_out_gen_0 [e];
+    //     end
+
+    // endgenerate
+
+    assign mask_0[(0+1)*OUT_WIDTH_0-1 : (0)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[0]} };
+    assign mask_0[(1+1)*OUT_WIDTH_0-1 : (1)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[1]} };
+    assign mask_0[(2+1)*OUT_WIDTH_0-1 : (2)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[2]} };
+    assign mask_0[(3+1)*OUT_WIDTH_0-1 : (3)*OUT_WIDTH_0]  =   {OUT_WIDTH_0{vc_num_wr[3]} };
+
+    assign masked_mux_in_0    = wr_ptr_array & mask_0;
+
+    assign mux_out_gen_0 [0][0]   =   masked_mux_in_0[0+OUT_WIDTH_0*0];
+    assign mux_out_gen_0 [0][1]   =   masked_mux_in_0[0+OUT_WIDTH_0*1];
+    assign mux_out_gen_0 [0][2]   =   masked_mux_in_0[0+OUT_WIDTH_0*2];
+    assign mux_out_gen_0 [0][3]   =   masked_mux_in_0[0+OUT_WIDTH_0*3];
+    assign mux_out_gen_0 [1][0]   =   masked_mux_in_0[1+OUT_WIDTH_0*0];
+    assign mux_out_gen_0 [1][1]   =   masked_mux_in_0[1+OUT_WIDTH_0*1];
+    assign mux_out_gen_0 [1][2]   =   masked_mux_in_0[1+OUT_WIDTH_0*2];
+    assign mux_out_gen_0 [1][3]   =   masked_mux_in_0[1+OUT_WIDTH_0*3];
+    
+    assign vc_wr_addr[0] = | mux_out_gen_0 [0];
+    assign vc_wr_addr[1] = | mux_out_gen_0 [1];
+
     
         
     
@@ -198,20 +219,40 @@ genvar i;
     genvar m,n;
     // integer x;
     //first selector masking
-    generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
-        for(m=0; m<SEL_WIDTH_1; m=m+1) begin // : mask_loop
-            assign mask_1[(m+1)*OUT_WIDTH_1-1 : (m)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_rd[m]} };
-        end
+    // generate    // first_mask = {sel[0],sel[0],sel[0],....,sel[n],sel[n],sel[n]}
+    //     for(m=0; m<SEL_WIDTH_1; m=m+1) begin // : mask_loop
+    //         assign mask_1[(m+1)*OUT_WIDTH_1-1 : (m)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_rd[m]} };
+    //     end
         
-        assign masked_mux_in_1    = rd_ptr_array & mask_1;
+    //     assign masked_mux_in_1    = rd_ptr_array & mask_1;
         
-        for(m=0; m<OUT_WIDTH_1; m=m+1) begin // : lp1
-            for(n=0; n<SEL_WIDTH_1; n=n+1) begin //: lp2
-                assign mux_out_gen_1 [m][n]   =   masked_mux_in_1[m+OUT_WIDTH_1*n];
-            end
-            assign vc_rd_addr[m] = | mux_out_gen_1 [m];
-        end
-    endgenerate
+    //     for(m=0; m<OUT_WIDTH_1; m=m+1) begin // : lp1
+    //         for(n=0; n<SEL_WIDTH_1; n=n+1) begin //: lp2
+    //             assign mux_out_gen_1 [m][n]   =   masked_mux_in_1[m+OUT_WIDTH_1*n];
+    //         end
+    //         assign vc_rd_addr[m] = | mux_out_gen_1 [m];
+    //     end
+    // endgenerate
+
+    assign mask_1[(0+1)*OUT_WIDTH_1-1 : (0)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[0]} };
+    assign mask_1[(1+1)*OUT_WIDTH_1-1 : (1)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[1]} };
+    assign mask_1[(2+1)*OUT_WIDTH_1-1 : (2)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[2]} };
+    assign mask_1[(3+1)*OUT_WIDTH_1-1 : (3)*OUT_WIDTH_1]  =   {OUT_WIDTH_1{vc_num_wr[3]} };
+
+    assign masked_mux_in_1    = wr_ptr_array & mask_1;
+
+    assign mux_out_gen_1 [0][0]   =   masked_mux_in_1[0+OUT_WIDTH_1*0];
+    assign mux_out_gen_1 [0][1]   =   masked_mux_in_1[0+OUT_WIDTH_1*1];
+    assign mux_out_gen_1 [0][2]   =   masked_mux_in_1[0+OUT_WIDTH_1*2];
+    assign mux_out_gen_1 [0][3]   =   masked_mux_in_1[0+OUT_WIDTH_1*3];
+    assign mux_out_gen_1 [1][0]   =   masked_mux_in_1[1+OUT_WIDTH_1*0];
+    assign mux_out_gen_1 [1][1]   =   masked_mux_in_1[1+OUT_WIDTH_1*1];
+    assign mux_out_gen_1 [1][2]   =   masked_mux_in_1[1+OUT_WIDTH_1*2];
+    assign mux_out_gen_1 [1][3]   =   masked_mux_in_1[1+OUT_WIDTH_1*3];
+    
+    assign vc_wr_addr[0] = | mux_out_gen_1 [0];
+    assign vc_wr_addr[1] = | mux_out_gen_1 [1];
+
 
     
     
@@ -521,24 +562,24 @@ endgenerate
         end
     end
 
-    //b4
-    assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
-    assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
-    //b1
-    assert property ((wr[0] && !reset && (!rd[0] && depth[0] != B)) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
-    assert property ((wr[1] && !reset && (!rd[1] && depth[1] != B)) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
-    assert property ((rd[0] && !reset && (!wr[0] && depth[0] != {DEPTHw{1'b0}})) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
-    assert property ((rd[1] && !reset && (!wr[1] && depth[1] != {DEPTHw{1'b0}})) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
-    //b3
-    assert property ((wr[0] & ~rd[0] && !reset  && (depth[0] == B)) |=> (wr_ptr[0]== wr_ptr_check[0]));
-    assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
-    assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
-    assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
-    //b2
-    assert property (age_ptr[0] |=> (packet_age[0]== (packet_age_check[0] +1'h1 )));
-    assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
-    assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
-    assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
+    // //b4
+    // assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
+    // assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
+    // //b1
+    // assert property ((wr[0] && !reset && (!rd[0] && depth[0] != B)) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
+    // assert property ((wr[1] && !reset && (!rd[1] && depth[1] != B)) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
+    // assert property ((rd[0] && !reset && (!wr[0] && depth[0] != {DEPTHw{1'b0}})) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
+    // assert property ((rd[1] && !reset && (!wr[1] && depth[1] != {DEPTHw{1'b0}})) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
+    // //b3
+    // assert property ((wr[0] & ~rd[0] && !reset  && (depth[0] == B)) |=> (wr_ptr[0]== wr_ptr_check[0]));
+    // assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
+    // assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
+    // assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
+    // //b2
+    // assert property (age_ptr[0] |=> (packet_age[0]== (packet_age_check[0] +1'h1 )));
+    // assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
+    // assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
+    // assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
    
     //b6
     // assert property (dout[34] |-> b6_buffer_counter==1'b0);
@@ -555,18 +596,18 @@ endgenerate
                                                         // ));
     // assert property ( (fifo_ram_dout[Fpay+1])  |-> (fifo_ram_dout[14:9]==6'b111111));
 
-    //R6
-    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    // //R6
+    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
 
 
-    //R7
-    assert property (age_ptr[0] |=> (packet_age[0] < Tmax));
-    assert property (age_ptr[1] |=> (packet_age[1] < Tmax));
-    assert property (age_ptr[2] |=> (packet_age[2] < Tmax));
-    assert property (age_ptr[3] |=> (packet_age[3] < Tmax));
+    // //R7
+    // assert property (age_ptr[0] |=> (packet_age[0] < Tmax));
+    // assert property (age_ptr[1] |=> (packet_age[1] < Tmax));
+    // assert property (age_ptr[2] |=> (packet_age[2] < Tmax));
+    // assert property (age_ptr[3] |=> (packet_age[3] < Tmax));
 
 
 

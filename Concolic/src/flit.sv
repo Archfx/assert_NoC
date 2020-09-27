@@ -59,10 +59,10 @@ module flit_buffer
     wire  [RAM_DATA_WIDTH-1     :   0] fifo_ram_dout;
     wire  [V-1                  :   0] wr;
     wire  [V-1                  :   0] rd;
-    reg   [DEPTHw-1             :   0] depth    [V-1            :0];
+    reg   [DEPTHw*V-1             :   0] depth ;//   [V-1            :0];
 
     
-        assign fifo_ram_din ={din[Fw-1 :   Fw-2],din[Fpay-1        :   15],6'b111111,din[8:0]};
+    assign fifo_ram_din ={din[Fw-1 :   Fw-2],din[Fpay-1        :   15],6'b111111,din[8:0]};
 
     // assign fifo_ram_din =din[35]? {din[Fw-1 :   Fw-2],din[Fpay-1        :   15],6'b111111,din[8:0]} : {din[Fw-1 :   Fw-2],din[Fpay-1        :   0]};
     assign dout = {fifo_ram_dout[Fpay+1:Fpay],{V{1'bX}},fifo_ram_dout[Fpay-1        :   0]};    
@@ -113,8 +113,8 @@ genvar i;
 
 
 
-    reg [Bw- 1      :   0] rd_ptr [V-1          :0];
-    reg [Bw- 1      :   0] wr_ptr [V-1          :0];
+    reg [Bw*V- 1      :   0] rd_ptr;// [V-1          :0];
+    reg [Bw*V- 1      :   0] wr_ptr;// [V-1          :0];
 
     
     wire [BwV-1    :    0]  rd_ptr_array;
@@ -139,8 +139,8 @@ genvar i;
     assign rd_addr[Bw-1+Vw:Vw] = vc_rd_addr[Bw-1     :    0];
     
     
-    reg [Bw- 1      :   0] rd_ptr_check [V-1          :0];
-    reg [Bw- 1      :   0] wr_ptr_check [V-1          :0];
+    reg [Bw*V- 1      :   0] rd_ptr_check ;//[V-1          :0];
+    reg [Bw*V- 1      :   0] wr_ptr_check ;// [V-1          :0];
 
     
     // one_hot_mux  wr_ptr_mux
@@ -193,8 +193,8 @@ genvar i;
     assign mux_out_gen_0 [6]   =   masked_mux_in_0[1+OUT_WIDTH_0*2];
     assign mux_out_gen_0 [7]   =   masked_mux_in_0[1+OUT_WIDTH_0*3];
     
-    assign vc_wr_addr[0] = | mux_out_gen_0 [0*OUT_WIDTH_0+:SEL_WIDTH_0];
-    assign vc_wr_addr[1] = | mux_out_gen_0 [1*OUT_WIDTH_0+:SEL_WIDTH_0];
+    assign vc_wr_addr[0] = | mux_out_gen_0 [0*SEL_WIDTH_0+:SEL_WIDTH_0];
+    assign vc_wr_addr[1] = | mux_out_gen_0 [1*SEL_WIDTH_0+:SEL_WIDTH_0];
 
     
         
@@ -250,8 +250,8 @@ genvar i;
     assign mux_out_gen_1 [6]   =   masked_mux_in_1[1+OUT_WIDTH_1*2];
     assign mux_out_gen_1 [7]   =   masked_mux_in_1[1+OUT_WIDTH_1*3];
     
-    assign vc_wr_addr[0] = | mux_out_gen_1 [0*OUT_WIDTH_1+:SEL_WIDTH_1];
-    assign vc_wr_addr[1] = | mux_out_gen_1 [1*OUT_WIDTH_1+:SEL_WIDTH_1];
+    assign vc_wr_addr[0] = | mux_out_gen_1 [0*SEL_WIDTH_1+:SEL_WIDTH_1];
+    assign vc_wr_addr[1] = | mux_out_gen_1 [1*SEL_WIDTH_1+:SEL_WIDTH_1];
 
 
     
@@ -319,7 +319,7 @@ genvar i;
     assign mux_out_gen_2 [0]   =   masked_mux_in_2[0+OUT_WIDTH_2*0];
     assign mux_out_gen_2 [1]   =   masked_mux_in_2[0+OUT_WIDTH_2*1];
         
-    assign vc_wr_addr[0] = | mux_out_gen_2 [0*OUT_WIDTH_2+:SEL_WIDTH_2];
+    assign vc_wr_addr[0] = | mux_out_gen_2 [0*SEL_WIDTH_2+:SEL_WIDTH_2];
 
 
 
@@ -464,7 +464,7 @@ genvar i;
 	reg [DATA_WIDTH*(2**ADDR_WIDTH)-1:0] queue ;//[2**ADDR_WIDTH-1:0] /* synthesis ramstyle = "no_rw_check , M9K" */;
 	always @(posedge clk ) begin
 			if (wr_en)
-				 queue[(2**ADDR_WIDTH)*(wr_addr[BVw-1  :   0])+:DATA_WIDTH] <= fifo_ram_din;
+				 queue[DATA_WIDTH*(wr_addr[BVw-1  :   0])+:DATA_WIDTH] <= fifo_ram_din;
 			if (rd_en)
 				 memory_rd_data <=
 //synthesis translate_off
@@ -472,7 +472,7 @@ genvar i;
 					  #1
 //synopsys  translate_on
 //synthesis translate_on   
-					  queue[(2**ADDR_WIDTH)*(rd_addr[BVw-1  :   0])+:DATA_WIDTH];
+					  queue[DATA_WIDTH*(rd_addr[BVw-1  :   0])+:DATA_WIDTH];
 	end
 	// assert property (  (wr_data[14:9]==6'b111111));
     // assert property ( (memory_rd_data[14:9]==6'b111111));
@@ -568,35 +568,35 @@ genvar i;
 //     end//for
 // endgenerate
 
-    assign  wr_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       wr_ptr[0];
-    assign  rd_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       rd_ptr[0];
-    //assign    vc_nearly_full[0] = (depth[0] >= B-1);
-    assign  vc_not_empty    [0] =   (depth[0] > 0);
+    assign  wr_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       wr_ptr[Bw*0+:Bw];
+    assign  rd_ptr_array[(0+1)*Bw- 1        :   0*Bw]   =       rd_ptr[Bw*0+:Bw];
+    //assign    vc_nearly_full[0] = (depth[DEPTHw*0+:DEPTHw] >= B-1);
+    assign  vc_not_empty    [0] =   (depth[DEPTHw*0+:DEPTHw] > 0);
 
 
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             rd_ptr  [0] <= {Bw{1'b0}};
             wr_ptr  [0] <= {Bw{1'b0}};
-            depth   [0] <= {DEPTHw{1'b0}};
+            depth   [V*0+:DEPTHw] <= {DEPTHw{1'b0}};
         end
         else begin
-            if (wr[0] && depth[0] != B) wr_ptr[0] <= wr_ptr [0]+ 1'h1;
-            if (rd[0] && (depth[0] != {DEPTHw{1'b0}})) rd_ptr [0]<= rd_ptr [0]+ 1'h1;
-            if (wr[0] & ~rd[0]) depth [0]<=
+            if (wr[0] && depth[DEPTHw*0+:DEPTHw] != B) wr_ptr[Bw*0+:Bw] <= wr_ptr [0]+ 1'h1;
+            if (rd[0] && (depth[DEPTHw*0+:DEPTHw] != {DEPTHw{1'b0}})) rd_ptr [0]<= rd_ptr [0]+ 1'h1;
+            if (wr[0] & ~rd[0]) depth [V*0+:DEPTHw]<=
             //synthesis translate_off
             //synopsys  translate_off
                 #1
             //synopsys  translate_on
             //synthesis translate_on
-                depth[0] + 1'h1;
+                depth[DEPTHw*0+:DEPTHw] + 1'h1;
             else if (~wr[0] & rd[0]) depth [0]<=
             //synthesis translate_off
             //synopsys  translate_off
                 #1
             //synopsys  translate_on
             //synthesis translate_on
-                depth[0] - 1'h1;
+                depth[DEPTHw*0+:DEPTHw] - 1'h1;
         end//else
     end//always
 
@@ -605,12 +605,12 @@ genvar i;
 
     always @(posedge clk) begin
         if(~reset)begin
-            if (wr[0] && (depth[0] == B) && !rd[0])
+            if (wr[0] && (depth[DEPTHw*0+:DEPTHw] == B) && !rd[0])
                 $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
             /* verilator lint_off WIDTH */
-            if (rd[0] && (depth[0] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
+            if (rd[0] && (depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
                 $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-            if (rd[0] && !wr[0] && (depth[0] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+            if (rd[0] && !wr[0] && (depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
                 $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
             /* verilator lint_on WIDTH */
         
@@ -625,27 +625,27 @@ genvar i;
     // Branch statements
     always@(posedge clk) begin
         //b1.1
-        if (wr[0] && depth[0] != B && !reset) begin
-            wr_ptr_check[0] <= wr_ptr[0];
+        if (wr[0] && depth[DEPTHw*0+:DEPTHw] != B && !reset) begin
+            wr_ptr_check[0] <= wr_ptr[Bw*0+:Bw];
         end  
         //b1.2
-        if (rd[0] && (depth[0] != {DEPTHw{1'b0}}) && !reset) begin
-            rd_ptr_check[0] <= rd_ptr[0];
+        if (rd[0] && (depth[DEPTHw*0+:DEPTHw] != {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[0] <= rd_ptr[Bw*0+:Bw];
         end
         //b3.1 trying to write to full buffer
-        if (wr[0] & ~rd[0] && (depth[0] == B) && !reset) begin
-            wr_ptr_check[0] <= wr_ptr[0];
+        if (wr[0] & ~rd[0] && (depth[DEPTHw*0+:DEPTHw] == B) && !reset) begin
+            wr_ptr_check[0] <= wr_ptr[Bw*0+:Bw];
         end
         //b3.2 trying to read from empty buffer
-        if (rd[0] && !wr[0] && (depth[0] == {DEPTHw{1'b0}}) && !reset) begin
-            rd_ptr_check[0] <= rd_ptr[0];
+        if (rd[0] && !wr[0] && (depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[0] <= rd_ptr[Bw*0+:Bw];
         end
     end  
 
-    assign  wr_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       wr_ptr[1];
-    assign  rd_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       rd_ptr[1];
-    //assign    vc_nearly_full[1] = (depth[1] >= B-1);
-    assign  vc_not_empty    [1] =   (depth[1] > 0);
+    assign  wr_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       wr_ptr[Bw*1+:Bw];
+    assign  rd_ptr_array[(1+1)*Bw- 1        :   1*Bw]   =       rd_ptr[Bw*1+:Bw];
+    //assign    vc_nearly_full[1] = (depth[DEPTHw*1+:DEPTHw] >= B-1);
+    assign  vc_not_empty    [1] =   (depth[DEPTHw*1+:DEPTHw] > 0);
 
 
     always @(posedge clk or posedge reset) begin
@@ -655,22 +655,22 @@ genvar i;
             depth   [1] <= {DEPTHw{1'b0}};
         end
         else begin
-            if (wr[1] && depth[1] != B) wr_ptr[1] <= wr_ptr [1]+ 1'h1;
-            if (rd[1] && (depth[1] != {DEPTHw{1'b0}})) rd_ptr [1]<= rd_ptr [1]+ 1'h1;
+            if (wr[1] && depth[DEPTHw*1+:DEPTHw] != B) wr_ptr[Bw*1+:Bw] <= wr_ptr [1]+ 1'h1;
+            if (rd[1] && (depth[DEPTHw*1+:DEPTHw] != {DEPTHw{1'b0}})) rd_ptr [1]<= rd_ptr [1]+ 1'h1;
             if (wr[1] & ~rd[1]) depth [1]<=
             //synthesis translate_off
             //synopsys  translate_off
                 #1
             //synopsys  translate_on
             //synthesis translate_on
-                depth[1] + 1'h1;
+                depth[DEPTHw*1+:DEPTHw] + 1'h1;
             else if (~wr[1] & rd[1]) depth [1]<=
             //synthesis translate_off
             //synopsys  translate_off
                 #1
             //synopsys  translate_on
             //synthesis translate_on
-                depth[1] - 1'h1;
+                depth[DEPTHw*1+:DEPTHw] - 1'h1;
         end//else
     end//always
 
@@ -679,12 +679,12 @@ genvar i;
 
     always @(posedge clk) begin
         if(~reset)begin
-            if (wr[1] && (depth[1] == B) && !rd[1])
+            if (wr[1] && (depth[DEPTHw*1+:DEPTHw] == B) && !rd[1])
                 $display("%t: ERROR: Attempt to write to full FIFO:FIFO size is %d. %m",$time,B);
             /* verilator lint_off WIDTH */
-            if (rd[1] && (depth[1] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
+            if (rd[1] && (depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} &&  SSA_EN !="YES"  ))
                 $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
-            if (rd[1] && !wr[1] && (depth[1] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
+            if (rd[1] && !wr[1] && (depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} &&  SSA_EN =="YES" ))
                 $display("%t: ERROR: Attempt to read an empty FIFO: %m",$time);
             /* verilator lint_on WIDTH */
         
@@ -699,20 +699,20 @@ genvar i;
     // Branch statements
     always@(posedge clk) begin
         //b1.1
-        if (wr[1] && depth[1] != B && !reset) begin
-            wr_ptr_check[1] <= wr_ptr[1];
+        if (wr[1] && depth[DEPTHw*1+:DEPTHw] != B && !reset) begin
+            wr_ptr_check[Bw*1+:Bw] <= wr_ptr[Bw*1+:Bw];
         end  
         //b1.2
-        if (rd[1] && (depth[1] != {DEPTHw{1'b0}}) && !reset) begin
-            rd_ptr_check[1] <= rd_ptr[1];
+        if (rd[1] && (depth[DEPTHw*1+:DEPTHw] != {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[Bw*1+:Bw] <= rd_ptr[Bw*1+:Bw];
         end
         //b3.1 trying to write to full buffer
-        if (wr[1] & ~rd[1] && (depth[1] == B) && !reset) begin
-            wr_ptr_check[1] <= wr_ptr[1];
+        if (wr[1] & ~rd[1] && (depth[DEPTHw*1+:DEPTHw] == B) && !reset) begin
+            wr_ptr_check[Bw*1+:Bw] <= wr_ptr[Bw*1+:Bw];
         end
         //b3.2 trying to read from empty buffer
-        if (rd[1] && !wr[1] && (depth[1] == {DEPTHw{1'b0}}) && !reset) begin
-            rd_ptr_check[1] <= rd_ptr[1];
+        if (rd[1] && !wr[1] && (depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}}) && !reset) begin
+            rd_ptr_check[Bw*1+:Bw] <= rd_ptr[Bw*1+:Bw];
         end
     end           
         
@@ -743,18 +743,18 @@ genvar i;
     end
 
     // //b4
-    // assert property ( @(posedge clk) (!(depth[0] == {DEPTHw{1'b0}} && depth[0] == B))); 
-    // assert property ( @(posedge clk) (!(depth[1] == {DEPTHw{1'b0}} && depth[1] == B))); 
+    // assert property ( @(posedge clk) (!(depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*0+:DEPTHw] == B))); 
+    // assert property ( @(posedge clk) (!(depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*1+:DEPTHw] == B))); 
     // //b1
-    // assert property ((wr[0] && !reset && (!rd[0] && depth[0] != B)) |=> (wr_ptr[0]== (wr_ptr_check[0] +1'h1 )));
-    // assert property ((wr[1] && !reset && (!rd[1] && depth[1] != B)) |=> (wr_ptr[1]== (wr_ptr_check[1] +1'h1 )));
-    // assert property ((rd[0] && !reset && (!wr[0] && depth[0] != {DEPTHw{1'b0}})) |=> (rd_ptr[0]== (rd_ptr_check[0] +1'h1 )));
-    // assert property ((rd[1] && !reset && (!wr[1] && depth[1] != {DEPTHw{1'b0}})) |=> (rd_ptr[1]== (rd_ptr_check[1] +1'h1 )));
+    // assert property ((wr[0] && !reset && (!rd[0] && depth[DEPTHw*0+:DEPTHw] != B)) |=> (wr_ptr[Bw*0+:Bw]== (wr_ptr_check[0] +1'h1 )));
+    // assert property ((wr[1] && !reset && (!rd[1] && depth[DEPTHw*1+:DEPTHw] != B)) |=> (wr_ptr[Bw*1+:Bw]== (wr_ptr_check[Bw*1+:Bw] +1'h1 )));
+    // assert property ((rd[0] && !reset && (!wr[0] && depth[DEPTHw*0+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*0+:Bw]== (rd_ptr_check[0] +1'h1 )));
+    // assert property ((rd[1] && !reset && (!wr[1] && depth[DEPTHw*1+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*1+:Bw]== (rd_ptr_check[Bw*1+:Bw] +1'h1 )));
     // //b3
-    // assert property ((wr[0] & ~rd[0] && !reset  && (depth[0] == B)) |=> (wr_ptr[0]== wr_ptr_check[0]));
-    // assert property ((wr[1] & ~rd[1] && !reset  && (depth[1] == B)) |=> (wr_ptr[1]== wr_ptr_check[1]));
-    // assert property ((~wr[0] & rd[0] && depth[0] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[0]== rd_ptr_check[0]));
-    // assert property ((~wr[1] & rd[1] && depth[1] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[1]== rd_ptr_check[1]));
+    // assert property ((wr[0] & ~rd[0] && !reset  && (depth[DEPTHw*0+:DEPTHw] == B)) |=> (wr_ptr[Bw*0+:Bw]== wr_ptr_check[0]));
+    // assert property ((wr[1] & ~rd[1] && !reset  && (depth[DEPTHw*1+:DEPTHw] == B)) |=> (wr_ptr[Bw*1+:Bw]== wr_ptr_check[Bw*1+:Bw]));
+    // assert property ((~wr[0] & rd[0] && depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*0+:Bw]== rd_ptr_check[0]));
+    // assert property ((~wr[1] & rd[1] && depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*1+:Bw]== rd_ptr_check[Bw*1+:Bw]));
     // //b2
     // assert property (age_ptr[0] |=> (packet_age[0]== (packet_age_check[0] +1'h1 )));
     // assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
@@ -863,29 +863,124 @@ genvar i;
             // end
         end
         // b2 implementation
-        for(p=0;p<CL;p=p+1) begin
-            if (age_ptr[p]==1'b1) begin
-                packet_age[p]<=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
-                if (!packet_age[p] < Tmax) begin
-                    packet_age[p]<=16'b0;
-                end
+        // for(p=0;p<CL;p=p+1) begin
+        //     if (age_ptr[p]==1'b1) begin
+        //         packet_age[p]<=packet_age[p]+1'b1; // Counting the age of packets inside the buffer
+        //         if (!packet_age[p] < Tmax) begin
+        //             packet_age[p]<=16'b0;
+        //         end
                 
-                // branch statement
-                //R7
-                // if (packet_age[p] < Tmax) $display(" R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
-                // else $display(" $error :R7 failed in %m at %t", $time);
+        //         // branch statement
+        //         //R7
+        //         // if (packet_age[p] < Tmax) $display(" R7 succeeded"); //assuming no fail in a1 ∧ a2 ∧ a3 ∧ b1 ∧ b2 ∧ b4 ∧ m1 ∧ r1 ∧ r2 ∧ r3
+        //         // else $display(" $error :R7 failed in %m at %t", $time);
                 
 
-            end
+        //     end
+        // end
+
+        if (age_ptr[0]==1'b1) begin
+            packet_age[0]<=packet_age[0]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[0] < Tmax) begin
+                packet_age[0]<=16'b0;
+            end                          
+        end
+        if (age_ptr[1]==1'b1) begin
+            packet_age[1]<=packet_age[1]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[1] < Tmax) begin
+                packet_age[1]<=16'b0;
+            end                          
+        end
+        if (age_ptr[2]==1'b1) begin
+            packet_age[2]<=packet_age[2]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[2] < Tmax) begin
+                packet_age[2]<=16'b0;
+            end                          
+        end
+        if (age_ptr[3]==1'b1) begin
+            packet_age[3]<=packet_age[3]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[3] < Tmax) begin
+                packet_age[3]<=16'b0;
+            end                          
+        end
+        if (age_ptr[4]==1'b1) begin
+            packet_age[4]<=packet_age[4]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[4] < Tmax) begin
+                packet_age[4]<=16'b0;
+            end                          
+        end
+        if (age_ptr[5]==1'b1) begin
+            packet_age[5]<=packet_age[5]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[5] < Tmax) begin
+                packet_age[5]<=16'b0;
+            end                          
+        end
+        if (age_ptr[6]==1'b1) begin
+            packet_age[6]<=packet_age[6]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[6] < Tmax) begin
+                packet_age[6]<=16'b0;
+            end                          
+        end
+        if (age_ptr[7]==1'b1) begin
+            packet_age[7]<=packet_age[7]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[7] < Tmax) begin
+                packet_age[7]<=16'b0;
+            end                          
+        end
+        if (age_ptr[8]==1'b1) begin
+            packet_age[8]<=packet_age[8]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[8] < Tmax) begin
+                packet_age[8]<=16'b0;
+            end                          
+        end
+        if (age_ptr[9]==1'b1) begin
+            packet_age[9]<=packet_age[9]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[9] < Tmax) begin
+                packet_age[9]<=16'b0;
+            end                          
         end
 
+
+        
+
         //b2 checks
-        for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
-            // branch statement check
-            //b2
-            if (age_ptr[q]==1'b1) begin
-                packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
-            end
+        // for(q=0;q<CL;q=q+1) begin :asserion_check_loop4
+        //     // branch statement check
+        //     //b2
+        //     if (age_ptr[q]==1'b1) begin
+        //         packet_age_check[q]<=packet_age[q]; // assign previous clock value to check buffer
+        //     end
+        // end
+
+        if (age_ptr[0]==1'b1) begin
+            packet_age_check[0]<=packet_age[0]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[1]==1'b1) begin
+            packet_age_check[1]<=packet_age[1]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[2]==1'b1) begin
+            packet_age_check[2]<=packet_age[2]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[3]==1'b1) begin
+            packet_age_check[3]<=packet_age[3]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[4]==1'b1) begin
+            packet_age_check[4]<=packet_age[4]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[5]==1'b1) begin
+            packet_age_check[5]<=packet_age[5]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[6]==1'b1) begin
+            packet_age_check[6]<=packet_age[6]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[7]==1'b1) begin
+            packet_age_check[7]<=packet_age[7]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[8]==1'b1) begin
+            packet_age_check[8]<=packet_age[8]; // assign previous clock value to check buffer
+        end
+        if (age_ptr[9]==1'b1) begin
+            packet_age_check[9]<=packet_age[9]; // assign previous clock value to check buffer
         end
 
     end //Always

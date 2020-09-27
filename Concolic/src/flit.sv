@@ -78,11 +78,11 @@ module flit_buffer
     // reg packet_count_flag_out=1'b0;
     integer x,y,z,p,q;
 
-    reg [15     :   0]       packet_age           [CL-1          :0]; // Counting packet age
-    reg [15     :   0]       packet_age_check     [CL-1         :0]; // Counting packet age
+    reg [15*CL     :   0]       packet_age         ;//  [CL-1          :0]; // Counting packet age
+    reg [15 *CL    :   0]       packet_age_check    ;// [CL-1         :0]; // Counting packet age
     reg [CL-1     :   0]     age_ptr              =4'b0000;
-    reg [8   :   0]          b5_check_buffer      [(CL)-1          :0]; // Buffer table
-    reg                      b5_check_ptr         [(CL)-1     :   0] ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
+    reg [8*CL   :   0]          b5_check_buffer   ;//   [(CL)-1          :0]; // Buffer table
+    reg    [(CL)-1     :   0]                   b5_check_ptr         ;//={1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0};
     reg [4     :   0]        b6_buffer_counter ;//   [CL-1         :0]; // Packet counter
     reg [1   :   0]          b5_wr_addr = 0;
     reg [1   :   0]          b5_rd_addr = 0;
@@ -95,7 +95,7 @@ module flit_buffer
     assign dou35 =dout[35];
 
 
-genvar i;
+// genvar i;
 
 
 // initial begin
@@ -742,52 +742,52 @@ genvar i;
         end
     end
 
-    // //b4
-    // assert property ( @(posedge clk) (!(depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*0+:DEPTHw] == B))); 
-    // assert property ( @(posedge clk) (!(depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*1+:DEPTHw] == B))); 
-    // //b1
-    // assert property ((wr[0] && !reset && (!rd[0] && depth[DEPTHw*0+:DEPTHw] != B)) |=> (wr_ptr[Bw*0+:Bw]== (wr_ptr_check[0] +1'h1 )));
-    // assert property ((wr[1] && !reset && (!rd[1] && depth[DEPTHw*1+:DEPTHw] != B)) |=> (wr_ptr[Bw*1+:Bw]== (wr_ptr_check[Bw*1+:Bw] +1'h1 )));
-    // assert property ((rd[0] && !reset && (!wr[0] && depth[DEPTHw*0+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*0+:Bw]== (rd_ptr_check[0] +1'h1 )));
-    // assert property ((rd[1] && !reset && (!wr[1] && depth[DEPTHw*1+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*1+:Bw]== (rd_ptr_check[Bw*1+:Bw] +1'h1 )));
-    // //b3
-    // assert property ((wr[0] & ~rd[0] && !reset  && (depth[DEPTHw*0+:DEPTHw] == B)) |=> (wr_ptr[Bw*0+:Bw]== wr_ptr_check[0]));
-    // assert property ((wr[1] & ~rd[1] && !reset  && (depth[DEPTHw*1+:DEPTHw] == B)) |=> (wr_ptr[Bw*1+:Bw]== wr_ptr_check[Bw*1+:Bw]));
-    // assert property ((~wr[0] & rd[0] && depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*0+:Bw]== rd_ptr_check[0]));
-    // assert property ((~wr[1] & rd[1] && depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*1+:Bw]== rd_ptr_check[Bw*1+:Bw]));
-    // //b2
-    // assert property (age_ptr[0] |=> (packet_age[0]== (packet_age_check[0] +1'h1 )));
-    // assert property (age_ptr[1] |=> (packet_age[1]== (packet_age_check[1] +1'h1 )));
-    // assert property (age_ptr[2] |=> (packet_age[2]== (packet_age_check[2] +1'h1 )));
-    // assert property (age_ptr[3] |=> (packet_age[3]== (packet_age_check[3] +1'h1 )));
+    //b4
+    assert property ( @(posedge clk) (!(depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*0+:DEPTHw] == B))); 
+    assert property ( @(posedge clk) (!(depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && depth[DEPTHw*1+:DEPTHw] == B))); 
+    //b1
+    assert property ((wr[0] && !reset && (!rd[0] && depth[DEPTHw*0+:DEPTHw] != B)) |=> (wr_ptr[Bw*0+:Bw]== (wr_ptr_check[0] +1'h1 )));
+    assert property ((wr[1] && !reset && (!rd[1] && depth[DEPTHw*1+:DEPTHw] != B)) |=> (wr_ptr[Bw*1+:Bw]== (wr_ptr_check[Bw*1+:Bw] +1'h1 )));
+    assert property ((rd[0] && !reset && (!wr[0] && depth[DEPTHw*0+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*0+:Bw]== (rd_ptr_check[0] +1'h1 )));
+    assert property ((rd[1] && !reset && (!wr[1] && depth[DEPTHw*1+:DEPTHw] != {DEPTHw{1'b0}})) |=> (rd_ptr[Bw*1+:Bw]== (rd_ptr_check[Bw*1+:Bw] +1'h1 )));
+    //b3
+    assert property ((wr[0] & ~rd[0] && !reset  && (depth[DEPTHw*0+:DEPTHw] == B)) |=> (wr_ptr[Bw*0+:Bw]== wr_ptr_check[0]));
+    assert property ((wr[1] & ~rd[1] && !reset  && (depth[DEPTHw*1+:DEPTHw] == B)) |=> (wr_ptr[Bw*1+:Bw]== wr_ptr_check[Bw*1+:Bw]));
+    assert property ((~wr[0] & rd[0] && depth[DEPTHw*0+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*0+:Bw]== rd_ptr_check[0]));
+    assert property ((~wr[1] & rd[1] && depth[DEPTHw*1+:DEPTHw] == {DEPTHw{1'b0}} && !reset) |=> (rd_ptr[Bw*1+:Bw]== rd_ptr_check[Bw*1+:Bw]));
+    //b2
+    assert property (age_ptr[0] |=> (packet_age[15*0+:15]== (packet_age_check[15*0+:15] +1'h1 )));
+    assert property (age_ptr[1] |=> (packet_age[15*1+:15]== (packet_age_check[15*1+:15] +1'h1 )));
+    assert property (age_ptr[2] |=> (packet_age[15*2+:15]== (packet_age_check[15*2+:15] +1'h1 )));
+    assert property (age_ptr[3] |=> (packet_age[15*3+:15]== (packet_age_check[15*3+:15] +1'h1 )));
    
-    //b6
-    // assert property (dout[34] |-> b6_buffer_counter==1'b0);
-    //b5
-    // assert property ( (dout[35]) |-> ( 
-    //                     (b5_check_buffer[0]==dout[8:0])
-    //                 ||  (b5_check_buffer[1]==dout[8:0])
-    //                 ||  (b5_check_buffer[2]==dout[8:0])
-    //                 ||  (b5_check_buffer[3]==dout[8:0])
-    //                 // ||  (b5_check_buffer[4]==dout[8:0])
-    //                 // ||  (b5_check_buffer[5]==dout[8:0])
-    //                 // ||  (b5_check_buffer[6]==dout[8:0])
-    //                 // ||  (b5_check_buffer[7]==dout[8:0])
-                                                        // ));
+    b6
+    assert property (dout[34] |-> b6_buffer_counter==1'b0);
+    b5
+    assert property ( (dout[35]) |-> ( 
+                        (packet_age_check[8*0+:8]==dout[8:0])
+                    ||  (packet_age_check[8*1+:8]==dout[8:0])
+                    ||  (packet_age_check[8*2+:8]==dout[8:0])
+                    ||  (packet_age_check[8*3+:8]==dout[8:0])
+                    // ||  (packet_age_check[8*4+:8]==dout[8:0])
+                    // ||  (packet_age_check[8*5+:8]==dout[8:0])
+                    // ||  (packet_age_check[8*6+:8]==dout[8:0])
+                    // ||  (packet_age_check[8*7+:8]==dout[8:0])
+                                                        ));
     // assert property ( (fifo_ram_dout[Fpay+1])  |-> (fifo_ram_dout[14:9]==6'b111111));
 
-    // //R6
-    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
-    // assert property ( (age_ptr[0])|=> (packet_age[0] > Tmin));
+    //R6
+    assert property ( (age_ptr[0])|=> (packet_age[15*0+:15] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[15*0+:15] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[15*0+:15] > Tmin));
+    assert property ( (age_ptr[0])|=> (packet_age[15*0+:15] > Tmin));
 
 
-    // //R7
-    // assert property (age_ptr[0] |=> (packet_age[0] < Tmax));
-    // assert property (age_ptr[1] |=> (packet_age[1] < Tmax));
-    // assert property (age_ptr[2] |=> (packet_age[2] < Tmax));
-    // assert property (age_ptr[3] |=> (packet_age[3] < Tmax));
+    //R7
+    assert property (age_ptr[0] |=> (packet_age[15*0+:15] < Tmax));
+    assert property (age_ptr[1] |=> (packet_age[15*1+:15] < Tmax));
+    assert property (age_ptr[2] |=> (packet_age[15*2+:15] < Tmax));
+    assert property (age_ptr[3] |=> (packet_age[15*3+:15] < Tmax));
 
 
 
@@ -880,65 +880,65 @@ genvar i;
         // end
 
         if (age_ptr[0]==1'b1) begin
-            packet_age[0]<=packet_age[0]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[0] < Tmax) begin
-                packet_age[0]<=16'b0;
+            packet_age[15*0+:15]<=packet_age[15*0+:15]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[15*0+:15] < Tmax) begin
+                packet_age[15*0+:15]<=16'b0;
             end                          
         end
         if (age_ptr[1]==1'b1) begin
-            packet_age[1]<=packet_age[1]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[1] < Tmax) begin
-                packet_age[1]<=16'b0;
+            packet_age[15*1+:15]<=packet_age[15*1+:15]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[15*1+:15] < Tmax) begin
+                packet_age[15*1+:15]<=16'b0;
             end                          
         end
         if (age_ptr[2]==1'b1) begin
-            packet_age[2]<=packet_age[2]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[2] < Tmax) begin
-                packet_age[2]<=16'b0;
+            packet_age[15*2+:15]<=packet_age[15*2+:15]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[15*2+:15] < Tmax) begin
+                packet_age[15*2+:15]<=16'b0;
             end                          
         end
         if (age_ptr[3]==1'b1) begin
-            packet_age[3]<=packet_age[3]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[3] < Tmax) begin
-                packet_age[3]<=16'b0;
+            packet_age[15*3+:15]<=packet_age[15*3+:15]+1'b1; // Counting the age of packets inside the buffer
+            if (!packet_age[15*3+:15] < Tmax) begin
+                packet_age[15*3+:15]<=16'b0;
             end                          
         end
-        if (age_ptr[4]==1'b1) begin
-            packet_age[4]<=packet_age[4]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[4] < Tmax) begin
-                packet_age[4]<=16'b0;
-            end                          
-        end
-        if (age_ptr[5]==1'b1) begin
-            packet_age[5]<=packet_age[5]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[5] < Tmax) begin
-                packet_age[5]<=16'b0;
-            end                          
-        end
-        if (age_ptr[6]==1'b1) begin
-            packet_age[6]<=packet_age[6]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[6] < Tmax) begin
-                packet_age[6]<=16'b0;
-            end                          
-        end
-        if (age_ptr[7]==1'b1) begin
-            packet_age[7]<=packet_age[7]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[7] < Tmax) begin
-                packet_age[7]<=16'b0;
-            end                          
-        end
-        if (age_ptr[8]==1'b1) begin
-            packet_age[8]<=packet_age[8]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[8] < Tmax) begin
-                packet_age[8]<=16'b0;
-            end                          
-        end
-        if (age_ptr[9]==1'b1) begin
-            packet_age[9]<=packet_age[9]+1'b1; // Counting the age of packets inside the buffer
-            if (!packet_age[9] < Tmax) begin
-                packet_age[9]<=16'b0;
-            end                          
-        end
+        // if (age_ptr[4]==1'b1) begin
+        //     packet_age[4]<=packet_age[4]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[4] < Tmax) begin
+        //         packet_age[4]<=16'b0;
+        //     end                          
+        // end
+        // if (age_ptr[5]==1'b1) begin
+        //     packet_age[5]<=packet_age[5]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[5] < Tmax) begin
+        //         packet_age[5]<=16'b0;
+        //     end                          
+        // end
+        // if (age_ptr[6]==1'b1) begin
+        //     packet_age[6]<=packet_age[6]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[6] < Tmax) begin
+        //         packet_age[6]<=16'b0;
+        //     end                          
+        // end
+        // if (age_ptr[7]==1'b1) begin
+        //     packet_age[7]<=packet_age[7]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[7] < Tmax) begin
+        //         packet_age[7]<=16'b0;
+        //     end                          
+        // end
+        // if (age_ptr[8]==1'b1) begin
+        //     packet_age[8]<=packet_age[8]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[8] < Tmax) begin
+        //         packet_age[8]<=16'b0;
+        //     end                          
+        // end
+        // if (age_ptr[9]==1'b1) begin
+        //     packet_age[9]<=packet_age[9]+1'b1; // Counting the age of packets inside the buffer
+        //     if (!packet_age[9] < Tmax) begin
+        //         packet_age[9]<=16'b0;
+        //     end                          
+        // end
 
 
         
@@ -953,52 +953,52 @@ genvar i;
         // end
 
         if (age_ptr[0]==1'b1) begin
-            packet_age_check[0]<=packet_age[0]; // assign previous clock value to check buffer
+            packet_age_check[15*0+:15]<=packet_age[15*0+:15]; // assign previous clock value to check buffer
         end
         if (age_ptr[1]==1'b1) begin
-            packet_age_check[1]<=packet_age[1]; // assign previous clock value to check buffer
+            packet_age_check[15*1+:15]<=packet_age[15*1+:15]; // assign previous clock value to check buffer
         end
         if (age_ptr[2]==1'b1) begin
-            packet_age_check[2]<=packet_age[2]; // assign previous clock value to check buffer
+            packet_age_check[15*2+:15]<=packet_age[15*2+:15]; // assign previous clock value to check buffer
         end
         if (age_ptr[3]==1'b1) begin
-            packet_age_check[3]<=packet_age[3]; // assign previous clock value to check buffer
+            packet_age_check[15*3+:15]<=packet_age[15*3+:15]; // assign previous clock value to check buffer
         end
-        if (age_ptr[4]==1'b1) begin
-            packet_age_check[4]<=packet_age[4]; // assign previous clock value to check buffer
-        end
-        if (age_ptr[5]==1'b1) begin
-            packet_age_check[5]<=packet_age[5]; // assign previous clock value to check buffer
-        end
-        if (age_ptr[6]==1'b1) begin
-            packet_age_check[6]<=packet_age[6]; // assign previous clock value to check buffer
-        end
-        if (age_ptr[7]==1'b1) begin
-            packet_age_check[7]<=packet_age[7]; // assign previous clock value to check buffer
-        end
-        if (age_ptr[8]==1'b1) begin
-            packet_age_check[8]<=packet_age[8]; // assign previous clock value to check buffer
-        end
-        if (age_ptr[9]==1'b1) begin
-            packet_age_check[9]<=packet_age[9]; // assign previous clock value to check buffer
-        end
+        // if (age_ptr[4]==1'b1) begin
+        //     packet_age_check[4]<=packet_age[4]; // assign previous clock value to check buffer
+        // end
+        // if (age_ptr[5]==1'b1) begin
+        //     packet_age_check[5]<=packet_age[5]; // assign previous clock value to check buffer
+        // end
+        // if (age_ptr[6]==1'b1) begin
+        //     packet_age_check[6]<=packet_age[6]; // assign previous clock value to check buffer
+        // end
+        // if (age_ptr[7]==1'b1) begin
+        //     packet_age_check[7]<=packet_age[7]; // assign previous clock value to check buffer
+        // end
+        // if (age_ptr[8]==1'b1) begin
+        //     packet_age_check[8]<=packet_age[8]; // assign previous clock value to check buffer
+        // end
+        // if (age_ptr[9]==1'b1) begin
+        //     packet_age_check[9]<=packet_age[9]; // assign previous clock value to check buffer
+        // end
 
     end //Always
     // assertion statements
     //b5
     // assert property ( (dout[35]==1'b1) |-> ( 
-    //                 (b5_check_ptr[0] && (b5_check_buffer[0]==dout[8:0]))
-    //                 || (b5_check_ptr[1] && (b5_check_buffer[1]==dout[8:0]))
-    //                 || (b5_check_ptr[2] && (b5_check_buffer[2]==dout[8:0]))
-    //                 || (b5_check_ptr[3] && (b5_check_buffer[3]==dout[8:0]))
-    //                 || (b5_check_ptr[4]&& (b5_check_buffer[4]==dout[8:0]))
-    //                 || (b5_check_ptr[5] && (b5_check_buffer[5]==dout[8:0]))
-    //                 || (b5_check_ptr[6] && (b5_check_buffer[6]==dout[8:0]))
-    //                 || (b5_check_ptr[7] && (b5_check_buffer[7]==dout[8:0]))
+    //                 (b5_check_ptr[0] && (packet_age_check[8*0+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[1] && (packet_age_check[8*1+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[2] && (packet_age_check[8*2+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[3] && (packet_age_check[8*3+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[4]&& (packet_age_check[8*4+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[5] && (packet_age_check[8*5+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[6] && (packet_age_check[8*6+:8]==dout[8:0]))
+    //                 || (b5_check_ptr[7] && (packet_age_check[8*7+:8]==dout[8:0]))
    
     //b5
-    // assert property ((din[35]==1'b1)|-> s_eventually (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
-    // assert property ((dout[35]==1'b1) |-> (dout[8:0]==(b5_check_buffer[0] || dout[8:0]==b5_check_buffer[1] || dout[8:0]==b5_check_buffer[2] || dout[8:0]==b5_check_buffer[3])));
+    // assert property ((din[35]==1'b1)|-> s_eventually (dout[8:0]==(packet_age_check[8*0+:8] || dout[8:0]==packet_age_check[8*1+:8] || dout[8:0]==packet_age_check[8*2+:8] || dout[8:0]==packet_age_check[8*3+:8])));
+    // assert property ((dout[35]==1'b1) |-> (dout[8:0]==(packet_age_check[8*0+:8] || dout[8:0]==packet_age_check[8*1+:8] || dout[8:0]==packet_age_check[8*2+:8] || dout[8:0]==packet_age_check[8*3+:8])));
 
    
 
